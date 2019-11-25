@@ -6,7 +6,7 @@ module.exports = {
 	aliases: ['figlet','box','ascii'],
 	execute(message, args) {
 		var figlet = require('figlet');
- 		const text = args.join(' ')
+		const text = args.join(' ')
 figlet(text, {
     horizontalLayout: 'default',
     verticalLayout: 'default'

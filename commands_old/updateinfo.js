@@ -33,31 +33,31 @@ curl.setHeaders([
     client.channels.get(guildSCH)
     channel.fetchMessage(guildSID)
     message.edit({embed: {
-  		color: message.guild.me.displayColor,
+			color: message.guild.me.displayColor,
 			timestamp: new Date(),
-      title: `${jsn.name}\'s status:`,
+      title: `${jsn.name}'s status:`,
 						},
             image: {
-      					url:`https://minecraftpocket-servers.com/server/${jsn.id}/banner-${jsn.id}.gif`
+							url:`https://minecraftpocket-servers.com/server/${jsn.id}/banner-${jsn.id}.gif`
               },
         fields: [
-      		{
-      			name: 'Online players:',
-      			value: `**__${jsn.players}/${jsn.maxplayers}__**`,
-      		},
-      		{
-      			name: 'Ranking:',
-      			value: `With ${jsn.votes} votes it currently ranks #${jsn.rank}. Vote on [this website!](${jsn.url}vote)`,
-      		}
-      	],
+					{
+						name: 'Online players:',
+						value: `**__${jsn.players}/${jsn.maxplayers}__**`,
+					},
+					{
+						name: 'Ranking:',
+						value: `With ${jsn.votes} votes it currently ranks #${jsn.rank}. Vote on [this website!](${jsn.url}vote)`,
+					}
+				],
 
-}});
+});
 		message.channel.stopTyping(true)
 	})
 	.catch((e) => {
-	    console.log(e);
+		console.log(e);
 	});
-};
-};
+}
+}
 	},
 };

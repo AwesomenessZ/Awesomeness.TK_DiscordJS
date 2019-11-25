@@ -4,18 +4,18 @@ module.exports = {
 	description: 'Currently Resets the mines on Specifc Minecraft servers only!',
   guildOnly: true,
   aliases: ['resetmines','mineresets','resetmine'],
-	execute(message, args) {
+	execute(message) {
 //Has to be in PM Server
     if (message.guild.id !== "445449992795062273") {
       return  message.channel.send({embed: {
-    		color: message.guild.me.displayColor,
-  			timestamp: new Date(),
+				color: message.guild.me.displayColor,
+				timestamp: new Date(),
         title:`This command can only be run in Specific Guilds ATM! Sorry for the inconvenience!`,
-  			footer: {
-  				text: `Requested by ${message.member.displayName}`
-  						}
+				footer: {
+					text: `Requested by ${message.member.displayName}`
+				}
   }});
-    };
+    }
 //Role Checking
 if(message.member.roles.some(r=>["Dev", "🔰 Staff 🔰", "🛠️ Builder 🛠️", "Head Of Staff", "Owner", "MVP", "🛡️Staff in Training 🛡️"].includes(r.name)) ) {
   // has one of the roles

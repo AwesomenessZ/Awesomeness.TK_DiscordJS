@@ -59,7 +59,7 @@ client.on("guildCreate", function(guild){
     console.log(`Joined a new guild`);
 		var loadchannel = client.channels.get("617154686406885411");
 		loadchannel.send(`${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.size} guilds!`)
-		var loadchannel = client.channels.get("627880075140005908");
+		loadchannel = client.channels.get("627880075140005908");
 		loadchannel.send(`${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.size} guilds!`)
 });
 //Left a servers
@@ -67,7 +67,7 @@ client.on("guildDelete", function(guild){
     console.log(`the client deleted/left a guild`);
 		var loadchannel = client.channels.get("617154686406885411");
 		loadchannel.send(`${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.size} guilds`)
-		var loadchannel = client.channels.get("627880075140005908");
+		loadchannel = client.channels.get("627880075140005908");
 		loadchannel.send(`${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.size} guilds`)
 });
 //When a user completes an action these will trigger
