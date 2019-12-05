@@ -25,18 +25,6 @@ figlet(text, {
 			},
 	}}),
 console.log(data)
-//message.channel.send({embed: {
-//	color: message.guild.me.displayColor,
-//	timestamp: new Date(),
-//	footer: {
-//		text: `Requested by ${message.member.displayName}`
-//				},
-//	fields: [{
-//		name: `${text}`,
-//		value: `\`\`\`${data}\`\`\``
-//	}
-//],
-
 }
 );
 	},
