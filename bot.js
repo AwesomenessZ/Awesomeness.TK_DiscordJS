@@ -53,6 +53,16 @@ client.on('ready', message => {
         const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
         client.user.setActivity(activities_list[index]); // sets bot's activities to one of the phrases in the arraylist.
     }, 10000); // Runs this every 10 seconds.
+		setInterval(() => {
+			const id = new Keyv('mongodb://localhost:27017/discordbot_Identifers')
+			var i = id.get(id)
+			.then(i => {
+				for (var c = 0; c < i;) {
+						c++
+						status(c)
+				}
+			})
+    }, 180000); // Runs this every 10 seconds.
 });
 //joined a server
 client.on("guildCreate", function(guild){
@@ -105,3 +115,55 @@ try {
 });
 // login to Discord with your app's token
 client.login(token);
+
+
+//Code to run for status every 3 minutes
+async function status(i){
+	const apikey = new Keyv('mongodb://localhost:27017/discordbot');
+	const statusID = new Keyv('mongodb://localhost:27017/discordbot_statusID')
+	const statusCH = new Keyv('mongodb://localhost:27017/discordbot_statusCH')
+	var guildSCH = await statusCH.get(i)
+	var guildSID = await statusID.get(i)
+	var channel = client.channels.get(guildSCH)
+	const message = await channel.fetchMessage(guildSID)
+	message.channel.startTyping();
+	var guild = message.guild.id
+	var guildapi = await apikey.get(guild)
+if (!(guildapi)) {
+		message.channel.send(`An api key hasn't been provided for this discord server! (${message.guild.name})\nAdd it with /apikey <key>`)
+		message.channel.stopTyping(true)
+}
+if (!(guildSID)) {
+		message.channel.send(`A status message hasnt been defined for this server! See /help setstatus for more details!`)
+		message.channel.stopTyping(true)
+}
+if ((guildapi)) {
+if ((guildSID)) {
+	const curl = new (require( 'curl-request' ))();
+	curl.setHeaders([
+	'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
+	])
+.get(`https://minecraftpocket-servers.com/api/?object=servers&element=detail&key=${guildapi}`)
+.then(({body}) => {
+	const json = (body)
+	const jsn = JSON.parse(json)
+	const updated = new Discord.RichEmbed()
+		.setTimestamp(new Date())
+		.setColor(message.guild.me.displayColor)
+		.addField('Online players:',`**__${jsn.players}/${jsn.maxplayers}__**`,false)
+		.addField('Ranking:', `With ${jsn.votes} votes it currently ranks #${jsn.rank}. Vote on [this website!](${jsn.url}vote)`,false)
+		.setURL(`${jsn.url}vote`)
+		.setTitle(`${jsn.name}'s status:`)
+		.setImage(`https://minecraftpocket-servers.com/server/${jsn.id}/banner-${jsn.id}.gif`)
+		.setThumbnail(message.guild.iconURL)
+
+
+	message.edit(updated)
+	message.channel.stopTyping(true)
+})
+.catch((e) => {
+	console.log(e);
+});
+}
+}
+}

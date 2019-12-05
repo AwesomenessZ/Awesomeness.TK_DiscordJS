@@ -15,7 +15,3 @@ module.exports = {
       console.log(`api key for ${message.guild.name} has been set to ${args[0]}`)
 	},
 };
-
-
-
-//https://cdn.discordapp.com/emojis/536336948005175326.gif
