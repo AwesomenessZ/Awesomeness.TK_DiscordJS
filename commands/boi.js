@@ -1,10 +1,13 @@
 module.exports = {
+	//Configuration of the command
 	name: 'dancingboi',
 	description: 'Sends an image of a Speedy Boi!',
 	cooldown: 5,
 	aliases: ['dancing','boi'],
 	guildOnly: true,
+	//executing the commands code
 	execute(message) {
+		//sends a gif withen an embeded (Rich text) message
 		message.channel.send({embed: {
 			color: message.guild.me.displayColor,
 			timestamp: new Date(),
@@ -15,7 +18,6 @@ module.exports = {
 					url:`https://media.discordapp.net/attachments/605187392080576533/607051457723891733/image0-2.gif`
 							}
 
-}});
-	},
-};
-//https://media.discordapp.net/attachments/605187392080576533/607051457723891733/image0-2.gif
+}})
+},
+}

@@ -1,10 +1,13 @@
 module.exports = {
+	//Defines command properties
 	name: 'speedyboi',
 	description: 'Sends an image of a Speedy Boi!',
 	cooldown: 5,
 	aliases: ['speed','sped'],
 	guildOnly: true,
+	//code to execute
 	execute(message) {
+		//sends a gif inside an embed
 		message.channel.send({embed: {
 			color: message.guild.me.displayColor,
 			timestamp: new Date(),

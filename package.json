@@ -1,6 +1,6 @@
 {
-  "name": "discord_bot",
-  "version": "0.0.1",
+  "name": "Awesomeness.TK",
+  "version": "0.3.0",
   "description": "A bot for Awesomeness.TK!",
   "main": "bot.js",
   "dependencies": {

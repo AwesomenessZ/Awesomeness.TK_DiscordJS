@@ -1,12 +1,15 @@
 module.exports = {
+	//Defines the propties of the command
 	name: 'minereset',
   cooldown: 5,
 	description: 'Currently Resets the mines on Specifc Minecraft servers only!',
   guildOnly: true,
   aliases: ['resetmines','mineresets','resetmine'],
+	//Code to be executed when command is invoked
 	execute(message) {
-//Has to be in PM Server
+//Has to be in Prison Miner Server for command to run. (Not currently modular)
     if (message.guild.id !== "445449992795062273") {
+			//Stops the rest of the code from running and tells the user that this can only be run in specific guilds
       return  message.channel.send({embed: {
 				color: message.guild.me.displayColor,
 				timestamp: new Date(),
@@ -16,9 +19,9 @@ module.exports = {
 				}
   }});
     }
-//Role Checking
+//Checking if the user has permission to run this command
 if(message.member.roles.some(r=>["Dev", "🔰 Staff 🔰", "🛠️ Builder 🛠️", "Head Of Staff", "Owner", "MVP", "🛡️Staff in Training 🛡️"].includes(r.name)) ) {
-  // has one of the roles
+  //If they have one of the roles, send a curl request to a rcon api to run the command 'cmd run resetmines' on the specifed server
   const curl = new (require( 'curl-request' ))();
   message.channel.send({embed: {
     color: message.guild.me.displayColor,
@@ -29,21 +32,25 @@ if(message.member.roles.some(r=>["Dev", "🔰 Staff 🔰", "🛠️ Builder 🛠
           }
 }});
   curl
+	//Curl post content to send
   .setBody({
    'ip': 'prisonminer.leet.cc',
    'port': '56100',
    'password': 'WUIwT0o4',
    'command': 'cmd run resetmines'
   })
+	//Sending the post request
   .post('https://edroid.me/projects/rcon++/beta/client.php')
+	//Sending the output to console
   .then(({statusCode, body, headers}) => {
       console.log(statusCode, body, headers)
   })
+	//Sending errors to console
   .catch((e) => {
       console.log(e);
   });
 } else {
-  // has none of the roles
+  //Dosent have one of the roles needed to run the command
   message.channel.send({embed: {
     color: message.guild.me.displayColor,
     timestamp: new Date(),
@@ -53,10 +60,5 @@ if(message.member.roles.some(r=>["Dev", "🔰 Staff 🔰", "🛠️ Builder 🛠
           }
           }});
 }
-
-
-
-
-
 	},
 };
