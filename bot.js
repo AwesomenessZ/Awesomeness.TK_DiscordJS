@@ -64,10 +64,11 @@ client.on('ready', message => {
 			.then(i => {
 				for (var c = 0; c < i;) {
 						c++//adds to c at the start because message ids start at 1 not 0
-						status(c) //c is our current message being worked on
+						//c is our current message being worked on
+						grabstatus(c)
 				}
 			})
-    }, 180000); // 180000 = 180 seconds = 3 minutes
+    }, 10000); // 180000 = 180 seconds = 3 minutes
 });
 //executed when the bot has joined a new discord server
 client.on("guildCreate", function(guild){
@@ -130,9 +131,8 @@ try {
 //This authorizes the bot with the discord api
 client.login(token);
 
-
 //Code to run for status every 3 minutes
-async function status(i){
+async function grabstatus(i){
 	//Pull info from databases
 	const apikey = new Keyv('mongodb://localhost:27017/discordbot');
 	const statusID = new Keyv('mongodb://localhost:27017/discordbot_statusID')
