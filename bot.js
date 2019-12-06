@@ -68,7 +68,7 @@ client.on('ready', message => {
 						grabstatus(c)
 				}
 			})
-    }, 10000); // 180000 = 180 seconds = 3 minutes
+    }, 180000); // 180000 = 180 seconds = 3 minutes
 });
 //executed when the bot has joined a new discord server
 client.on("guildCreate", function(guild){
