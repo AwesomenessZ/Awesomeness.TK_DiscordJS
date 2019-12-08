@@ -8,7 +8,6 @@ module.exports = {
 	async execute(message, args) {
     if(!message.member.hasPermission("ADMINISTRATOR"))
       return message.reply("Sorry, you don't have permissions to use this! Only Administrators can assign an apikey!");
-      const Keyv = require('keyv');
 
       var guild = message.guild.id
       message.channel.send("The following message will be automaticly updated every 3 minutes:")
@@ -62,20 +61,21 @@ curl.setHeaders([
 
 }})
   .then(msg =>{
+		(async () => {
     //Saving the ID and Channel ID of the message
     const statusID = new Keyv('mongodb://localhost:27017/discordbot_statusID')
     const statusCH = new Keyv('mongodb://localhost:27017/discordbot_statusCH')
-		const id = new Keyv('mongodb://localhost:27017/discordbot_Identifers')
-    var i = id.get(id)
-    if(isNaN(i)){
-      i = 0
+		const id = await new Keyv('mongodb://localhost:27017/discordbot_Identifers')
+    var index = await id.get("index")
+    if(isNaN(index.length)){
+      index = [0]
     }
-    i++
-		id.set(id,i)
-    statusID.set(i, msg.id)
-    statusCH.set(i, msg.channel.id)
-    console.log("For guild: " + guild + " msg.id is: " + msg.id + " and Channel Id is: " + msg.channel.id + "\n The internal identifier is: " + i)
-
+    index[index.length] = index[index.length - 1] + 1
+		id.set("index",index)
+    statusID.set(index[index.length - 1], msg.id)
+    statusCH.set(index[index.length - 1], msg.channel.id)
+    console.log("For guild: " + guild + " msg.id is: " + msg.id + " and Channel Id is: " + msg.channel.id + "\n The internal identifier is: " + index[index.length - 1])
+		})();
   });
   message.channel.stopTyping(true)
 })

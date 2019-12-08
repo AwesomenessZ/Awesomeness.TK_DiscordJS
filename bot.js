@@ -57,17 +57,9 @@ client.on('ready', message => {
     }, 10000); //10000 = 10 seconds
 		//To be run every 3 minutes (180 seconds)
 		setInterval(() => {
-			//Grabs the amount of status messages we need to update from the database
-			const id = new Keyv('mongodb://localhost:27017/discordbot_Identifers')
-			var i = id.get(id) //Sometimes says i is defined but not used, when in fact it is used
-			//Run the following function for every message needing updated
-			.then(i => {
-				for (var c = 0; c < i;) {
-						c++//adds to c at the start because message ids start at 1 not 0
-						//c is our current message being worked on
-						grabstatus(c)
-				}
-			})
+			//Calls onto a function that checks all of the currently active messages
+			//This is done so we can do it async without messing with timers
+			runstatus()
     }, 180000); // 180000 = 180 seconds = 3 minutes
 });
 //executed when the bot has joined a new discord server
@@ -131,15 +123,33 @@ try {
 //This authorizes the bot with the discord api
 client.login(token);
 
+async function runstatus(){
+//Grabs the amount of status messages we need to update from the database
+const id = new Keyv('mongodb://localhost:27017/discordbot_Identifers')
+var index = await id.get("index")
+if(!index){
+	index = []
+}
+//Run the following function for every message needing updated
+	for (var c = 0; c < (index.length - 1);) {
+			c++//adds to c at the start because message identifiers start at postion 1 not 0
+			//c is our current message being worked on
+			grabstatus(c,index)
+	}
+}
+
+
+
+
 //Code to run for status every 3 minutes
-async function grabstatus(i){
+async function grabstatus(i,index){
 	//Pull info from databases
 	const apikey = new Keyv('mongodb://localhost:27017/discordbot');
 	const statusID = new Keyv('mongodb://localhost:27017/discordbot_statusID')
 	const statusCH = new Keyv('mongodb://localhost:27017/discordbot_statusCH')
 	//Selecting what data we want to be currently working with
-	var guildSCH = await statusCH.get(i)
-	var guildSID = await statusID.get(i)
+	var guildSCH = await statusCH.get(index[i])
+	var guildSID = await statusID.get(index[i])
 	//Telling Discord.js what channel and message we want to be currently working with
 	var channel = client.channels.get(guildSCH)
 	const message = await channel.fetchMessage(guildSID)
