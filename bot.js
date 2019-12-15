@@ -82,6 +82,42 @@ client.on("guildDelete", function(guild){
 });
 //Event handling for every message sent that the bot can read
 client.on('message', message => {
+	//Support for MoleRatArchives
+		if(message.channel.id == 582073429809692682){
+			loadchannel = client.channels.get("654465946395607100");
+			if(message.attachments.size > 0){
+				var attached = (message.attachments).array();
+				var content = ": " + message.content
+				for(var i = 0; i < attached.length;i++){
+				loadchannel.send({embed: {
+					color: message.guild.me.displayColor,
+					timestamp: new Date(),
+					title: `New Image in Art Channel`,
+					footer: {
+						text: `Posted by ${message.member.displayName}`,
+						icon_url: message.author.avatarURL
+					},
+					image: {
+						url:attached[i].url
+					},
+					fields: [
+						{
+							name: 'File Details:',
+							value: `${attached[i].filename}, ${Math.round((attached[i].filesize)/1040)}kb`,
+						},
+						{
+							name: 'Included Message:',
+							value: `${content}`,
+						}
+				],
+
+			}})
+				}
+			}
+			if(message.attachments.size == 0){
+			//loadchannel.send(message.content)
+			}
+		}
 	//If the message is not intended for the bot we stop processing it
   if (!message.content.startsWith(prefix)) return;
 	//Setup args variable to contain everything but the prefix
