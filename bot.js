@@ -84,7 +84,7 @@ client.on("guildDelete", function(guild){
 client.on('message', message => {
 	//Support for MoleRatArchives
 		if(message.channel.id == 582073429809692682){
-			loadchannel = client.channels.get("654465946395607100");
+			var loadchannel = client.channels.get("654465946395607100");
 			if(message.attachments.size > 0){
 				var attached = (message.attachments).array();
 				var content = ": " + message.content
