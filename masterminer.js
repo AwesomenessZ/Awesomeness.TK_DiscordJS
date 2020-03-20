@@ -40,7 +40,8 @@ client.on('message', message => {
 				}
 			if(args[1] == "left")	msg = "***Left the game***"
 			if(args[1] == "joined")	msg = "***Joined the game***"
-			sendwebhook(username, avatar, msg)
+			if(msg != ""){
+			sendwebhook(username, avatar, msg)}
 			return
 		}
 		args = message.content.split(' ')
@@ -65,31 +66,13 @@ client.on('message', message => {
   if (message.channel.id != 674748183074832405) return;//If the message is not intended for the bot we stop processing it
     if(message.author.bot) return
     if(!message.member.roles.some(r=>["Dev", "🔰 Staff 🔰", "verified"].includes(r.name))) {
-      message.reply("You need to verify your Username!")
+      message.reply("You need to verify your Username to send messages to the server!")
       return
     }
 		const msgto = message.content
 		var userto = message.member.displayName
     const curl = new (require( 'curl-request' ))();
-
-    curl
-    //Curl post content to send
-    .setBody({
-     'ip': 'direct.awesomeness.tk',
-     'port': '19132',
-     'password': 'bmZNUmZjV0xKdA==',
-     'command': `cmd run from_discord ${userto} ${msgto}`
-    })
-    //Sending the post request
-    .post('https://edroid.me/projects/rcon++/beta/client.php')
-    //Sending the output to console
-    .then(({statusCode, body, headers}) => {
-        //console.log(statusCode, body, headers)
-    })
-    //Sending errors to console
-    .catch((e) => {
-        console.log(e);
-    });
+		sendtoservers(curl,userto,msgto)
 });
 
 
@@ -111,4 +94,46 @@ async function sendwebhook(username, avatar, msg){
 	} catch (error) {
 	console.error('Error trying to send: ', error);
 }
+}
+
+
+async function sendtoservers(curl,userto,msgto){
+	//Sending to New Server
+	await curl
+	//Curl post content to send
+	.setBody({
+		'ip': 'direct.awesomeness.tk',
+		'port': '19132',
+		'password': 'bmZNUmZjV0xKdA==',
+		'command': `cmd run from_discord ${userto} ${msgto}`
+	})
+	//Sending the post request
+	.post('https://edroid.me/projects/rcon++/beta/client.php')
+	//Sending the output to console
+	.then(({statusCode, body, headers}) => {
+		//console.log(statusCode, body, headers)
+	})
+	//Sending errors to console
+	.catch((e) => {
+		console.log(e);
+	});
+	//Sending to OLD PM
+			curl
+			//Curl post content to send
+			.setBody({
+				'ip': 'prisonminer.leet.cc',
+				'port': '56100',
+				'password': 'WUIwT0o4',
+				'command': `cmd run from_discord ${userto} ${msgto}`
+			})
+			//Sending the post request
+			.post('https://edroid.me/projects/rcon++/beta/client.php')
+			//Sending the output to console
+			.then(({statusCode, body, headers}) => {
+				//console.log(statusCode, body, headers)
+			})
+			//Sending errors to console
+			.catch((e) => {
+				console.log(e);
+			});
 }
