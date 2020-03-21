@@ -127,7 +127,7 @@ async function newlog(message){
 		args = message.content.slice(3)
 		args = args.split(' ')
 		username = args[0]
-		avatar = await findavatar(message)
+		avatar = await findavatar(message,username)
 		if(args[1] == "left")	msg = "***Left the game***"
 		if(args[1] == "joined")	msg = "***Joined the game***"
 		if(msg != ""){
@@ -213,7 +213,7 @@ async function findavatar(message,username){
 		avatar = client.users.get("displayName", username).user.avatarURL
 	}
 	var id = await discordfind(username)
-	if(id){
+	if(!isNaN(id)){
 		avatar = client.users.get(id).avatarURL
 	}
 	return avatar
