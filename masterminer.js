@@ -150,7 +150,7 @@ async function newlog(message){
 
 async function discordlinking(args,guild){
 	const links = new Keyv('mongodb://localhost:27017/mmchat');
-	var discordname = args[4]
+	var discordname = args[4].replace("&"," ")
 	var mcname = args[2]
 	var discord_user = client.users.find("username", discordname)
 	var discord_userid = discord_user.id
@@ -213,7 +213,7 @@ async function findavatar(message,username){
 		avatar = client.users.get("displayName", username).user.avatarURL
 	}
 	var id = await discordfind(username)
-	if(!isNaN(id)){
+	if(id > 1000){
 		avatar = client.users.get(id).avatarURL
 	}
 	return avatar
