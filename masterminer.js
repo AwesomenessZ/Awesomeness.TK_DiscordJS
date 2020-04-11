@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Keyv = require('keyv');
+const { token } = require('./config.json');
 // create a new Discord client
 const client = new Discord.Client();
 // when the client (Discord Bot) is ready, run this code
@@ -46,7 +47,7 @@ client.on('message', message => {
 
 // login to Discord with our special token
 //This authorizes the bot with the discord api
-client.login("Njc0NDE3OTkxOTc0MTI1NTY4.Xjyfkw.rG5ogPKEdaTwfu61G1szxewQsCc");
+client.login(token);
 
 
 
