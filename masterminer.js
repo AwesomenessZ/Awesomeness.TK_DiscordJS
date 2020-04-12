@@ -139,6 +139,14 @@ async function newlog(message){
 	username = args[0]
 		for (var i = 0; i < 5; i++) {
 			args.shift()}
+			for (var c = 0; c < args.length; c++) {
+				if(args[c].startsWith("@")){
+					var mention = client.users.find("username", args[c].replace("@", ""))
+					if(mention){
+					args[c] = `<@${mention.id}>`
+					}
+				}
+			}
 		var msg = args.join(' ')
 		msg = msg.replace('@here','here');
 		msg = msg.replace('@everyone','everyone');
@@ -205,7 +213,22 @@ async function discordfind(username){
 
 
 async function sendmessage(message){
-	const msgto = message.content
+	var msgto = message.content
+	if(msgto.includes("<@")){
+		msgto = msgto.split(' ')
+		for(var c = 0; c < msgto.length; c++){
+			if(msgto[c].startsWith("<@")){
+				var temp = msgto[c].replace("<@","")
+				temp = temp.replace(">", "")
+				temp = temp.replace("!", "")
+				temp = temp.replace(",", "")
+				temp = temp.replace(".", "")
+				temp = client.users.find("id",temp)
+				msgto[c] = "@" + temp.username
+			}
+		}
+		msgto = msgto.join(" ")
+	}
 	var userto = message.member.displayName
 	var mcuser = await minecraftfind(message.member.id)
 	if(mcuser != false){
