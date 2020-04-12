@@ -151,9 +151,16 @@ async function newlog(message){
 
 async function discordlinking(args,guild){
 	const links = new Keyv('mongodb://localhost:27017/mmchat');
-	var discordname = args[4].replace("&"," ")
+	var discordname = args[4].replace(/&/g," ")
 	var mcname = args[2]
+	console.log(mcname + " " + discordname)
 	var discord_user = client.users.find("username", discordname)
+	if(!discord_user){
+		sendtoservers(`cmd run inform ${mcname} §cPairing Failed! We could not find your discord account! Please make sure that you have join the Discord Server!`)
+		console.log(`Failed to pair ${mcname} with ${discordname}`)
+		failure(mcname, discordname)
+		return
+	}
 	var discord_userid = discord_user.id
 
 	var olddis = await links.get(mcname)
@@ -173,6 +180,7 @@ async function discordlinking(args,guild){
 	discord_user = guild.members.get(discord_userid)
 	discord_user.addRole(role)
 	sendtoservers(`cmd run inform ${mcname} §aPairing completed! Your chat messages will now contain your profile picture and you can now talk on the server from discord!`)
+	success(mcname, discord_user)
 }
 
 
@@ -232,3 +240,61 @@ async function sendattachment(message){
 	}
 	sendtoservers(`cmd run from_discord ${userto} ${msgto}`)
 }
+
+
+
+function success(mcname, discord_user){
+	var loadchannel = client.channels.get("477855444447264780");
+	loadchannel.fetchMessages({ limit: 1 }).then(messages => {
+  let message = messages.first();
+	loadchannel.send(
+		{embed: {
+			color: message.guild.me.displayColor,
+			timestamp: new Date(),
+			title: `Pairing Success!`,
+			footer: {
+				text: `Requested by ${discord_user.displayName}`,
+				icon_url: discord_user.user.avatarURL
+			},
+			fields: [
+				{
+					name: 'Minecraft Name:',
+					value: mcname,
+				},
+				{
+					name: `Discord infromation:`,
+					value: `( <@${discord_user.id}> ) \n Id: ${discord_user.id} \n Tag: ${discord_user.user.tag} \n Joined time: ${discord_user.joinedAt}`,
+				}
+			],
+
+	}}
+)}
+)}
+
+
+function failure(mcname, discordname){
+	var loadchannel = client.channels.get("477855444447264780");
+	loadchannel.fetchMessages({ limit: 1 }).then(messages => {
+  let message = messages.first();
+	loadchannel.send(
+		{embed: {
+			color: message.guild.me.displayColor,
+			timestamp: new Date(),
+			title: `Pairing Failed!`,
+			footer: {
+				text: `Requested by ${mcname}`,
+			},
+			fields: [
+				{
+					name: 'Minecraft Name',
+					value: mcname,
+				},
+				{
+					name: 'Discord infromation',
+					value: `"Username": ${discordname}`,
+				}
+			],
+
+	}}
+)}
+)}
