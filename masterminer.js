@@ -148,8 +148,33 @@ async function newlog(message){
 				}
 			}
 		var msg = args.join(' ')
-		msg = msg.replace('@here','here');
-		msg = msg.replace('@everyone','everyone');
+		if(msg.includes("@here") || msg.includes("@everyone")){
+			sendtoservers(`kick ${username} Trying to @\here or @\everyone on discord.`)
+			sendtoservers(`message §6[§4ALERT§6] §e ${username} §b tryed to mass mention!`)
+			msg = msg.replace('@here','{PING}');
+      msg = msg.replace('@everyone','{PING}');
+			var notice = client.channels.get("478288700833398790")
+			notice.send({embed: {
+				color: message.guild.me.displayColor,
+				timestamp: new Date(),
+				title: `WARNING:`,
+				footer: {
+					text: `Mass ping attempt by ${username}`
+				},
+				fields: [
+					{
+						name: 'Minecraft Name:',
+						value: username,
+					},
+					{
+						name: `Message:`,
+						value: `${msg}`,
+					}
+				],
+
+		}})
+		return
+		}
 		avatar = await findavatar(message,username)
 	//Sending the Webhook
 	sendwebhook(username, avatar, msg)
