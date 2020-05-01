@@ -131,7 +131,7 @@ async function newlog(message){
 		avatar = await findavatar(message,username)
 		if(args[1] == "left")	msg = "***Left the game***"
 		if(args[1] == "joined")	msg = "***Joined the game***"
-		if(msg != ""){
+		if(msg != undefined ){
 		sendwebhook(username, avatar, msg)}
 		return
 	}
@@ -249,7 +249,7 @@ async function sendmessage(message){
 				temp = temp.replace(",", "")
 				temp = temp.replace(".", "")
 				temp = client.users.find("id",temp)
-				msgto[c] = "@" + temp.username
+				msgto[c] = "@" + temp
 			}
 		}
 		msgto = msgto.join(" ")
