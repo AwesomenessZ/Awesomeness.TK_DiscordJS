@@ -29,7 +29,8 @@ module.exports = {
 		color: message.guild.me.displayColor,
 		timestamp: new Date(),
 		footer: {
-			text: `Requested by ${message.member.displayName}`
+			text: `Requested by ${message.member.displayName}`,
+			icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
 			},
 	}}),
 	console.log() //Exists because code is expected to be here, dosent actually do anything
