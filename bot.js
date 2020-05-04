@@ -154,6 +154,10 @@ client.on('message', message => {
   const command = client.commands.get(commandName)
     || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   if (!command) return;
+	var displayColor
+	if(message.guild){
+		displayColor = message.guild.me.displayColor
+	} else displayColor = "636363"
   //Check if command is Guild-Only and if the user is messaging from a guild (won't work in dms)
   if (command.guildOnly && message.channel.type !== 'text') {
 	return message.reply('That command is not avilable outside of guilds!')
@@ -171,7 +175,7 @@ client.on('message', message => {
 try {
 	//We execute the code for the specified command
 	//Code for these can be found in the commands directory located in the current directory
-	command.execute(message, args);
+	command.execute(message, args, displayColor);
 	if (!message.guild == "") {
 		message.delete(0)
 	}

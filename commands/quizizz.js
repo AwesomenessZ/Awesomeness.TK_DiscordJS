@@ -5,17 +5,17 @@ module.exports = {
   args: false,
   usage: '<URL containing "quizid"> or help',
 	//code to be executed
-	execute(message, args) {
+	execute(message, args, displayColor) {
 			if(args[0].startsWith("https://quizizz.com/api/main/gameSummaryRec?quizId=")){
           var temp = args[0]
           temp = temp.replace("https://quizizz.com/api/main/gameSummaryRec?quizId=", "")
-          quiz(message, temp)
+          quiz(message, temp, displayColor)
         return
       }
       if(args[0] == "help"){
         message.channel.send({embed: {
           title: "Quizizz Command Help",
-					color: message.guild.me.displayColor,
+					color: displayColor,
 					fields: [
 							{
               name: "Description",
@@ -24,7 +24,7 @@ module.exports = {
           ]
         }})
           message.channel.send({embed: {
-            color: message.guild.me.displayColor,
+            color: displayColor,
             image: {
 							url: 'https://i.imgur.com/QFfYeA9.png',
 						},
@@ -37,7 +37,7 @@ module.exports = {
                 }}
               )
           message.channel.send({embed: {
-            color: message.guild.me.displayColor,
+            color: displayColor,
             image: {
                 url: 'https://i.imgur.com/l8cEO4G.png',
                },
@@ -50,7 +50,7 @@ module.exports = {
           }}
         )
         message.channel.send({embed: {
-          color: message.guild.me.displayColor,
+          color: displayColor,
           timestamp: new Date(),
           image: {
               url: 'https://i.imgur.com/anIda6A.png',
@@ -71,7 +71,7 @@ module.exports = {
       } //End of help
       message.channel.send({embed: {
         title: "Quizizz Command functionality",
-        color: message.guild.me.displayColor,
+        color: displayColor,
         timestamp: new Date(),
         thumbnail: "https://pbs.twimg.com/profile_images/974240714283454464/Pq7hqAYA_400x400.jpg",
         footer: {
@@ -98,7 +98,7 @@ module.exports = {
 };
 
 
-async function quiz(message, temp){
+async function quiz(message, temp, displayColor){
   const curl = new (require( 'curl-request' ))();
   curl.setHeaders([
   'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
@@ -118,7 +118,7 @@ async function quiz(message, temp){
   message.channel.send({embed: {
     title: "Click for the Quizizz Answer key!",
     url: `https://quizizz.com/admin/quiz/${temp}`,
-    color: message.guild.me.displayColor,
+    color: displayColor,
     timestamp: new Date(),
     thumbnail: {
 		url: image,
