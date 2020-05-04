@@ -42,7 +42,7 @@ curl.setHeaders([
     timestamp: new Date(),
     title: `${jsn.name}'s status:`,
     footer: {
-      text: `Requested by ${message.member.displayName}`,
+      text: `Requested by ${message.author.username}`,
       icon_url: message.member.avatarURL
           },
           image: {

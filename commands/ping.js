@@ -10,7 +10,7 @@ module.exports = {
 				//sets the time of the request being made
 				timestamp: new Date(),
 				footer: {
-					text: `Requested by ${message.member.displayName}`,
+					text: `Requested by ${message.author.username}`,
 					icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
 				},
 				fields: [

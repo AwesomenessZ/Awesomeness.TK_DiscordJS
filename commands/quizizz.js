@@ -56,7 +56,7 @@ module.exports = {
               url: 'https://i.imgur.com/anIda6A.png',
              },
           footer: {
-            text: `Requested by ${message.member.displayName}`,
+            text: `Requested by ${message.author.username}`,
             icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
           fields: [
@@ -75,7 +75,7 @@ module.exports = {
         timestamp: new Date(),
         thumbnail: "https://pbs.twimg.com/profile_images/974240714283454464/Pq7hqAYA_400x400.jpg",
         footer: {
-          text: `Requested by ${message.member.displayName}`,
+          text: `Requested by ${message.author.username}`,
           icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
         },
         fields: [
@@ -124,7 +124,7 @@ async function quiz(message, temp, displayColor){
 		url: image,
 	},
     footer: {
-      text: `Requested by ${message.member.displayName}`,
+      text: `Requested by ${message.author.username}`,
       icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
     },
     fields: [

@@ -28,7 +28,7 @@ module.exports = {
 						footer: {
 							icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`,
 							//Tells who requested the message to be sent
-							text: `Requested by ${message.member.displayName}`,
+							text: `Requested by ${message.author.username}`,
 						},
 						fields: [
 							{
