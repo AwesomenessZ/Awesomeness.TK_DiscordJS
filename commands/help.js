@@ -26,7 +26,7 @@ module.exports = {
 						},
 						description: `You can see help for indivudal commands by running /help (Command Name)`,
 						footer: {
-							icon_url: message.member.avatarURL,
+							icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`,
 							//Tells who requested the message to be sent
 							text: `Requested by ${message.member.displayName}`,
 						},

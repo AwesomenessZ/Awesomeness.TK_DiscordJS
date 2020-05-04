@@ -4,7 +4,7 @@ module.exports = {
 	description: 'Sends an image of a Speedy Boi!',
 	cooldown: 5,
 	aliases: ['speed','sped'],
-	guildOnly: true,
+	guildOnly: false,
 	//code to execute
 	execute(message, args, displayColor) {
 		//sends a gif inside an embed

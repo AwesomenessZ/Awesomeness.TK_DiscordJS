@@ -42,7 +42,7 @@ module.exports = {
 					footer: {
 						//Shows the name of the server in which infromation is being gathered
 						text: `Requested by ${message.member.displayName}`,
-						icon_url: message.member.avatarURL
+						icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
 						},
 						image: {
 							//Grabs the server banner
