@@ -3,10 +3,10 @@ module.exports = {
 	name: 'ping',
 	description: 'Ping!',
 	//code to be executed
-	execute(message) {
+	execute(message, args, displayColor) {
 			//Send a rich chat message
 			message.channel.send({embed: {
-				color: message.guild.me.displayColor,
+				color: displayColor,
 				//sets the time of the request being made
 				timestamp: new Date(),
 				footer: {

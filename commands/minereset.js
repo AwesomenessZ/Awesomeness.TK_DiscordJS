@@ -6,12 +6,12 @@ module.exports = {
   guildOnly: true,
   aliases: ['resetmines','mineresets','resetmine'],
 	//Code to be executed when command is invoked
-	execute(message) {
+	execute(message, args, displayColor) {
 //Has to be in Prison Miner Server for command to run. (Not currently modular)
     if (message.guild.id !== "445449992795062273") {
 			//Stops the rest of the code from running and tells the user that this can only be run in specific guilds
       return  message.channel.send({embed: {
-				color: message.guild.me.displayColor,
+				color: displayColor,
 				timestamp: new Date(),
         title:`This command can only be run in Specific Guilds ATM! Sorry for the inconvenience!`,
 				footer: {
@@ -24,7 +24,7 @@ if(message.member.roles.some(r=>["Dev", "🔰 Staff 🔰", "🛠️ Builder 🛠
   //If they have one of the roles, send a curl request to a rcon api to run the command 'cmd run resetmines' on the specifed server
   const curl = new (require( 'curl-request' ))();
   message.channel.send({embed: {
-    color: message.guild.me.displayColor,
+    color: displayColor,
     timestamp: new Date(),
     title:`Mines will now be reset`,
     footer: {
@@ -52,7 +52,7 @@ if(message.member.roles.some(r=>["Dev", "🔰 Staff 🔰", "🛠️ Builder 🛠
 } else {
   //Dosent have one of the roles needed to run the command
   message.channel.send({embed: {
-    color: message.guild.me.displayColor,
+    color: displayColor,
     timestamp: new Date(),
     title:`This command can only be run by staff! Please ask a staff member to reset the mines!`,
     footer: {

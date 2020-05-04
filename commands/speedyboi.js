@@ -6,10 +6,10 @@ module.exports = {
 	aliases: ['speed','sped'],
 	guildOnly: true,
 	//code to execute
-	execute(message) {
+	execute(message, args, displayColor) {
 		//sends a gif inside an embed
 		message.channel.send({embed: {
-			color: message.guild.me.displayColor,
+			color: displayColor,
 			timestamp: new Date(),
 			footer: {
 				text: `Requested by ${message.member.displayName}`,

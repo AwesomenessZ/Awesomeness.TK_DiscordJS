@@ -8,11 +8,7 @@ module.exports = {
 	usage: '[command name]',
 	cooldown: 5,
 	//Code to execute
-	execute(message, args) {
-		var displaycolor = `010003`
-		if(message.guild){
-			displaycolor = message.guild.me.displayColor
-		}
+	execute(message, args, displayColor) {
     const data = [];
 		//Grabs the list of commands avalible
     const { commands } = message.client;
@@ -21,7 +17,7 @@ module.exports = {
     if (!args.length) {
 				//Sends an embeded message
 				message.channel.send({embed: {
-						color: displaycolor,
+						color: displayColor,
 						timestamp: new Date(),
 						title: `Awesomeness.TK Help`,
 						url: `https://awesomeenss.tk`,

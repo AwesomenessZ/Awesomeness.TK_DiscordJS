@@ -6,7 +6,7 @@ module.exports = {
 	usage: '<message>',
 	aliases: ['figlet','box','ascii'],
 	//executes commands code
-	execute(message, args) {
+	execute(message, args, displayColor) {
 		//We are loading in the figlet api
 		var figlet = require('figlet');
 		const text = args.join(' ')
@@ -26,7 +26,7 @@ module.exports = {
 		message.channel.send(`\`\`\`${data}\`\`\``)
 		//Report who requested the message and at one time in that same channel
 		message.channel.send({embed: {
-		color: message.guild.me.displayColor,
+		color: displayColor,
 		timestamp: new Date(),
 		footer: {
 			text: `Requested by ${message.member.displayName}`,

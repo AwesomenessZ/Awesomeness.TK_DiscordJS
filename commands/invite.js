@@ -5,10 +5,10 @@ module.exports = {
 	cooldown: 5,
 	aliases: [],
 	//Code to be executed
-	execute(message) {
+	execute(message, args, displayColor) {
 		//sends the users the invite url for the bot, so that it may be added to their own servers
 		message.channel.send({embed: {
-			color: message.guild.me.displayColor,
+			color: displayColor,
 			timestamp: new Date(),
       title:`To invite me to your discord server click here!`,
       url:`https://discordapp.com/oauth2/authorize?client_id=549328310442917921&permissions=0&scope=bot`,

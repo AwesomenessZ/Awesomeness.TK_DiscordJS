@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Check statistics for your minecraft bedrock server (Will only update every 3 minutes)',
 	guildOnly: true,
 	//Code to be run Asyncrously when command is invoked
-	async execute(message) {
+	async execute(message, args, displayColor) {
 		//Loads the needed database
     const Keyv = require('keyv');
     const apikey = new Keyv('mongodb://localhost:27017/discordbot');
@@ -36,7 +36,7 @@ module.exports = {
 				const jsn = JSON.parse(json)
 				//send a Rich chat message based on the received infromation
 				message.channel.send({embed: {
-					color: message.guild.me.displayColor,
+					color: displayColor,
 					timestamp: new Date(),
 					title: `${jsn.name}'s status:`,
 					footer: {
