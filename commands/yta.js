@@ -3,7 +3,7 @@ module.exports = {
 	name: 'yta',
 	description: 'Plays Audio from youtube videos!',
   args: true,
-  useage: "play <url>/<search> | stop",
+  usage: "play <url>/<search> | stop",
 	//code to be executed
 execute(message, args, displayColor) {
 	if(args[0] == "play"){
