@@ -13,17 +13,8 @@ client.once('ready', () => {
 client.once('disconnect', () => {
 	console.log(`Discord Bot ${client.user.tag} is now Offline!`);
 });
-//Discord Status message
-client.on('ready', message => {
-		//To be run every 10 seconds
-    setInterval(() => {
-        client.user.setActivity(`Master Miner Chat!`, { type: 'WATCHING' }); //Updates the status displaying how many Discord servers the bot is present in
-    }, 10000); //10000 = 10 seconds
-		//To be run every 3 minutes (180 seconds)
-});
 //Event handling for every message sent that the bot can read
 client.on('message', message => {
-
 
 	//If receving from server
 	if (message.channel.id == 477855444447264780){
