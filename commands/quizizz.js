@@ -134,7 +134,7 @@ async function quiz(message, temp, displayColor){
       },
       {
         name: "Author:",
-        value: `*${jsn.data.quiz.createdBy.google.displayName}*`,
+        value: `*${jsn.data.quiz.createdBy.local.username}*`,
       },
       {
         name: "Acurracy:",
