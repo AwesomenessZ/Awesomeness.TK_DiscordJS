@@ -5,6 +5,9 @@ const Keyv = require('keyv');
 // create a new Discord client
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+var queues = {};
+var connection = {};
+var dispatchers = {};
 // return an array of all the file names in that directory,
 //The filter is there to make sure any non-JS files are left out of the array.
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -175,7 +178,7 @@ client.on('message', message => {
 try {
 	//We execute the code for the specified command
 	//Code for these can be found in the commands directory located in the current directory
-	command.execute(message, args, displayColor, client);
+	command.execute(message, args, displayColor, client, queues, connection, dispatchers);
 	if (!message.guild == "") {
 		message.delete(0)
 	}
