@@ -3,10 +3,40 @@ module.exports = {
 	name: 'yta',
 	description: 'Plays Audio from youtube videos!',
   args: true,
-  usage: "play <url>/<search> | stop | skip | queue",
+	aliases: ['youtube','play', 'y'],
+  usage: "play <url>/<search> | stop | skip | queue | pause | resume | volume",
 	//code to be executed
 execute(message, args, displayColor, client, queues, connection, dispatchers) {
-	if(args[0] == "play"){
+	if(args[0] == "play" || args[0] == "p"){
+		if(!args[1]){
+			if(message.member.voiceChannel){
+				if(message.member.voiceChannel.members.has("549328310442917921")){
+					if(dispatchers[message.guild.id]){
+						dispatchers[message.guild.id].resume()
+						message.channel.send({embed: {
+							color: displayColor,
+							title: `${message.guild.name}'s Music has been resumed!'`,
+							//sets the time of the request being made
+							timestamp: new Date(),
+							footer: {
+								text: `Requested by ${message.author.username}`,
+								icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+							},
+						}});
+					}
+					else{
+						message.reply("Usage: /yta p <url> or /yta p <search query>")
+					}
+				}
+				else{
+					message.reply("Usage: /yta p <url> or /yta p <search query>")
+				}
+			}
+			else{
+				message.reply("Usage: /yta p <url> or /yta p <search query>")
+			}
+			return
+		}
 		var search = args
 		if(message.member.voiceChannel){
 		var link = args[1]
@@ -71,7 +101,7 @@ execute(message, args, displayColor, client, queues, connection, dispatchers) {
 				}
 		return
 	} //End of play
-	if(args[0] == "stop"){
+	if(args[0] == "stop" || args[0] == "leave"){
 		if(message.member.voiceChannel){
 			var vc = message.member.voiceChannel
 			vc.leave()
@@ -83,7 +113,7 @@ execute(message, args, displayColor, client, queues, connection, dispatchers) {
 		}
 		return
 	} //End of stop
-	if(args[0] == "skip"){
+	if(args[0] == "skip" || args[0] == "s"){
 		if(message.member.voiceChannel){
 			if(message.member.voiceChannel.members.has("549328310442917921")){
 				dispatchers[message.guild.id].end()
@@ -98,7 +128,7 @@ execute(message, args, displayColor, client, queues, connection, dispatchers) {
 		}
 		return
 	} //End of skip
-	if(args[0] == "queue"){
+	if(args[0] == "queue" || args[0] == "q"){
 		if(queues[message.guild.id]){
 			if(queues[message.guild.id][0]){
 				sendqueue(message, queues, displayColor)
@@ -107,8 +137,93 @@ execute(message, args, displayColor, client, queues, connection, dispatchers) {
 		}
 		else message.reply("There is no active queue!")
 		return
-	}
-	message.channel.send(`*${args[0]}* is not play/stop/skip/queue!`)
+	} // End of queue
+	if(args[0] == "v" || args[0] == "volume"){
+		if(message.member.voiceChannel){
+			if(message.member.voiceChannel.members.has("549328310442917921")){
+				if(message.member.hasPermission("ADMINISTRATOR")){
+					dispatchers[message.guild.id].setVolumeLogarithmic(args[1]/100)
+					sendvolume((args[1]/100), message, displayColor)
+					queues[message.guild.id + "_v"] = (args[1]/100)
+				}
+				else{
+					var temp = (args[1] / 100)
+					if(temp > .5){
+						dispatchers[message.guild.id].setVolumeLogarithmic(.5)
+						message.reply("You are not an administrator! You are limited to setting the volume up to 50%!")
+						sendvolume(.5, message)
+						queues[message.guild.id + "_v"] = (.5)
+					}
+					else{
+						dispatchers[message.guild.id].setVolumeLogarithmic(args[1]/100)
+						sendvolume((args[1]/100), message, displayColor)
+						queues[message.guild.id + "_v"] = (args[1]/100)
+					}
+				}
+			}
+			else{
+				message.reply("I'm not in a voice channel with you!")
+			}
+		}
+		else{
+			message.reply("Your not in a voice channel!")
+		}
+		return
+	} //End of volume
+	if(args[0] == "pause"){
+		if(message.member.voiceChannel){
+			if(message.member.voiceChannel.members.has("549328310442917921")){
+				dispatchers[message.guild.id].pause()
+				message.channel.send({embed: {
+					color: displayColor,
+					title: `${message.guild.name}'s Music has been paused!'`,
+					//sets the time of the request being made
+					timestamp: new Date(),
+					footer: {
+						text: `Requested by ${message.author.username}`,
+						icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+					},
+	}});
+			}
+			else{
+				message.reply("I'm not in a voice channel with you!")
+			}
+		}
+		else{
+			message.reply("Your not in a voice channel!")
+		}
+		return
+	} //End of pause
+	if(args[0] == "resume" || args[0] == "r"){
+		if(message.member.voiceChannel){
+			if(message.member.voiceChannel.members.has("549328310442917921")){
+				if(dispatchers[message.guild.id]){
+					dispatchers[message.guild.id].resume()
+					message.channel.send({embed: {
+						color: displayColor,
+						title: `${message.guild.name}'s Music has been resumed!'`,
+						//sets the time of the request being made
+						timestamp: new Date(),
+						footer: {
+							text: `Requested by ${message.author.username}`,
+							icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+						},
+					}});
+				}
+				else{
+					message.reply("There is nothing to resume!")
+				}
+			}
+			else{
+				message.reply("I'm not in the voice channel with you!")
+			}
+		}
+		else{
+			message.reply("Your not in a voice channel!")
+		}
+		return
+	} //End of resume
+	message.channel.send(`*${args[0]}* is not play/stop/skip/queue/pause/resume/volume!`)
 },
 };
 
@@ -152,6 +267,9 @@ async function stream(message, connection, vc, link, displayColor, queues, dispa
 	await new Promise(resolve => setTimeout(resolve, 1500));
 	dispatcher = connection[message.guild.id].playStream(stream, parms);
 	dispatchers[message.guild.id] = dispatcher
+	if(queues[message.guild.id + "_v"]){
+		dispatcher.setVolumeLogarithmic(queues[message.guild.id + "_v"])
+	}
 	dispatcher.on('end', () => {
 		next(message, connection, vc, link, displayColor, queues, dispatchers)
 	})
@@ -225,4 +343,26 @@ function titleformat(queues,message){
 			temp.push(i + ". *" + queues[message.guild.id + "_names"][i] + "*")
 	}
 	return temp
+}
+
+
+
+function sendvolume(volume, message, displayColor){
+	message.channel.send({embed: {
+		color: displayColor,
+		//sets the time of the request being made
+		timestamp: new Date(),
+		footer: {
+			text: `Requested by ${message.author.username}`,
+			icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+		},
+		fields: [
+			{
+				name: 'New Volume set:',
+				//Takes the current time subtracted by the time the users message was sent
+				//Giving us the ping!
+				value: (volume*100 + "%"),
+			}]
+
+}});
 }

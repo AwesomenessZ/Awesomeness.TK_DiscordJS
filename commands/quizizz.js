@@ -3,6 +3,7 @@ module.exports = {
 	name: 'quizizz',
 	description: 'Translates quizizz requests into answer keys!',
   args: false,
+	aliases: ['quiz','quizziz'],
   usage: '<URL containing "quizid"> or help',
 	//code to be executed
 	execute(message, args, displayColor) {
