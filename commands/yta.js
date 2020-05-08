@@ -3,7 +3,7 @@ module.exports = {
 	name: 'yta',
 	description: 'Plays Audio from youtube videos!',
   args: true,
-  usage: "play <url>/<search> | stop",
+  usage: "play <url>/<search> | stop | skip | queue",
 	//code to be executed
 execute(message, args, displayColor, client, queues, connection, dispatchers) {
 	if(args[0] == "play"){
@@ -108,7 +108,7 @@ execute(message, args, displayColor, client, queues, connection, dispatchers) {
 		else message.reply("There is no active queue!")
 		return
 	}
-	message.channel.send(`*${args[0]}* is not play/stop!`)
+	message.channel.send(`*${args[0]}* is not play/stop/skip/queue!`)
 },
 };
 
