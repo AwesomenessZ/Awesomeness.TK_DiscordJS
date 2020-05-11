@@ -13,6 +13,12 @@ module.exports = {
           quiz(message, temp, displayColor)
         return
       }
+			if(args[0].startsWith("https://quizizz.com/api/sumstars/gameSummaryRec?quizId=")){
+				var temp = args[0]
+				temp = temp.replace("https://quizizz.com/api/sumstars/gameSummaryRec?quizId=", "")
+				quiz(message, temp, displayColor)
+				return
+			}
       if(args[0] == "help"){
         message.channel.send({embed: {
           title: "Quizizz Command Help",
