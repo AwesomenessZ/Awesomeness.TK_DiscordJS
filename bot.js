@@ -179,9 +179,9 @@ try {
 	//We execute the code for the specified command
 	//Code for these can be found in the commands directory located in the current directory
 	command.execute(message, args, displayColor, client, queues, connection, dispatchers);
-	if (!message.guild == "") {
+	/*if (!message.guild == "") {
 		message.delete(0)
-	}
+	}*/
 } catch (error) {
 	//If the execute code returns an error we send it to console for debugging and notify the user of the error
 	console.log(error);
