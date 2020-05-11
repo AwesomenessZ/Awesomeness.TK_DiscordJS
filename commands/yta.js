@@ -128,7 +128,7 @@ execute(message, args, displayColor, client, queues, connection, dispatchers) {
 		}
 		return
 	} //End of skip
-	if(args[0] == "queue" || args[0] == "q"){
+	if(args[0] == "queue" || args[0] == "q" || args[0] == "np" || args[0] == "nowplaying"){
 		if(queues[message.guild.id]){
 			if(queues[message.guild.id][0]){
 				sendqueue(message, queues, displayColor)
