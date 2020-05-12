@@ -223,7 +223,52 @@ execute(message, args, displayColor, client, queues, connection, dispatchers) {
 		}
 		return
 	} //End of resume
-	message.channel.send(`*${args[0]}* is not play/stop/skip/queue/pause/resume/volume!`)
+	if(args[0] == "help" || args[0] == "h"){
+		message.channel.send({embed: {
+			color: displayColor,
+			url: `https://discord.gg/Tn48N9A`,
+			//sets the time of the request being made
+			timestamp: new Date(),
+			title: `YouTube Audio Help`,
+			thumbnail: "",
+			footer: {
+				text: `Requested by ${message.author.username}`,
+				icon_url:`https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+			},
+			fields: [
+				{
+					name: "Base command:",
+					value: "/yta or /y can be used interchangeably, this also works with /y p (play), /y s (skip), ect..",
+				},
+				{
+					name: "Play:",
+					value: "Plays a youtube url or searches for the video!",
+				},
+				{
+					name: "Pause/Resume:",
+					value: "This should be self explanatory...",
+				},
+				{
+					name: "Skip:",
+					value: "Skips to the next song in the queue!",
+				},
+				{
+					name: "Queue / NowPlaying:",
+					value: "Displays a list of whats to come",
+				},
+				{
+					name: "Stop:",
+					value: "Disconnects the bot and clears the queue!",
+				},
+				{
+					name: "Volume:",
+					value: "Specify the volume in %. The default is `30%` \nWARNING! This can be set as high as you can type! Only Administrators area allowed to set past 50%",
+				}]
+
+			}})
+		return
+	}
+	message.channel.send(`*${args[0]}* is an unknown sub-command! Please do /yta help`)
 },
 };
 
