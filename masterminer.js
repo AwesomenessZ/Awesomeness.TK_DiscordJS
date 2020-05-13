@@ -116,14 +116,14 @@ async function newlog(message){
 		return
 	}
 	if(message.content.startsWith("```")){
-		args = message.content.slice(3)
+		/*args = message.content.slice(3)
 		args = args.split(' ')
 		username = args[0]
 		avatar = await findavatar(message,username)
 		if(args[1] == "left")	msg = "***Left the game***"
 		if(args[1] == "joined")	msg = "***Joined the game***"
 		if(msg != undefined ){
-		sendwebhook(username, avatar, msg)}
+		sendwebhook(username, avatar, msg)} */
 		return
 	}
 	args = message.content.split(' ')
