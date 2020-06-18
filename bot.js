@@ -40,24 +40,38 @@ client.once('disconnect', () => {
 client.on('ready', message => {
 	//Set a list of possible status messages
 	const status = [
-    "with /help",
-    "with Your Data!",
-    "with Discord.js",
-    "Stonk Market",
-		"Minecraftcito",
-		"the clarinet",
-		"with fire",
-		"with your heart",
-		"Firefox",
-		"file explorer",
-		"ms paint",
-	`with ${client.guilds.size} guilds`
-    ];
-		//To be run every 10 seconds
+  "with /help",
+  "with Your Data!",
+  "with Discord.js",
+  "Stonk Market",
+	"Minecraftcito",
+	"the clarinet",
+	"with fire",
+	"with your heart",
+	"Firefox",
+	"file explorer",
+	"ms paint",
+	`with ${client.guilds.size} guilds`,
+	"Blender",
+	"Russian Roulette",
+	"Garry's Mod",
+	"Minecraft",
+	"GTA V",
+	"Capitalism",
+	"Comunism",
+	"Master Miner",
+	"Prison Miner",
+	"/yta",
+	"at 9001% volume",
+	"with your mom",
+	"with Dad Bot"
+]; // TODO Add support for diffrent status types.
+		//To be run every 30 seconds
     setInterval(() => {
         const i = Math.floor(Math.random() * (status.length - 1) + 1) //Picks a random number within the range of the array
         client.user.setActivity(status[i]); //Picks a status from the activities_list array
-    }, 10000); //10000 = 10 seconds
+				//checkreminders()
+    }, 30000); //30000 = 30 seconds
 		//To be run every 3 minutes (180 seconds)
 		setInterval(() => {
 			//Calls onto a function that checks all of the currently active messages
@@ -272,4 +286,11 @@ async function grabstatus(i,index){
 });
 }
 }
+}
+
+async function checkreminders(){
+	const remindersdb = new Keyv('mongodb://localhost:27017/reminders');
+
+
+
 }
