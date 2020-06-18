@@ -67,7 +67,7 @@ async function sendtoservers(command){
 	.setBody({
 		'ip': 'direct.awesomeness.tk',
 		'port': '19132',
-		'password': 'bmZNUmZjV0xKdA==',
+		'password': 'OFpZT05GNg==',
 		'command': `${command}`
 	})
 	//Sending the post request
@@ -86,7 +86,7 @@ async function sendtoservers(command){
 			.setBody({
 				'ip': 'prisonminer.leet.cc',
 				'port': '56100',
-				'password': 'WUIwT0o4',
+				'password': 'OFpZT05GNg==',
 				'command': `${command}`
 			})
 			//Sending the post request
