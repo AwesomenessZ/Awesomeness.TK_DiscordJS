@@ -7,7 +7,7 @@ const client = new Discord.Client();
 // this event will only trigger one time after logging in
 client.once('ready', () => {
 	console.log(`Discord Bot ${client.user.tag} has logged in successfully`);
-	console.log(`Bot precense on ${client.guilds.size} servers`)
+	console.log(`Bot presence on ${client.guilds.size} servers`)
 });
 //Bot Turning off
 client.once('disconnect', () => {

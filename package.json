@@ -1,5 +1,4 @@
 {
-  "publishConfig": { "registry": "https://npm.pkg.github.com/awesomenessz" },
   "name": "Awesomeness.TK_DiscordJS",
   "version": "1.0.0",
   "description": "A bot for Awesomeness.TK!",
