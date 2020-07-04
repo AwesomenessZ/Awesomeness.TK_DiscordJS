@@ -16,7 +16,7 @@ module.exports = {
           timestamp: new Date(),
           title: `This command can only be run in Specific Guilds ATM! Sorry for the inconvenience!`,
           footer: {
-            text: `Requested by \<\@${message.author.id}\>`
+            text: `Requested by <@${message.author.id}>`
           }
         }
       });
