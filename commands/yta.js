@@ -175,24 +175,31 @@ module.exports = {
     if (args[0] == "v" || args[0] == "volume") {
       if (message.member.voiceChannel) {
         if (message.member.voiceChannel.members.has("549328310442917921")) {
-          if (message.member.hasPermission("ADMINISTRATOR")) {
-            dispatchers[message.guild.id].setVolumeLogarithmic(args[1] / 100);
-            sendvolume(args[1] / 100, message, displayColor);
-            queues[message.guild.id + "_v"] = args[1] / 100;
-          } else {
-            var temp = args[1] / 100;
-            if (temp > 0.5) {
-              dispatchers[message.guild.id].setVolumeLogarithmic(0.5);
-              message.reply(
-                "You are not an administrator! You are limited to setting the volume up to 50%!"
-              );
-              sendvolume(0.5, message);
-              queues[message.guild.id + "_v"] = 0.5;
-            } else {
+          var temp = args[1] / 100;
+          if (temp >= 0) {
+            if (message.member.hasPermission("ADMINISTRATOR")) {
               dispatchers[message.guild.id].setVolumeLogarithmic(args[1] / 100);
               sendvolume(args[1] / 100, message, displayColor);
               queues[message.guild.id + "_v"] = args[1] / 100;
+            } else {
+              if (temp > 0.5) {
+                dispatchers[message.guild.id].setVolumeLogarithmic(0.5);
+                message.reply(
+                  "You are not an administrator! You are limited to setting the volume up to 50%!"
+                );
+                sendvolume(0.5, message);
+                queues[message.guild.id + "_v"] = 0.5;
+              } else {
+                dispatchers[message.guild.id].setVolumeLogarithmic(
+                  args[1] / 100
+                );
+                sendvolume(args[1] / 100, message, displayColor);
+                queues[message.guild.id + "_v"] = args[1] / 100;
+              }
             }
+          } else {
+            //If volume is 0 or below
+            return message.reply("How is that even possible?");
           }
         } else {
           message.reply("I'm not in a voice channel with you!");
