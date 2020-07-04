@@ -26,7 +26,7 @@ for (const file of commandFiles) {
 client.once("ready", () => {
   console.log(`Discord Bot ${client.user.tag} is now Online!`);
   var guilds = client.guilds.size;
-  console.log(`Bot precense on ${guilds} guilds`);
+  console.log(`Bot presence on ${guilds} guilds`);
   var loadchannel = client.channels.get("617154686406885411");
   loadchannel.send(`${client.user.tag} is now online on ${guilds} guilds!`);
 });
@@ -34,7 +34,7 @@ client.once("ready", () => {
 client.once("disconnect", () => {
   console.log(`Discord Bot ${client.user.tag} is now Offline!`);
   var guilds = client.guilds.size;
-  console.log(`Bot precense on ${guilds} guilds`);
+  console.log(`Bot presence on ${guilds} guilds`);
   var loadchannel = client.channels.get("617154686406885411");
   loadchannel.send(`${client.user.tag} is now offline on ${guilds} guilds!`);
 });
