@@ -11,14 +11,14 @@
     "discord.js": "^11.5.1",
     "erlpack": "^0.1.0",
     "ffmpeg": "0.0.4",
-    "ffmpeg-static": "^4.2.4",
+    "ffmpeg-static": "^4.2.5",
     "figlet": "^1.4.0",
     "keyv": "^4.0.1",
     "simple-youtube-api": "^5.2.1",
     "ytdl-core": "^2.1.7"
   },
   "devDependencies": {
-    "eslint": "^6.1.0"
+    "eslint": "^7.4.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
