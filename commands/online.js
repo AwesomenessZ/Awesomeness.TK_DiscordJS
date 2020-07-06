@@ -8,8 +8,7 @@ module.exports = {
   //Code to be run Asyncrously when command is invoked
   async execute(message, args, displayColor) {
     //Loads the needed database
-    const Keyv = require("keyv");
-    const apikey = new Keyv("mongodb://localhost:27017/discordbot");
+    const apikey = loaddb("discordbot");
     //Start typing so that the user knows the bot is working
     message.channel.startTyping();
     //Find what server we are in so that we can load the correct config
@@ -79,3 +78,14 @@ module.exports = {
     }
   }
 };
+
+function loaddb(dbname) {
+  const Keyv = require("keyv");
+  const { dbs } = require("./config.json");
+  var dbhost = dbs.host;
+  var dbprefix = dbs.prefix;
+  var db = dbs[dbname];
+  return new Keyv(
+    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
+  );
+}

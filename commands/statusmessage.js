@@ -22,8 +22,7 @@ module.exports = {
 
 //Runs /online while saving the message ID and Channel ID to DB
 async function status(guild, message) {
-  const Keyv = require("keyv");
-  const apikey = new Keyv("mongodb://localhost:27017/discordbot");
+  const apikey = loaddb("discordbot");
   message.channel.startTyping();
   var guildapi = await apikey.get(guild);
   if (!guildapi) {
@@ -72,15 +71,9 @@ async function status(guild, message) {
           .then(msg => {
             (async () => {
               //Saving the ID and Channel ID of the message
-              const statusID = new Keyv(
-                "mongodb://localhost:27017/discordbot_statusID"
-              );
-              const statusCH = new Keyv(
-                "mongodb://localhost:27017/discordbot_statusCH"
-              );
-              const id = await new Keyv(
-                "mongodb://localhost:27017/discordbot_Identifers"
-              );
+              const statusID = loaddb("discordbot_statusID");
+              const statusCH = loaddb("discordbot_statusCH");
+              const id = loaddb("discordbot_Identifers");
               var index = await id.get("index");
               if (isNaN(index.length)) {
                 index = [0];
@@ -107,5 +100,16 @@ async function status(guild, message) {
         console.log(e);
       });
   }
+}
+
+function loaddb(dbname) {
+  const Keyv = require("keyv");
+  const { dbs } = require("./config.json");
+  var dbhost = dbs.host;
+  var dbprefix = dbs.prefix;
+  var db = dbs[dbname];
+  return new Keyv(
+    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
+  );
 }
 //https://cdn.discordapp.com/emojis/536336948005175326.gif

@@ -7,8 +7,7 @@ module.exports = {
   guildOnly: true,
   //code to be executed
   async execute(message, args, displayColor, client) {
-    const Keyv = require("keyv");
-    const db = new Keyv("mongodb://localhost:27017/weather");
+    const db = loaddb("weather");
     switch (args[0]) {
       case "set":
         var temp = args[1].toLowerCase();
@@ -79,6 +78,17 @@ module.exports = {
     }
   }
 };
+
+function loaddb(dbname) {
+  const Keyv = require("keyv");
+  const { dbs } = require("./config.json");
+  var dbhost = dbs.host;
+  var dbprefix = dbs.prefix;
+  var db = dbs[dbname];
+  return new Keyv(
+    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
+  );
+}
 
 //Asheville
 //https://radar.weather.gov/lite/N0R/GSP_loop.gif

@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { prefix, token } = require("./config.json");
+const { prefix, token, dbs } = require("./config.json");
 const Discord = require("discord.js");
 const Keyv = require("keyv");
 // create a new Discord client
@@ -237,7 +237,7 @@ client.login(token);
 
 async function runstatus() {
   //Grabs the amount of status messages we need to update from the database
-  const id = new Keyv("mongodb://localhost:27017/discordbot_Identifers");
+  const id = loaddb("discordbot_Identifers");
   var index = await id.get("index");
   if (!index) {
     index = [];
@@ -253,9 +253,9 @@ async function runstatus() {
 //Code to run for status every 3 minutes
 async function grabstatus(i, index) {
   //Pull info from databases
-  const apikey = new Keyv("mongodb://localhost:27017/discordbot");
-  const statusID = new Keyv("mongodb://localhost:27017/discordbot_statusID");
-  const statusCH = new Keyv("mongodb://localhost:27017/discordbot_statusCH");
+  const apikey = loaddb("discordbot");
+  const statusID = loaddb("discordbot_statusID");
+  const statusCH = loaddb("discordbot_statusCH");
   //Selecting what data we want to be currently working with
   var guildSCH = await statusCH.get(index[i]);
   var guildSID = await statusID.get(index[i]);
@@ -332,5 +332,14 @@ async function grabstatus(i, index) {
 }
 
 async function checkreminders() {
-  const remindersdb = new Keyv("mongodb://localhost:27017/reminders");
+  const remindersdb = loaddb("reminders");
+}
+
+function loaddb(dbname) {
+  var dbhost = dbs.host;
+  var dbprefix = dbs.prefix;
+  var db = dbs[dbname];
+  return new Keyv(
+    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
+  );
 }

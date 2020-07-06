@@ -23,11 +23,8 @@ module.exports = {
 };
 
 async function remove(message, guild, args) {
-  const Keyv = require("keyv");
-  const statusCH = await new Keyv(
-    "mongodb://localhost:27017/discordbot_statusCH"
-  );
-  const id = new Keyv("mongodb://localhost:27017/discordbot_Identifers");
+  const statusCH = loaddb("discordbot_statusCH");
+  const id = loaddb("discordbot_Identifers");
   var index = await id.get("index");
   if (!index) {
     index = [];
@@ -56,4 +53,15 @@ async function remove(message, guild, args) {
       //Log any errors that accors to console
       console.log(e);
     });
+}
+
+function loaddb(dbname) {
+  const Keyv = require("keyv");
+  const { dbs } = require("./config.json");
+  var dbhost = dbs.host;
+  var dbprefix = dbs.prefix;
+  var db = dbs[dbname];
+  return new Keyv(
+    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
+  );
 }
