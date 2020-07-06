@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { prefix, token, pmapikey } = require("./config.json");
+const { prefix, token } = require("./config.json");
 const Discord = require("discord.js");
 const Keyv = require("keyv");
 // create a new Discord client
