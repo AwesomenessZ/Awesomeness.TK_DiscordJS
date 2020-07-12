@@ -22,6 +22,7 @@ module.exports = {
 
 //Runs /online while saving the message ID and Channel ID to DB
 async function status(guild, message) {
+  return message.channel.send("Temporarily disabled");
   const Keyv = require("keyv");
   const apikey = new Keyv("sqlite://commands/db/apikeys.db");
   message.channel.startTyping();

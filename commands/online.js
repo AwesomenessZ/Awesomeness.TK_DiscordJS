@@ -7,6 +7,7 @@ module.exports = {
   guildOnly: true,
   //Code to be run Asyncrously when command is invoked
   async execute(message, args, displayColor) {
+    return message.channel.send("Temporarily disabled");
     const Keyv = require("keyv");
     //Loads the needed database
     const apikey = new Keyv("sqlite://commands/db/apikeys.db");
