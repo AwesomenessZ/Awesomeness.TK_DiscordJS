@@ -7,6 +7,7 @@ module.exports = {
   args: false,
   usage: "",
   async execute(message, args) {
+    return message.channel.send("Temporarily disabled");
     if (!message.member.hasPermission("ADMINISTRATOR"))
       return message.reply(
         "Sorry, you don't have permissions to use this! Only Administrators can assign an apikey!"
