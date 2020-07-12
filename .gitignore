@@ -106,3 +106,5 @@ dist
 #Stop leaking of tokens / other code
 config.json
 discordbot.js
+# No DBs on github!!
+*.db
