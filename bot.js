@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { prefix, token, dbs } = require("./config.json");
+const { prefix, token } = require("./config.json");
 const Discord = require("discord.js");
 const Keyv = require("keyv");
 // create a new Discord client
@@ -237,7 +237,7 @@ client.login(token);
 
 async function runstatus() {
   //Grabs the amount of status messages we need to update from the database
-  const id = loaddb("discordbot_Identifers");
+  const id = new Keyv("sqlite://commands/db/discordbot_Identifers.db");
   var index = await id.get("index");
   if (!index) {
     index = [];
@@ -253,9 +253,9 @@ async function runstatus() {
 //Code to run for status every 3 minutes
 async function grabstatus(i, index) {
   //Pull info from databases
-  const apikey = loaddb("discordbot");
-  const statusID = loaddb("discordbot_statusID");
-  const statusCH = loaddb("discordbot_statusCH");
+  const apikey = new Keyv("sqlite://commands/db/apikeys.db");
+  const statusID = new Keyv("sqlite://commands/db/discordbot_statusID.db");
+  const statusCH = new Keyv("sqlite://commands/db/discordbot_statusCH.db");
   //Selecting what data we want to be currently working with
   var guildSCH = await statusCH.get(index[i]);
   var guildSID = await statusID.get(index[i]);
@@ -332,14 +332,5 @@ async function grabstatus(i, index) {
 }
 
 async function checkreminders() {
-  const remindersdb = loaddb("reminders");
-}
-
-function loaddb(dbname) {
-  var dbhost = dbs.host;
-  var dbprefix = dbs.prefix;
-  var db = dbs[dbname];
-  return new Keyv(
-    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
-  );
+  const remindersdb = new Keyv("sqlite://commands/db/reminders.db");
 }

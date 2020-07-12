@@ -16,21 +16,11 @@ module.exports = {
         "Sorry, you don't have permissions to use this! Only Administrators can assign an apikey!"
       );
     //Load the settings from database
-    const apikey = loaddb("discordbot");
+    const Keyv = require("keyv");
+    const apikey = new Keyv("sqlite://commands/db/apikeys.db");
     //save the server id so we know where to apply these settings to
     var guild = message.guild.id;
     //Save settings to database
     apikey.set(guild, args[0]);
   }
 };
-
-function loaddb(dbname) {
-  const Keyv = require("keyv");
-  const { dbs } = require("./config.json");
-  var dbhost = dbs.host;
-  var dbprefix = dbs.prefix;
-  var db = dbs[dbname];
-  return new Keyv(
-    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
-  );
-}

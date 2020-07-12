@@ -7,8 +7,9 @@ module.exports = {
   guildOnly: true,
   //Code to be run Asyncrously when command is invoked
   async execute(message, args, displayColor) {
+    const Keyv = require("keyv");
     //Loads the needed database
-    const apikey = loaddb("discordbot");
+    const apikey = new Keyv("sqlite://commands/db/apikeys.db");
     //Start typing so that the user knows the bot is working
     message.channel.startTyping();
     //Find what server we are in so that we can load the correct config
@@ -78,14 +79,3 @@ module.exports = {
     }
   }
 };
-
-function loaddb(dbname) {
-  const Keyv = require("keyv");
-  const { dbs } = require("./config.json");
-  var dbhost = dbs.host;
-  var dbprefix = dbs.prefix;
-  var db = dbs[dbname];
-  return new Keyv(
-    `mysql://${db.user}:${db.pass}@${dbhost}/${dbprefix}${dbname}`
-  );
-}

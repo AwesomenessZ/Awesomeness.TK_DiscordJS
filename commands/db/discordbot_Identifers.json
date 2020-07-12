@@ -1,0 +1,6 @@
+{
+  "_id": { "$oid": "5debf3f832d5c0ecb76eb647" },
+  "key": "keyv:index",
+  "value": "{\"value\":[0,1,2,3],\"expires\":null}",
+  "expiresAt": null
+}
