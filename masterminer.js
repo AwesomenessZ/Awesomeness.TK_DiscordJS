@@ -1,19 +1,4 @@
-const Discord = require("discord.js");
-const Keyv = require("keyv");
-const { token } = require("./config.json");
-// create a new Discord client
-const client = new Discord.Client();
-// when the client (Discord Bot) is ready, run this code
-// this event will only trigger one time after logging in
-client.once("ready", () => {
-  console.log(`Discord Bot ${client.user.tag} has logged in successfully`);
-  console.log(`Bot presence on ${client.guilds.size} servers`);
-});
-//Bot Turning off
-client.once("disconnect", () => {
-  console.log(`Discord Bot ${client.user.tag} is now Offline!`);
-});
-//Event handling for every message sent that the bot can read
+//Master Miner Chat
 client.on("message", message => {
   //If receving from server
   if (message.channel.id == 477855444447264780) {
@@ -37,10 +22,6 @@ client.on("message", message => {
   sendmessage(message);
 });
 
-// login to Discord with our special token
-//This authorizes the bot with the discord api
-client.login(token);
-
 async function sendwebhook(username, avatar, msg) {
   const channel = client.channels.get("674748183074832405");
   try {
@@ -55,46 +36,29 @@ async function sendwebhook(username, avatar, msg) {
   }
 }
 
+//Sending to New Server
 async function sendtoservers(command) {
-  const curl = new (require("curl-request"))();
-  //Sending to New Server
-  await curl
+  const { curly } = require("node-libcurl");
+  const querystring = require("querystring");
+  await curly.post("https://edroid.me/projects/rcon++/beta/client.php", {
     //Curl post content to send
-    .setBody({
+    postFields: querystring.stringify({
       ip: "direct.awesomeness.tk",
       port: "19132",
       password: "OFpZT05GNg==",
       command: `${command}`
     })
-    //Sending the post request
-    .post("https://edroid.me/projects/rcon++/beta/client.php")
-    //Sending the output to console
-    .then(({ statusCode, body, headers }) => {
-      //console.log(statusCode, body, headers)
-    })
-    //Sending errors to console
-    .catch(e => {
-      console.log(e);
-    });
+  });
   //Sending to OLD PM
-  curl
+  await curly.post("https://edroid.me/projects/rcon++/beta/client.php", {
     //Curl post content to send
-    .setBody({
+    postFields: querystring.stringify({
       ip: "prisonminer.leet.cc",
       port: "56100",
       password: "OFpZT05GNg==",
       command: `${command}`
     })
-    //Sending the post request
-    .post("https://edroid.me/projects/rcon++/beta/client.php")
-    //Sending the output to console
-    .then(({ statusCode, body, headers }) => {
-      //console.log(statusCode, body, headers)
-    })
-    //Sending errors to console
-    .catch(e => {
-      console.log(e);
-    });
+  });
 }
 
 async function newlog(message) {
@@ -137,7 +101,7 @@ async function newlog(message) {
   var msg = args.join(" ");
   if (msg.includes("@here") || msg.includes("@everyone")) {
     sendtoservers(
-      `kick ${username} Trying to @\here or @\everyone on discord.`
+      `kick ${username} Trying to @\\here or @\\everyone on discord.`
     );
     sendtoservers(
       `message §6[§4ALERT§6] §e ${username} §b tryed to mass mention!`
