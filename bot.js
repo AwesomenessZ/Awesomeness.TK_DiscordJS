@@ -284,49 +284,39 @@ async function grabstatus(i, index) {
     if (guildSID) {
       //Only runs if we have everything we need
       //Going to make a curl request to an outside api
-      const curl = new (require("curl-request"))();
-      curl
-        .setHeaders([
-          "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36"
-        ])
-        .get(
-          `https://minecraftpocket-servers.com/api/?object=servers&element=detail&key=${guildapi}`
+      const { curly } = require("node-libcurl");
+      const { data } = await curly.get(
+        `https://minecraftpocket-servers.com/api/?object=servers&element=detail&key=${guildapi}`
+      );
+      //converting the output of the request into a form the code can work with easier
+      const json = data;
+      const jsn = JSON.parse(json);
+      //Changing the properties of the message that is being updated
+      const updated = new Discord.RichEmbed()
+        .setTimestamp(new Date())
+        .setColor(message.guild.me.displayColor)
+        .addField(
+          "Online players:",
+          `**__${jsn.players}/${jsn.maxplayers}__**`,
+          false
         )
-        .then(({ body }) => {
-          //converting the output of the request into a form the code can work with easier
-          const json = body;
-          const jsn = JSON.parse(json);
-          //Changing the properties of the message that is being updated
-          const updated = new Discord.RichEmbed()
-            .setTimestamp(new Date())
-            .setColor(message.guild.me.displayColor)
-            .addField(
-              "Online players:",
-              `**__${jsn.players}/${jsn.maxplayers}__**`,
-              false
-            )
-            .addField(
-              "Ranking:",
-              `With ${jsn.votes} votes it currently ranks #${jsn.rank}. Vote on [this website!](${jsn.url}vote)`,
-              false
-            )
-            .setURL(`${jsn.url}vote`)
-            .setTitle(`${jsn.name}'s status:`)
-            .setImage(
-              `https://minecraftpocket-servers.com/server/${jsn.id}/banner-${jsn.id}.gif`
-            )
-            .setThumbnail(message.guild.iconURL);
+        .addField(
+          "Ranking:",
+          `With ${jsn.votes} votes it currently ranks #${jsn.rank}. Vote on [this website!](${jsn.url}vote)`,
+          false
+        )
+        .setURL(`${jsn.url}vote`)
+        .setTitle(`${jsn.name}'s status:`)
+        .setImage(
+          `https://minecraftpocket-servers.com/server/${jsn.id}/banner-${jsn.id}.gif`
+        )
+        .setThumbnail(message.guild.iconURL);
 
-          //Sending the new updated message to replace the old message
-          message.edit(updated);
-          //Stopping the bot from displaying as typing so that users can see
-          //any potential changes have been made
-          message.channel.stopTyping(true);
-        })
-        .catch(e => {
-          //Any errors that may accor will be logged to console for debugging
-          console.log(e);
-        });
+      //Sending the new updated message to replace the old message
+      message.edit(updated);
+      //Stopping the bot from displaying as typing so that users can see
+      //any potential changes have been made
+      message.channel.stopTyping(true);
     }
   }
 }

@@ -7,7 +7,6 @@ module.exports = {
   usage: "<channel id>",
   //code to be executed
   async execute(message, args) {
-    return message.channel.send("Temporarily disabled");
     //Test if they have permission to run this command
     if (!message.member.hasPermission("ADMINISTRATOR")) {
       return message.reply(
