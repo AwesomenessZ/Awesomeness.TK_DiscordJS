@@ -126,57 +126,50 @@ module.exports = {
 };
 
 async function quiz(message, temp, displayColor) {
-  const curl = new (require("curl-request"))();
-  curl
-    .setHeaders([
-      "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36"
-    ])
-    //Requesting a speicifc url based on the config
-    //This will return with json that we can use for displaying infromation
-    .get(`https://quizizz.com/api/main/quiz/${temp}`)
-    .then(({ body }) => {
-      //Convert the result to somthing more useable
-      const json = body;
-      const jsn = JSON.parse(json);
-      if (jsn.data.quiz.info.image) {
-        var image = jsn.data.quiz.info.image;
-      } else
-        var image =
-          "https://cdn-images-1.medium.com/max/1200/1*4RLJWQJKZ4UwrYafUW7PRw.png";
-      var avg = Math.round(
-        (jsn.data.quiz.stats.totalCorrect /
-          jsn.data.quiz.stats.totalQuestions) *
-          100
-      );
+  const { curly } = require("node-libcurl");
+  //Requesting a speicifc url based on the config
+  //This will return with json that we can use for displaying infromation
+  const { data } = await curly.get(`https://quizizz.com/api/main/quiz/${temp}`);
+  //Convert the result to somthing more useable
+  const json = data;
+  const jsn = JSON.parse(json);
+  if (jsn.data.quiz.info.image) {
+    var image = jsn.data.quiz.info.image;
+  } else
+    var image =
+      "https://cdn-images-1.medium.com/max/1200/1*4RLJWQJKZ4UwrYafUW7PRw.png";
+  var avg = Math.round(
+    (jsn.data.quiz.stats.totalCorrect / jsn.data.quiz.stats.totalQuestions) *
+      100
+  );
 
-      message.channel.send({
-        embed: {
-          title: "Click for the Quizizz Answer key!",
-          url: `https://quizizz.com/admin/quiz/${temp}`,
-          color: displayColor,
-          timestamp: new Date(),
-          thumbnail: {
-            url: image
-          },
-          footer: {
-            text: `Requested by ${message.author.username}`,
-            icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-          },
-          fields: [
-            {
-              name: "Name:",
-              value: `*${jsn.data.quiz.info.name}*`
-            },
-            {
-              name: "Author:",
-              value: `*${jsn.data.quiz.createdBy.local.username}*`
-            },
-            {
-              name: "Acurracy:",
-              value: `*${jsn.data.quiz.stats.totalPlayers}* players scored an average of *${avg}%* with *${jsn.data.quiz.info.questions.length}* questions`
-            }
-          ]
+  message.channel.send({
+    embed: {
+      title: "Click for the Quizizz Answer key!",
+      url: `https://quizizz.com/admin/quiz/${temp}`,
+      color: displayColor,
+      timestamp: new Date(),
+      thumbnail: {
+        url: image
+      },
+      footer: {
+        text: `Requested by ${message.author.username}`,
+        icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+      },
+      fields: [
+        {
+          name: "Name:",
+          value: `*${jsn.data.quiz.info.name}*`
+        },
+        {
+          name: "Author:",
+          value: `*${jsn.data.quiz.createdBy.local.username}*`
+        },
+        {
+          name: "Acurracy:",
+          value: `*${jsn.data.quiz.stats.totalPlayers}* players scored an average of *${avg}%* with *${jsn.data.quiz.info.questions.length}* questions`
         }
-      });
-    });
+      ]
+    }
+  });
 }
