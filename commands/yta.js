@@ -303,7 +303,7 @@ module.exports = {
             {
               name: "Volume:",
               value:
-                "Specify the volume in %. The default is `30%` \nWARNING! This can be set as high as you can type! Only Administrators area allowed to set past 50%"
+                "Specify the volume in %. The default is `30%` \nWARNING! This can be set as high as you can type! Only Administrators are allowed to set past 50%"
             }
           ]
         }
