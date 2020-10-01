@@ -177,6 +177,31 @@ module.exports = {
       args[0] == "np" ||
       args[0] == "nowplaying"
     ) {
+      if (args[1] == "r" || args[1] == "remove") {
+        if (queues[message.guild.id][args[2]]) {
+          sendembed(
+            {
+              embed: {
+                color: displayColor,
+                title: `Removed #${args[2]}, ${
+                  queues[message.guild.id + "_names"][args[2]]
+                }`,
+                //sets the time of the request being made
+                timestamp: new Date(),
+                footer: {
+                  text: `Requested by ${message.author.username}`,
+                  icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                }
+              }
+            },
+            client,
+            message
+          );
+          queues[message.guild.id].splice(args[2], 1);
+          queues[message.guild.id + "_names"].splice(args[2], 1);
+          return;
+        } else return message.channel.send("There is nothing there!");
+      }
       if (queues[message.guild.id]) {
         if (queues[message.guild.id][0]) {
           sendqueue(message, queues, displayColor, client);
@@ -315,6 +340,10 @@ module.exports = {
             {
               name: "Queue / NowPlaying:",
               value: "Displays a list of whats to come"
+            },
+            {
+              name: "Queue Remove",
+              value: "Removes a speicifc item from the queue"
             },
             {
               name: "Stop:",
