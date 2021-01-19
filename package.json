@@ -4,23 +4,23 @@
   "description": "A bot for Awesomeness.TK!",
   "main": "bot.js",
   "dependencies": {
-    "@discordjs/opus": "^0.3.2",
+    "@discordjs/opus": "^0.3.3",
     "@keyv/sqlite": "^2.0.2",
-    "bufferutil": "^4.0.1",
+    "bufferutil": "^4.0.3",
     "curl": "^0.1.4",
     "discord.js": "^11.5.1",
     "erlpack": "^0.1.0",
     "ffmpeg": "0.0.4",
     "ffmpeg-static": "^4.2.7",
     "figlet": "^1.4.0",
-    "keyv": "^4.0.1",
-    "node-libcurl": "^2.2.0",
+    "keyv": "^4.0.3",
+    "node-libcurl": "^2.3.0",
     "querystring": "^0.2.0",
     "simple-youtube-api": "^5.2.1",
     "ytdl-core": "^2.1.7"
   },
   "devDependencies": {
-    "eslint": "^7.7.0"
+    "eslint": "^7.18.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
