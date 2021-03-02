@@ -18,7 +18,7 @@ module.exports = {
     if (args[0] == "play" || args[0] == "p") {
       if (!args[1]) {
         if (message.member.voiceChannel) {
-          if (message.member.voiceChannel.members.has("549328310442917921")) {
+          if (message.member.voiceChannel.members.has(client.user.id)) {
             if (dispatchers[message.guild.id]) {
               dispatchers[message.guild.id].resume();
               sendembed(
@@ -160,7 +160,7 @@ module.exports = {
     } //End of stop
     if (args[0] == "skip" || args[0] == "s") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           dispatchers[message.guild.id].end();
           sendqueue(message, queues, displayColor, client);
         } else {
@@ -211,7 +211,7 @@ module.exports = {
     } // End of queue
     if (args[0] == "v" || args[0] == "volume") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           var temp = args[1] / 100;
           if (temp >= 0) {
             if (message.member.hasPermission("ADMINISTRATOR")) {
@@ -248,7 +248,7 @@ module.exports = {
     } //End of volume
     if (args[0] == "pause") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           dispatchers[message.guild.id].pause();
           sendembed(
             {
@@ -276,7 +276,7 @@ module.exports = {
     } //End of pause
     if (args[0] == "resume" || args[0] == "r") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           if (dispatchers[message.guild.id]) {
             dispatchers[message.guild.id].resume();
             sendembed(
@@ -427,7 +427,7 @@ async function stream(
   parms.volume = ".1";
   parms.bitrate = "auto";
   var dispatcher = connection[message.guild.id].playFile(
-    "/home/isaac/discord_bot/join.mp3"
+    "commands/assets/join.mp3"
   );
   await new Promise(resolve => setTimeout(resolve, 1500));
   dispatcher = connection[message.guild.id].playStream(stream, parms);
