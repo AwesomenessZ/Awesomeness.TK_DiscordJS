@@ -5,6 +5,7 @@ module.exports = {
   usage:
     "request (3 letter id from https://www.weather.gov/ EX: okx (New York City))",
   guildOnly: true,
+  aliases: ["w", "wa"],
   //code to be executed
   async execute(message, args, displayColor, client) {
     const Keyv = require("keyv");

@@ -4,6 +4,7 @@ module.exports = {
   description: "Removes the status message from the specified channel",
   guildOnly: true,
   args: true,
+  aliases: ["rmstatus"],
   usage: "<channel id>",
   //code to be executed
   async execute(message, args) {

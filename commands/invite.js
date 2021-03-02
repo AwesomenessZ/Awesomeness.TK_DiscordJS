@@ -4,7 +4,7 @@ module.exports = {
   description:
     "Gives you the invite to add this bot to your own discord servers!",
   cooldown: 5,
-  aliases: [],
+  aliases: ["addme"],
   //Code to be executed
   execute(message, args, displayColor) {
     //sends the users the invite url for the bot, so that it may be added to their own servers

@@ -1,7 +1,7 @@
 module.exports = {
   //Defines properties of the command
   name: "online",
-  aliases: ["who", "server", "on"],
+  aliases: ["who", "server", "on", "current"],
   description:
     "Check statistics for your minecraft bedrock server (Will only update every 3 minutes)",
   guildOnly: true,

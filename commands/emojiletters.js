@@ -3,7 +3,7 @@ module.exports = {
   name: "emojiletters",
   description: "Send your message but in emojis!",
   args: true,
-  aliases: ["emoji", "emojify"],
+  aliases: ["emoji", "emojify", "regional", "emojitext"],
   usage: "<message>",
   //code to be executed
   execute(message, args, displayColor) {

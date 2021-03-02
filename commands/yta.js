@@ -3,7 +3,7 @@ module.exports = {
   name: "yta",
   description: "Plays Audio from youtube videos!",
   args: true,
-  aliases: ["youtube", "play", "y"],
+  aliases: ["youtube", "play", "y", "p"],
   usage: "play <url>/<search> | stop | skip | queue | pause | resume | volume",
   //code to be executed
   execute(
