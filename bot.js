@@ -399,7 +399,7 @@ async function newlog(message) {
 }
 
 async function discordlinking(args, guild) {
-  const links = new Keyv("mongodb://localhost:27017/mmchat");
+  const links = new Keyv("sqlite://commands/db/mmchat.db");
   var discordname = args[4].replace(/&/g, " ");
   var mcname = args[2];
   console.log(mcname + " " + discordname);
@@ -437,7 +437,7 @@ async function discordlinking(args, guild) {
 }
 
 async function minecraftfind(id) {
-  const links = new Keyv("mongodb://localhost:27017/mmchat");
+  const links = new Keyv("sqlite://commands/db/mmchat.db");
   var username = await links.get(id);
   if (username) {
     return username;
@@ -446,7 +446,7 @@ async function minecraftfind(id) {
 }
 
 async function discordfind(username) {
-  const links = new Keyv("mongodb://localhost:27017/mmchat");
+  const links = new Keyv("sqlite://commands/db/mmchat.db");
   var id = await links.get(username);
   if (id) {
     return id;
