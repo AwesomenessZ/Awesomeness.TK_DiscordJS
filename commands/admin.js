@@ -1,7 +1,7 @@
 module.exports = {
   //Defines properties
-  name: "admin",
-  description: "Shhhhhhhhhhh!",
+  name: "dev",
+  description: "Only bot developer may use this command!",
   guildOnly: "true",
   //code to be executed
   async execute(
