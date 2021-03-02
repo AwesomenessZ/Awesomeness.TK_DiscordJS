@@ -23,7 +23,7 @@
     "eslint": "^7.21.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compress": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "AwesomenessZ",
   "license": "ISC"
