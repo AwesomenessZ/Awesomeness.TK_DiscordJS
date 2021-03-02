@@ -2,8 +2,24 @@ module.exports = {
   //Defines properties
   name: "yta",
   description: "Plays Audio from youtube videos!",
-  args: true,
-  aliases: ["youtube", "play", "y", "p"],
+  args: false,
+  aliases: [
+    "youtube",
+    "play",
+    "y",
+    "p",
+    "stop",
+    "s",
+    "skip",
+    "q",
+    "np",
+    "queue",
+    "v",
+    "volume",
+    "pause",
+    "r",
+    "remove"
+  ],
   usage: "play <url>/<search> | stop | skip | queue | pause | resume | volume",
   //code to be executed
   execute(
@@ -15,6 +31,11 @@ module.exports = {
     connection,
     dispatchers
   ) {
+    sliced = message.content.split(" ");
+    var sliced = sliced[0].slice(1);
+    if (sliced != "youtube" && sliced != "yta" && sliced != "y") {
+      args.unshift(sliced);
+    }
     if (args[0] == "play" || args[0] == "p") {
       if (!args[1]) {
         if (message.member.voiceChannel) {
