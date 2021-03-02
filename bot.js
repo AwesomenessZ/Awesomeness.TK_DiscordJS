@@ -161,6 +161,8 @@ client.on("message", message => {
     message.reply(
       "there was an error trying to execute that command! Please contact AwesomenessZ#3945"
     );
+    var loadchannel = client.channels.get("627880075140005908");
+    loadchannel.send(error);
   }
 });
 // login to Discord with our special token
