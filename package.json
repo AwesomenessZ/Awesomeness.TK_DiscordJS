@@ -15,12 +15,12 @@
     "figlet": "^1.4.0",
     "keyv": "^4.0.3",
     "node-libcurl": "^2.3.0",
-    "querystring": "^0.2.0",
+    "querystring": "^0.2.1",
     "simple-youtube-api": "^5.2.1",
-    "ytdl-core": "^2.1.7"
+    "ytdl-core": "^4.5.0"
   },
   "devDependencies": {
-    "eslint": "^7.18.0"
+    "eslint": "^7.21.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
