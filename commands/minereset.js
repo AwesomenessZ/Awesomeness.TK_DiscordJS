@@ -36,7 +36,8 @@ module.exports = {
       )
     ) {
       //If they have one of the roles, send a curl request to a rcon api to run the command 'cmd run resetmines' on the specifed server
-      const curl = new (require("curl-request"))();
+      const { curly } = require("node-libcurl");
+      const querystring = require("querystring");
       message.channel.send({
         embed: {
           color: displayColor,
@@ -47,24 +48,14 @@ module.exports = {
           }
         }
       });
-      curl
-        //Curl post content to send
-        .setBody({
+      curly.post("https://edroid.me/projects/rcon++/beta/client.php", {
+        postFields: querystring.stringify({
           ip: "prisonminer.leet.cc",
           port: "56100",
           password: "WUIwT0o4",
           command: "cmd run resetmines"
         })
-        //Sending the post request
-        .post("https://edroid.me/projects/rcon++/beta/client.php")
-        //Sending the output to console
-        .then(({ statusCode, body, headers }) => {
-          console.log(statusCode, body, headers);
-        })
-        //Sending errors to console
-        .catch(e => {
-          console.log(e);
-        });
+      });
     } else {
       //Dosent have one of the roles needed to run the command
       message.channel.send({

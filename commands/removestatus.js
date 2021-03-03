@@ -4,6 +4,7 @@ module.exports = {
   description: "Removes the status message from the specified channel",
   guildOnly: true,
   args: true,
+  aliases: ["rmstatus"],
   usage: "<channel id>",
   //code to be executed
   async execute(message, args) {
@@ -24,10 +25,8 @@ module.exports = {
 
 async function remove(message, guild, args) {
   const Keyv = require("keyv");
-  const statusCH = await new Keyv(
-    "mongodb://localhost:27017/discordbot_statusCH"
-  );
-  const id = new Keyv("mongodb://localhost:27017/discordbot_Identifers");
+  const statusCH = new Keyv("sqlite://commands/db/discordbot_statusCH.db");
+  const id = new Keyv("sqlite://commands/db/discordbot_Identifers.db");
   var index = await id.get("index");
   if (!index) {
     index = [];

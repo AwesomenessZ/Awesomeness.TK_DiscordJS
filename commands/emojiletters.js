@@ -3,12 +3,11 @@ module.exports = {
   name: "emojiletters",
   description: "Send your message but in emojis!",
   args: true,
-  aliases: ["emoji", "emojify"],
+  aliases: ["emoji", "emojify", "regional", "emojitext"],
   usage: "<message>",
   //code to be executed
   execute(message, args, displayColor) {
     var msg = args.join(" ");
-    var og = msg;
     msg = msg.toLowerCase();
     msg = msg.split("");
     var i;
@@ -18,6 +17,7 @@ module.exports = {
       }
     }
     msg = msg.join("");
+    message.channel.send(msg);
     message.channel.send({
       embed: {
         color: displayColor,
@@ -25,17 +25,7 @@ module.exports = {
         footer: {
           text: `Requested by ${message.author.username}`,
           icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-        },
-        fields: [
-          {
-            name: "Original Message:",
-            value: og
-          },
-          {
-            name: "Converted Message:",
-            value: msg
-          }
-        ]
+        }
       }
     });
   }

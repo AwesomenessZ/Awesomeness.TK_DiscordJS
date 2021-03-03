@@ -2,8 +2,24 @@ module.exports = {
   //Defines properties
   name: "yta",
   description: "Plays Audio from youtube videos!",
-  args: true,
-  aliases: ["youtube", "play", "y"],
+  args: false,
+  aliases: [
+    "youtube",
+    "play",
+    "y",
+    "p",
+    "stop",
+    "s",
+    "skip",
+    "q",
+    "np",
+    "queue",
+    "v",
+    "volume",
+    "pause",
+    "r",
+    "remove"
+  ],
   usage: "play <url>/<search> | stop | skip | queue | pause | resume | volume",
   //code to be executed
   execute(
@@ -15,24 +31,33 @@ module.exports = {
     connection,
     dispatchers
   ) {
+    sliced = message.content.split(" ");
+    var sliced = sliced[0].slice(1);
+    if (sliced != "youtube" && sliced != "yta" && sliced != "y") {
+      args.unshift(sliced);
+    }
     if (args[0] == "play" || args[0] == "p") {
       if (!args[1]) {
         if (message.member.voiceChannel) {
-          if (message.member.voiceChannel.members.has("549328310442917921")) {
+          if (message.member.voiceChannel.members.has(client.user.id)) {
             if (dispatchers[message.guild.id]) {
               dispatchers[message.guild.id].resume();
-              message.channel.send({
-                embed: {
-                  color: displayColor,
-                  title: `${message.guild.name}'s Music has been resumed!'`,
-                  //sets the time of the request being made
-                  timestamp: new Date(),
-                  footer: {
-                    text: `Requested by ${message.author.username}`,
-                    icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+              sendembed(
+                {
+                  embed: {
+                    color: displayColor,
+                    title: `${message.guild.name}'s Music has been resumed!'`,
+                    //sets the time of the request being made
+                    timestamp: new Date(),
+                    footer: {
+                      text: `Requested by ${message.author.username}`,
+                      icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                    }
                   }
-                }
-              });
+                },
+                client,
+                message
+              );
             } else {
               message.reply("Usage: /yta p <url> or /yta p <search query>");
             }
@@ -67,25 +92,29 @@ module.exports = {
                 dispatchers,
                 video
               );
-              message.channel.send({
-                embed: {
-                  color: displayColor,
-                  url: `https://youtube.com/watch?v=${video.id}`,
-                  //sets the time of the request being made
-                  timestamp: new Date(),
-                  title: `Added to Queue in ${vc.name}:`,
-                  footer: {
-                    text: `Requested by ${message.author.username}`,
-                    icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-                  },
-                  fields: [
-                    {
-                      name: video.title,
-                      value: video.description.substring(0, 50) + "..."
-                    }
-                  ]
-                }
-              });
+              sendembed(
+                {
+                  embed: {
+                    color: displayColor,
+                    url: `https://youtube.com/watch?v=${video.id}`,
+                    //sets the time of the request being made
+                    timestamp: new Date(),
+                    title: `Added to Queue in ${vc.name}:`,
+                    footer: {
+                      text: `Requested by ${message.author.username}`,
+                      icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                    },
+                    fields: [
+                      {
+                        name: video.title,
+                        value: video.description.substring(0, 50) + "..."
+                      }
+                    ]
+                  }
+                },
+                client,
+                message
+              );
             })
             .catch(console.log);
         } // End of direct Link
@@ -96,25 +125,29 @@ module.exports = {
           youtube
             .searchVideos(search, 2)
             .then(results => {
-              message.channel.send({
-                embed: {
-                  color: displayColor,
-                  url: `https://youtube.com/watch?v=${results[0].id}`,
-                  //sets the time of the request being made
-                  timestamp: new Date(),
-                  title: `Added to Queue in ${vc.name}:`,
-                  footer: {
-                    text: `Requested by ${message.author.username}`,
-                    icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-                  },
-                  fields: [
-                    {
-                      name: results[0].title,
-                      value: results[0].description.substring(0, 50) + "..."
-                    }
-                  ]
-                }
-              });
+              sendembed(
+                {
+                  embed: {
+                    color: displayColor,
+                    url: `https://youtube.com/watch?v=${results[0].id}`,
+                    //sets the time of the request being made
+                    timestamp: new Date(),
+                    title: `Added to Queue in ${vc.name}:`,
+                    footer: {
+                      text: `Requested by ${message.author.username}`,
+                      icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                    },
+                    fields: [
+                      {
+                        name: results[0].title,
+                        value: results[0].description.substring(0, 50) + "..."
+                      }
+                    ]
+                  }
+                },
+                client,
+                message
+              );
               link = `https://youtube.com/watch?v=${results[0].id}`;
               play(
                 message,
@@ -148,9 +181,9 @@ module.exports = {
     } //End of stop
     if (args[0] == "skip" || args[0] == "s") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           dispatchers[message.guild.id].end();
-          sendqueue(message, queues, displayColor);
+          sendqueue(message, queues, displayColor, client);
         } else {
           message.channel.send("I'm not in a voice channel with you!");
         }
@@ -165,21 +198,46 @@ module.exports = {
       args[0] == "np" ||
       args[0] == "nowplaying"
     ) {
+      if (args[1] == "r" || args[1] == "remove") {
+        if (queues[message.guild.id][args[2]]) {
+          sendembed(
+            {
+              embed: {
+                color: displayColor,
+                title: `Removed #${args[2]}, ${
+                  queues[message.guild.id + "_names"][args[2]]
+                }`,
+                //sets the time of the request being made
+                timestamp: new Date(),
+                footer: {
+                  text: `Requested by ${message.author.username}`,
+                  icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                }
+              }
+            },
+            client,
+            message
+          );
+          queues[message.guild.id].splice(args[2], 1);
+          queues[message.guild.id + "_names"].splice(args[2], 1);
+          return;
+        } else return message.channel.send("There is nothing there!");
+      }
       if (queues[message.guild.id]) {
         if (queues[message.guild.id][0]) {
-          sendqueue(message, queues, displayColor);
+          sendqueue(message, queues, displayColor, client);
         } else message.reply("There is no active queue!");
       } else message.reply("There is no active queue!");
       return;
     } // End of queue
     if (args[0] == "v" || args[0] == "volume") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           var temp = args[1] / 100;
           if (temp >= 0) {
             if (message.member.hasPermission("ADMINISTRATOR")) {
               dispatchers[message.guild.id].setVolumeLogarithmic(args[1] / 100);
-              sendvolume(args[1] / 100, message, displayColor);
+              sendvolume(args[1] / 100, message, displayColor, client);
               queues[message.guild.id + "_v"] = args[1] / 100;
             } else {
               if (temp > 0.5) {
@@ -187,13 +245,13 @@ module.exports = {
                 message.reply(
                   "You are not an administrator! You are limited to setting the volume up to 50%!"
                 );
-                sendvolume(0.5, message);
+                sendvolume(0.5, message, displayColor, client);
                 queues[message.guild.id + "_v"] = 0.5;
               } else {
                 dispatchers[message.guild.id].setVolumeLogarithmic(
                   args[1] / 100
                 );
-                sendvolume(args[1] / 100, message, displayColor);
+                sendvolume(args[1] / 100, message, displayColor, client);
                 queues[message.guild.id + "_v"] = args[1] / 100;
               }
             }
@@ -211,20 +269,24 @@ module.exports = {
     } //End of volume
     if (args[0] == "pause") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           dispatchers[message.guild.id].pause();
-          message.channel.send({
-            embed: {
-              color: displayColor,
-              title: `${message.guild.name}'s Music has been paused!'`,
-              //sets the time of the request being made
-              timestamp: new Date(),
-              footer: {
-                text: `Requested by ${message.author.username}`,
-                icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+          sendembed(
+            {
+              embed: {
+                color: displayColor,
+                title: `${message.guild.name}'s Music has been paused!'`,
+                //sets the time of the request being made
+                timestamp: new Date(),
+                footer: {
+                  text: `Requested by ${message.author.username}`,
+                  icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                }
               }
-            }
-          });
+            },
+            client,
+            message
+          );
         } else {
           message.reply("I'm not in a voice channel with you!");
         }
@@ -235,21 +297,25 @@ module.exports = {
     } //End of pause
     if (args[0] == "resume" || args[0] == "r") {
       if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has("549328310442917921")) {
+        if (message.member.voiceChannel.members.has(client.user.id)) {
           if (dispatchers[message.guild.id]) {
             dispatchers[message.guild.id].resume();
-            message.channel.send({
-              embed: {
-                color: displayColor,
-                title: `${message.guild.name}'s Music has been resumed!'`,
-                //sets the time of the request being made
-                timestamp: new Date(),
-                footer: {
-                  text: `Requested by ${message.author.username}`,
-                  icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+            sendembed(
+              {
+                embed: {
+                  color: displayColor,
+                  title: `${message.guild.name}'s Music has been resumed!'`,
+                  //sets the time of the request being made
+                  timestamp: new Date(),
+                  footer: {
+                    text: `Requested by ${message.author.username}`,
+                    icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                  }
                 }
-              }
-            });
+              },
+              client,
+              message
+            );
           } else {
             message.reply("There is nothing to resume!");
           }
@@ -295,6 +361,10 @@ module.exports = {
             {
               name: "Queue / NowPlaying:",
               value: "Displays a list of whats to come"
+            },
+            {
+              name: "Queue Remove",
+              value: "Removes a speicifc item from the queue"
             },
             {
               name: "Stop:",
@@ -378,7 +448,7 @@ async function stream(
   parms.volume = ".1";
   parms.bitrate = "auto";
   var dispatcher = connection[message.guild.id].playFile(
-    "/home/isaac/discord_bot/join.mp3"
+    "commands/assets/join.mp3"
   );
   await new Promise(resolve => setTimeout(resolve, 1500));
   dispatcher = connection[message.guild.id].playStream(stream, parms);
@@ -411,7 +481,7 @@ async function next(
   }
 }
 
-async function sendqueue(message, queues, displayColor) {
+async function sendqueue(message, queues, displayColor, client) {
   var meta = titleformat(queues, message);
   var list;
   var playing = meta[0];
@@ -427,30 +497,33 @@ async function sendqueue(message, queues, displayColor) {
   } else {
     list = "*None*";
   }
-
-  message.channel.send({
-    embed: {
-      color: displayColor,
-      title: `Queue for ${message.guild.name}`,
-      url: queues[message.guild.id][0],
-      //sets the time of the request being made
-      timestamp: new Date(),
-      footer: {
-        text: `Requested by ${message.author.username}`,
-        icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-      },
-      fields: [
-        {
-          name: "Now Playing:",
-          value: playing
+  sendembed(
+    {
+      embed: {
+        color: displayColor,
+        title: `Queue for ${message.guild.name}`,
+        url: queues[message.guild.id][0],
+        //sets the time of the request being made
+        timestamp: new Date(),
+        footer: {
+          text: `Requested by ${message.author.username}`,
+          icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
         },
-        {
-          name: "Up comming:",
-          value: list
-        }
-      ]
-    }
-  });
+        fields: [
+          {
+            name: "Now Playing:",
+            value: playing
+          },
+          {
+            name: "Up comming:",
+            value: list
+          }
+        ]
+      }
+    },
+    client,
+    message
+  );
 }
 
 function titleformat(queues, message) {
@@ -461,24 +534,34 @@ function titleformat(queues, message) {
   return temp;
 }
 
-function sendvolume(volume, message, displayColor) {
-  message.channel.send({
-    embed: {
-      color: displayColor,
-      //sets the time of the request being made
-      timestamp: new Date(),
-      footer: {
-        text: `Requested by ${message.author.username}`,
-        icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-      },
-      fields: [
-        {
-          name: "New Volume set:",
-          //Takes the current time subtracted by the time the users message was sent
-          //Giving us the ping!
-          value: volume * 100 + "%"
-        }
-      ]
-    }
-  });
+function sendvolume(volume, message, displayColor, client) {
+  sendembed(
+    {
+      embed: {
+        color: displayColor,
+        //sets the time of the request being made
+        timestamp: new Date(),
+        footer: {
+          text: `Requested by ${message.author.username}`,
+          icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+        },
+        fields: [
+          {
+            name: "New Volume set:",
+            //Takes the current time subtracted by the time the users message was sent
+            //Giving us the ping!
+            value: volume * 100 + "%"
+          }
+        ]
+      }
+    },
+    client,
+    message
+  );
+}
+
+function sendembed(embed, client, message) {
+  message.channel.send(embed);
+  var loadchannel = client.channels.get("761256808102756402");
+  loadchannel.send(embed);
 }

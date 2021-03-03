@@ -5,10 +5,11 @@ module.exports = {
   usage:
     "request (3 letter id from https://www.weather.gov/ EX: okx (New York City))",
   guildOnly: true,
+  aliases: ["w", "wa"],
   //code to be executed
   async execute(message, args, displayColor, client) {
     const Keyv = require("keyv");
-    const db = new Keyv("mongodb://localhost:27017/weather");
+    const db = new Keyv("sqlite://commands/db/weather.db");
     switch (args[0]) {
       case "set":
         var temp = args[1].toLowerCase();

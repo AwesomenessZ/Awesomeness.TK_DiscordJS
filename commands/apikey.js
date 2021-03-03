@@ -2,7 +2,7 @@ module.exports = {
   //Defines properties of the command
   name: "apikey",
   description:
-    "Sets the apikey for your bedrock minecraft server! Only one apikey can be assigned per discord server to make sure only servers that the discord owner approves are shown. Grab your Api key from https://minecraftpocket-servers.com/help/api/",
+    "Sets the apikey for your bedrock minecraft server! Only one apikey can be assigned per discord server to make sure only servers that the discord owner approves are shown. Grab your Api key from https://minecraftpocket-servers.com/servers/manage/",
   aliases: ["setminecraft", "key", "api"],
   guildOnly: true,
   args: true,
@@ -17,10 +17,11 @@ module.exports = {
       );
     //Load the settings from database
     const Keyv = require("keyv");
-    const apikey = new Keyv("mongodb://localhost:27017/discordbot");
+    const apikey = new Keyv("sqlite://commands/db/apikeys.db");
     //save the server id so we know where to apply these settings to
     var guild = message.guild.id;
     //Save settings to database
     apikey.set(guild, args[0]);
+    message.reply("Apikey set!");
   }
 };

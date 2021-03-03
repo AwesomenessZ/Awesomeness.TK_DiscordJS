@@ -5,7 +5,7 @@ module.exports = {
   name: "help",
   description:
     "List all of the commands of this bot or lists infromation about the specified command.",
-  aliases: ["commands", "h", "halp"],
+  aliases: ["commands", "h", "halp", "support"],
   usage: "[command name]",
   cooldown: 5,
   //Code to execute
@@ -22,10 +22,9 @@ module.exports = {
           color: displayColor,
           timestamp: new Date(),
           title: `Awesomeness.TK Help`,
-          url: `https://awesomeenss.tk`,
+          url: `https://awesomeness.tk/discord`,
           thumbnail: {
-            url:
-              "https://cdn.discordapp.com/avatars/549328310442917921/e0712ca74407eb5ff6883642fada62a0.png?size=128"
+            url: "https://images.awesomeness.tk/images/YS8.gif"
           },
           description: `You can see help for indivudal commands by running /help (Command Name)`,
           footer: {
