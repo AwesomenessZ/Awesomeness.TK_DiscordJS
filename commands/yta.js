@@ -75,10 +75,7 @@ module.exports = {
         var vc = message.member.voiceChannel;
         const YouTube = require("simple-youtube-api");
         const youtube = new YouTube("AIzaSyAWRX5cdyVUJUfeAeDPhYbM8sUPbLR7EVA");
-        if (
-          args[1].startsWith("https://youtube.com/watch?v") ||
-          args[1].startsWith("https://www.youtube.com/watch?v")
-        ) {
+        if (validateYouTubeUrl(args)) {
           youtube
             .getVideo(link)
             .then(video => {
@@ -564,4 +561,17 @@ function sendembed(embed, client, message) {
   message.channel.send(embed);
   var loadchannel = client.channels.get("761256808102756402");
   loadchannel.send(embed);
+}
+
+function validateYouTubeUrl(args) {
+  var url = args[1];
+  if (url != undefined || url != "") {
+    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match && match[2].length == 11) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
