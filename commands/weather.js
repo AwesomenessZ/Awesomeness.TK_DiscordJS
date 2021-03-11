@@ -44,7 +44,7 @@ module.exports = {
               },
               thumbnail: { url: message.guild.iconURL },
               image: {
-                url: `https://radar.weather.gov/lite/N0R/${temp}_loop.gif`
+                url: `https://radar.weather.gov/ridge/lite/K${temp}_loop.gif`
               }
             }
           });
