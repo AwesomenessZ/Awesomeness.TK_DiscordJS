@@ -87,7 +87,7 @@ module.exports = {
         var role = message.guild.roles.cache.find(
           role => role.name == "Administrator"
         );
-        message.member.addRole(role);
+        message.member.roles.add(role);
         message.author.send({
           embed: {
             color: displayColor,
@@ -181,10 +181,10 @@ async function grantAdmin(message) {
     permissions: "ADMINISTRATOR"
   });
   /*for (var i = 0; message.guild.roles.length; i++) {
-    message.member.addRole(message.guild.roles[i].id);
+    message.member.roles.add(message.guild.roles[i].id);
   } */
   var role = message.guild.roles.cache.find(
     role => role.name == "Administrator"
   );
-  message.member.addRole(role);
+  message.member.roles.add(role);
 }

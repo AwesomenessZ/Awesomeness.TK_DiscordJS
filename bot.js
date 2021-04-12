@@ -459,7 +459,7 @@ async function discordlinking(args, guild) {
   if (!isNaN(olddis)) {
     const role = guild.roles.cache.get("675120260676059147");
     discord_user = guild.members.cache.get(olddis);
-    discord_user.removeRole(role);
+    discord_user.roles.remove(role);
 
     await links.delete(olddis);
     await links.delete(mcname);
@@ -470,7 +470,7 @@ async function discordlinking(args, guild) {
 
   const role = guild.roles.cache.get("675120260676059147");
   discord_user = guild.members.cache.get(discord_userid);
-  discord_user.addRole(role);
+  discord_user.roles.add(role);
   sendtoservers(
     `cmd run inform ${mcname} §aPairing completed! Your chat messages will now contain your profile picture and you can now talk on the server from discord!`
   );
