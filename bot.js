@@ -266,6 +266,8 @@ async function grabstatus(i, index) {
 }
 
 async function removeStatus(identifier) {
+  return;
+  //To be fixed after v12 upgrade
   const Keyv = require("keyv");
   const id = new Keyv("sqlite://commands/db/discordbot_Identifers.db");
   var index = await id.get("index");
