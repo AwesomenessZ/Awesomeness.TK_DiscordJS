@@ -179,7 +179,7 @@ module.exports = {
     if (args[0] == "skip" || args[0] == "s") {
       if (message.member.voiceChannel) {
         if (message.member.voiceChannel.members.has(client.user.id)) {
-          dispatchers[message.guild.id].end();
+          dispatchers[message.guild.id].destroy();
           sendqueue(message, queues, displayColor, client);
         } else {
           message.channel.send("I'm not in a voice channel with you!");
@@ -444,16 +444,16 @@ async function stream(
   var parms = new Object();
   parms.volume = ".1";
   parms.bitrate = "auto";
-  var dispatcher = connection[message.guild.id].playFile(
+  var dispatcher = connection[message.guild.id].play(
     "commands/assets/join.mp3"
   );
   await new Promise(resolve => setTimeout(resolve, 1500));
-  dispatcher = connection[message.guild.id].playStream(stream, parms);
+  dispatcher = connection[message.guild.id].play(stream, parms);
   dispatchers[message.guild.id] = dispatcher;
   if (queues[message.guild.id + "_v"]) {
     dispatcher.setVolumeLogarithmic(queues[message.guild.id + "_v"]);
   }
-  dispatcher.on("end", () => {
+  dispatcher.on("finish", () => {
     next(message, connection, vc, link, displayColor, queues, dispatchers);
   });
 }
