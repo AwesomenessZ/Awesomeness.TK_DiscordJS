@@ -26,7 +26,7 @@ module.exports = {
                 text: `Requested by ${message.author.username}`,
                 icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
               },
-              image: { url: message.guild.iconURL }
+              image: { url: message.guild.iconURL() }
             }
           });
 
@@ -42,7 +42,7 @@ module.exports = {
                 text: `Requested by ${message.author.username}`,
                 icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
               },
-              thumbnail: { url: message.guild.iconURL },
+              thumbnail: { url: message.guild.iconURL() },
               image: {
                 url: `https://radar.weather.gov/ridge/lite/K${temp}_loop.gif`
               }

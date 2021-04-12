@@ -1,4 +1,4 @@
-module.exports = {
+.iconURL()module.exports = {
   //Defines properties
   name: "dev",
   description: "Only bot developer may use this command!",
@@ -19,7 +19,7 @@ module.exports = {
         var user = args[2];
         var gname = args[1].replace("_", " ");
         var guild = client.guilds.cache.find(user => user.username == gname);
-        guild.unban(user);
+        guild.members.unban(user);
         var unbanchan = guild.channels
           .filter(c => c.type == "text")
           .cache.find(x => x.position == 0);
@@ -28,7 +28,7 @@ module.exports = {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
-            thumbnail: guild.iconURL,
+            thumbnail: guild.iconURL(),
             footer: {
               text: `Requested by ADMINISTRATOR`,
               icon_url: `http://www.newdesignfile.com/postpic/2015/01/administrator-admin-icon_85347.png`

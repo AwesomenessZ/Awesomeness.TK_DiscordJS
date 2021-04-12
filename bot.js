@@ -254,7 +254,7 @@ async function grabstatus(i, index) {
         .setImage(
           `https://minecraftpocket-servers.com/server/${jsn.id}/banner-${jsn.id}.gif`
         )
-        .setThumbnail(message.guild.iconURL);
+        .setThumbnail(message.guild.iconURL());
 
       //Sending the new updated message to replace the old message
       message.edit(updated);
@@ -524,11 +524,11 @@ async function findavatar(message, username) {
   var avatar =
     "https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png";
   if (client.users.cache.get("displayName", username) != undefined) {
-    avatar = client.users.cache.get("displayName", username).user.avatarURL;
+    avatar = client.users.cache.get("displayName", username).user.avatarURL();
   }
   var id = await discordfind(username);
   if (id > 1000) {
-    avatar = client.users.cache.get(id).avatarURL;
+    avatar = client.users.cache.get(id).avatarURL();
   }
   return avatar;
 }
@@ -555,7 +555,7 @@ function success(mcname, discord_user) {
         title: `Pairing Success!`,
         footer: {
           text: `Requested by ${discord_user.displayName}`,
-          icon_url: discord_user.user.avatarURL
+          icon_url: discord_user.user.avatarURL()
         },
         fields: [
           {
