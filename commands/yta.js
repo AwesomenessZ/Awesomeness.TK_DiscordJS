@@ -559,7 +559,7 @@ function sendvolume(volume, message, displayColor, client) {
 
 function sendembed(embed, client, message) {
   message.channel.send(embed);
-  var loadchannel = client.channels.get("761256808102756402");
+  var loadchannel = client.channels.cache.get("761256808102756402");
   loadchannel.send(embed);
 }
 

@@ -3,7 +3,7 @@ const { prefix, token } = require("./config.json");
 const Discord = require("discord.js");
 const Keyv = require("keyv");
 // create a new Discord client
-const client = new Discord.Client();
+const client = new Discord.Client({ disableMentions: "everyone" });
 client.commands = new Discord.Collection();
 var queues = {};
 var connection = {};
@@ -27,7 +27,7 @@ client.once("ready", () => {
   console.log(`Discord Bot ${client.user.tag} is now Online!`);
   var guilds = client.guilds.size;
   console.log(`Bot presence on ${guilds} guilds`);
-  var loadchannel = client.channels.get("617154686406885411");
+  var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(`${client.user.tag} is now online on ${guilds} guilds!`);
 });
 //Bot Turning off
@@ -35,7 +35,7 @@ client.once("disconnect", () => {
   console.log(`Discord Bot ${client.user.tag} is now Offline!`);
   var guilds = client.guilds.size;
   console.log(`Bot presence on ${guilds} guilds`);
-  var loadchannel = client.channels.get("617154686406885411");
+  var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(`${client.user.tag} is now offline on ${guilds} guilds!`);
 });
 //Discord Status message
@@ -85,11 +85,11 @@ client.on("ready", message => {
 client.on("guildCreate", function(guild) {
   //Sends a message to console and a specific channel that logs these changes
   console.log(`Joined a new guild`);
-  var loadchannel = client.channels.get("617154686406885411");
+  var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(
     `${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.size} guilds!`
   );
-  loadchannel = client.channels.get("627880075140005908");
+  loadchannel = client.channels.cache.get("627880075140005908");
   loadchannel.send(
     `${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.size} guilds!`
   );
@@ -98,11 +98,11 @@ client.on("guildCreate", function(guild) {
 client.on("guildDelete", function(guild) {
   //Logs to console the event and logs to a specific logging chanel
   console.log(`the client deleted/left a guild`);
-  var loadchannel = client.channels.get("617154686406885411");
+  var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(
     `${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.size} guilds`
   );
-  loadchannel = client.channels.get("627880075140005908");
+  loadchannel = client.channels.cache.get("627880075140005908");
   loadchannel.send(
     `${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.size} guilds`
   );
@@ -161,7 +161,7 @@ client.on("message", message => {
     message.reply(
       "there was an error trying to execute that command! Please contact AwesomenessZ#3945"
     );
-    var loadchannel = client.channels.get("627880075140005908");
+    var loadchannel = client.channels.cache.get("627880075140005908");
     loadchannel.send(error);
   }
 });
@@ -194,7 +194,7 @@ async function grabstatus(i, index) {
   var guildSCH = await statusCH.get(index[i]);
   var guildSID = await statusID.get(index[i]);
   //Telling Discord.js what channel and message we want to be currently working with
-  var channel = client.channels.get(guildSCH);
+  var channel = client.channels.cache.get(guildSCH);
   //Removes from index if no longer exists
   if (!channel) {
     removeStatus(i);
@@ -276,7 +276,7 @@ async function removeStatus(identifier) {
   }
   var guildSCH;
   if (!identifier) {
-    var loadchannel = client.channels.get("627880075140005908");
+    var loadchannel = client.channels.cache.get("627880075140005908");
     loadchannel.send(
       "Could not delete status message in a channel that no longer exists"
     );
@@ -286,7 +286,7 @@ async function removeStatus(identifier) {
   const valueToRemove = index[identifier];
   const filteredItems = index.filter(item => item !== valueToRemove);
   await id.set("index", filteredItems);
-  var loadchannel = client.channels.get("627880075140005908");
+  var loadchannel = client.channels.cache.get("627880075140005908");
   loadchannel.send(
     `Deleted ${valueToRemove} (id: ${identifier}) as the channel no longer exists!`
   );
@@ -322,7 +322,7 @@ client.on("message", message => {
 });
 
 async function sendwebhook(username, avatar, msg) {
-  const channel = client.channels.get("674748183074832405");
+  const channel = client.channels.cache.get("674748183074832405");
   try {
     const webhooks = await channel.fetchWebhooks();
     const webhook = webhooks.first();
@@ -407,7 +407,7 @@ async function newlog(message) {
     );
     msg = msg.replace("@here", "{PING}");
     msg = msg.replace("@everyone", "{PING}");
-    var notice = client.channels.get("478288700833398790");
+    var notice = client.channels.cache.get("478288700833398790");
     notice.send({
       embed: {
         color: message.guild.me.displayColor,
@@ -453,8 +453,8 @@ async function discordlinking(args, guild) {
 
   var olddis = await links.get(mcname);
   if (!isNaN(olddis)) {
-    const role = guild.roles.get("675120260676059147");
-    discord_user = guild.members.get(olddis);
+    const role = guild.roles.cache.get("675120260676059147");
+    discord_user = guild.members.cache.get(olddis);
     discord_user.removeRole(role);
 
     await links.delete(olddis);
@@ -464,8 +464,8 @@ async function discordlinking(args, guild) {
   links.set(mcname, discord_userid);
   links.set(discord_userid, mcname);
 
-  const role = guild.roles.get("675120260676059147");
-  discord_user = guild.members.get(discord_userid);
+  const role = guild.roles.cache.get("675120260676059147");
+  discord_user = guild.members.cache.get(discord_userid);
   discord_user.addRole(role);
   sendtoservers(
     `cmd run inform ${mcname} §aPairing completed! Your chat messages will now contain your profile picture and you can now talk on the server from discord!`
@@ -519,12 +519,12 @@ async function sendmessage(message) {
 async function findavatar(message, username) {
   var avatar =
     "https://discordapp.com/assets/dd4dbc0016779df1378e7812eabaa04d.png";
-  if (client.users.get("displayName", username) != undefined) {
-    avatar = client.users.get("displayName", username).user.avatarURL;
+  if (client.users.cache.get("displayName", username) != undefined) {
+    avatar = client.users.cache.get("displayName", username).user.avatarURL;
   }
   var id = await discordfind(username);
   if (id > 1000) {
-    avatar = client.users.get(id).avatarURL;
+    avatar = client.users.cache.get(id).avatarURL;
   }
   return avatar;
 }
@@ -541,7 +541,7 @@ async function sendattachment(message) {
 }
 
 function success(mcname, discord_user) {
-  var loadchannel = client.channels.get("477855444447264780");
+  var loadchannel = client.channels.cache.get("477855444447264780");
   loadchannel.fetchMessages({ limit: 1 }).then(messages => {
     let message = messages.first();
     loadchannel.send({
@@ -569,7 +569,7 @@ function success(mcname, discord_user) {
 }
 
 function failure(mcname, discordname) {
-  var loadchannel = client.channels.get("477855444447264780");
+  var loadchannel = client.channels.cache.get("477855444447264780");
   loadchannel.fetchMessages({ limit: 1 }).then(messages => {
     let message = messages.first();
     loadchannel.send({

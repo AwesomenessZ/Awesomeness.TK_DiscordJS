@@ -16,7 +16,7 @@ module.exports = {
         var char = /[a-z][a-z][a-z]/g;
         if (temp.match(char)) {
           temp = temp.toUpperCase();
-          var loadchannel = client.channels.get("627880075140005908");
+          var loadchannel = client.channels.cache.get("627880075140005908");
           loadchannel.send({
             embed: {
               color: displayColor,
