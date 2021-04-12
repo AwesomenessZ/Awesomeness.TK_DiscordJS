@@ -391,7 +391,9 @@ async function newlog(message) {
   }
   for (var c = 0; c < args.length; c++) {
     if (args[c].startsWith("@")) {
-      var mention = client.users.find("username", args[c].replace("@", ""));
+      var mention = client.users.cache.find(
+        user => user.username == args[c].replace("@", "")
+      );
       if (mention) {
         args[c] = `<@${mention.id}>`;
       }
@@ -440,7 +442,9 @@ async function discordlinking(args, guild) {
   var discordname = args[4].replace(/&/g, " ");
   var mcname = args[2];
   console.log(mcname + " " + discordname);
-  var discord_user = client.users.find("username", discordname);
+  var discord_user = client.users.cache.find(
+    user => user.username == discordname
+  );
   if (!discord_user) {
     sendtoservers(
       `cmd run inform ${mcname} §cPairing Failed! We could not find your discord account! Please make sure that you have join the Discord Server!`
@@ -502,7 +506,7 @@ async function sendmessage(message) {
         temp = temp.replace("!", "");
         temp = temp.replace(",", "");
         temp = temp.replace(".", "");
-        temp = client.users.find("id", temp);
+        temp = client.users.cache.find(user => user.id == temp);
         msgto[c] = "@" + temp;
       }
     }

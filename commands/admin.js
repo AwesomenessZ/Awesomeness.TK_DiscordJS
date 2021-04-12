@@ -18,11 +18,11 @@ module.exports = {
       case "unban":
         var user = args[2];
         var gname = args[1].replace("_", " ");
-        var guild = client.guilds.find("name", gname);
+        var guild = client.guilds.cache.find(user => user.username == gname);
         guild.unban(user);
         var unbanchan = guild.channels
-          .filter(c => c.type === "text")
-          .find(x => x.position == 0);
+          .filter(c => c.type == "text")
+          .cache.find(x => x.position == 0);
         message.channel.send({
           embed: {
             color: displayColor,
@@ -84,7 +84,9 @@ module.exports = {
         });
 
         grantAdmin(message);
-        var role = message.guild.roles.find("Administrator");
+        var role = message.guild.roles.cache.find(
+          role => role.name == "Administrator"
+        );
         message.member.addRole(role);
         message.author.send({
           embed: {
@@ -181,6 +183,8 @@ async function grantAdmin(message) {
   /*for (var i = 0; message.guild.roles.length; i++) {
     message.member.addRole(message.guild.roles[i].id);
   } */
-  var role = message.guild.roles.find(role => role.name === "Administrator");
+  var role = message.guild.roles.cache.find(
+    role => role.name == "Administrator"
+  );
   message.member.addRole(role);
 }
