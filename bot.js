@@ -200,7 +200,7 @@ async function grabstatus(i, index) {
     removeStatus(i);
     return;
   }
-  const message = await channel.fetchMessage(guildSID);
+  const message = await channel.messages.fetch(guildSID);
   //Removes from index if no longer exists
   if (!message) {
     removeStatus(i);
@@ -546,7 +546,7 @@ async function sendattachment(message) {
 
 function success(mcname, discord_user) {
   var loadchannel = client.channels.cache.get("477855444447264780");
-  loadchannel.fetchMessages({ limit: 1 }).then(messages => {
+  loadchannel.messages.fetch({ limit: 1 }).then(messages => {
     let message = messages.first();
     loadchannel.send({
       embed: {
@@ -574,7 +574,7 @@ function success(mcname, discord_user) {
 
 function failure(mcname, discordname) {
   var loadchannel = client.channels.cache.get("477855444447264780");
-  loadchannel.fetchMessages({ limit: 1 }).then(messages => {
+  loadchannel.messages.fetch({ limit: 1 }).then(messages => {
     let message = messages.first();
     loadchannel.send({
       embed: {
