@@ -194,18 +194,24 @@ async function grabstatus(i, index) {
   var guildSCH = await statusCH.get(index[i]);
   var guildSID = await statusID.get(index[i]);
   //Telling Discord.js what channel and message we want to be currently working with
-  var channel = client.channels.cache.get(guildSCH);
+  var channel;
   //Removes from index if no longer exists
-  if (!channel) {
-    removeStatus(i);
-    return;
-  }
-  const message = await channel.messages.fetch(guildSID);
+  client.channels.cache
+    .get(guildSCH)
+    .then(temp => (channel = temp))
+    .catch(error => {
+      message.channel.send("Could not find channel " + i);
+      return;
+    });
+  var message;
   //Removes from index if no longer exists
-  if (!message) {
-    removeStatus(i);
-    return;
-  }
+  channel.messages
+    .fetch(guildSID)
+    .then(temp => (message = temp))
+    .catch(error => {
+      console.log("Could not find Status Message " + i);
+      return;
+    });
   var guild = message.guild.id;
   var guildapi = await apikey.get(guild);
   //Start typing so that users know the message is being worked on
@@ -236,7 +242,7 @@ async function grabstatus(i, index) {
       const json = data;
       const jsn = JSON.parse(json);
       //Changing the properties of the message that is being updated
-      const updated = new Discord.RichEmbed()
+      const updated = new Discord.MessageEmbed()
         .setTimestamp(new Date())
         .setColor(message.guild.me.displayColor)
         .addField(
