@@ -1,4 +1,4 @@
-.iconURL()module.exports = {
+module.exports = {
   //Defines properties
   name: "dev",
   description: "Only bot developer may use this command!",

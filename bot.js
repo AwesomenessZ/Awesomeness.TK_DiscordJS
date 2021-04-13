@@ -25,7 +25,7 @@ for (const file of commandFiles) {
 // this event will only trigger one time after logging in
 client.once("ready", () => {
   console.log(`Discord Bot ${client.user.tag} is now Online!`);
-  var guilds = client.guilds.size;
+  var guilds = client.guilds.cache.size;
   console.log(`Bot presence on ${guilds} guilds`);
   var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(`${client.user.tag} is now online on ${guilds} guilds!`);
@@ -33,7 +33,7 @@ client.once("ready", () => {
 //Bot Turning off
 client.once("disconnect", () => {
   console.log(`Discord Bot ${client.user.tag} is now Offline!`);
-  var guilds = client.guilds.size;
+  var guilds = client.guilds.cache.size;
   console.log(`Bot presence on ${guilds} guilds`);
   var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(`${client.user.tag} is now offline on ${guilds} guilds!`);
@@ -53,7 +53,7 @@ client.on("ready", message => {
     "Firefox",
     "file explorer",
     "ms paint",
-    `with ${client.guilds.size} guilds`,
+    `with ${client.guilds.cache.size} guilds`,
     "Blender",
     "Russian Roulette",
     "Garry's Mod",
@@ -87,11 +87,11 @@ client.on("guildCreate", function(guild) {
   console.log(`Joined a new guild`);
   var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(
-    `${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.size} guilds!`
+    `${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.cache.size} guilds!`
   );
   loadchannel = client.channels.cache.get("627880075140005908");
   loadchannel.send(
-    `${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.size} guilds!`
+    `${client.user.tag} is now in "${guild.name}" for a total of ${client.guilds.cache.size} guilds!`
   );
 });
 //executed when the bot has left a server for a varity of reasons (kicked,banned,server deleted, ect..)
@@ -100,11 +100,11 @@ client.on("guildDelete", function(guild) {
   console.log(`the client deleted/left a guild`);
   var loadchannel = client.channels.cache.get("617154686406885411");
   loadchannel.send(
-    `${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.size} guilds`
+    `${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.cache.size} guilds`
   );
   loadchannel = client.channels.cache.get("627880075140005908");
   loadchannel.send(
-    `${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.size} guilds`
+    `${client.user.tag} is no longer in "${guild.name}" for a total of ${client.guilds.cache.size} guilds`
   );
 });
 //Event handling for every message sent that the bot can read

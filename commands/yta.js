@@ -38,8 +38,8 @@ module.exports = {
     }
     if (args[0] == "play" || args[0] == "p") {
       if (!args[1]) {
-        if (message.member.voiceChannel) {
-          if (message.member.voiceChannel.members.has(client.user.id)) {
+        if (message.member.voice.channel) {
+          if (message.member.voice.channel.members.has(client.user.id)) {
             if (dispatchers[message.guild.id]) {
               dispatchers[message.guild.id].resume();
               sendembed(
@@ -70,9 +70,9 @@ module.exports = {
         return;
       }
       var search = args;
-      if (message.member.voiceChannel) {
+      if (message.member.voice.channel) {
         var link = args[1];
-        var vc = message.member.voiceChannel;
+        var vc = message.member.voice.channel;
         const YouTube = require("simple-youtube-api");
         const youtube = new YouTube("AIzaSyAWRX5cdyVUJUfeAeDPhYbM8sUPbLR7EVA");
         if (validateYouTubeUrl(args)) {
@@ -87,7 +87,8 @@ module.exports = {
                 displayColor,
                 queues,
                 dispatchers,
-                video
+                video,
+                client
               );
               sendembed(
                 {
@@ -154,7 +155,8 @@ module.exports = {
                 displayColor,
                 queues,
                 dispatchers,
-                results[0]
+                results[0],
+                client
               );
             })
             .catch(console.log);
@@ -166,8 +168,8 @@ module.exports = {
       return;
     } //End of play
     if (args[0] == "stop" || args[0] == "leave") {
-      if (message.member.voiceChannel) {
-        var vc = message.member.voiceChannel;
+      if (message.member.voice.channel) {
+        var vc = message.member.voice.channel;
         vc.leave();
         queues[message.guild.id] = [];
         connection[message.guild.id] = null;
@@ -177,10 +179,25 @@ module.exports = {
       return;
     } //End of stop
     if (args[0] == "skip" || args[0] == "s") {
-      if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has(client.user.id)) {
-          dispatchers[message.guild.id].destroy();
-          sendqueue(message, queues, displayColor, client);
+      if (message.member.voice.channel) {
+        if (message.member.voice.channel.members.has(client.user.id)) {
+          dispatchers[message.guild.id].end();
+          sendembed(
+            {
+              embed: {
+                color: displayColor,
+                title: `Skipped`,
+                //sets the time of the request being made
+                timestamp: new Date(),
+                footer: {
+                  text: `Requested by ${message.author.username}`,
+                  icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+                }
+              }
+            },
+            client,
+            message
+          );
         } else {
           message.channel.send("I'm not in a voice channel with you!");
         }
@@ -222,14 +239,14 @@ module.exports = {
       }
       if (queues[message.guild.id]) {
         if (queues[message.guild.id][0]) {
-          sendqueue(message, queues, displayColor, client);
+          sendqueue(message, queues, displayColor, client, false);
         } else message.reply("There is no active queue!");
       } else message.reply("There is no active queue!");
       return;
     } // End of queue
     if (args[0] == "v" || args[0] == "volume") {
-      if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has(client.user.id)) {
+      if (message.member.voice.channel) {
+        if (message.member.voice.channel.members.has(client.user.id)) {
           var temp = args[1] / 100;
           if (temp >= 0) {
             if (message.member.hasPermission("ADMINISTRATOR")) {
@@ -265,8 +282,8 @@ module.exports = {
       return;
     } //End of volume
     if (args[0] == "pause") {
-      if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has(client.user.id)) {
+      if (message.member.voice.channel) {
+        if (message.member.voice.channel.members.has(client.user.id)) {
           dispatchers[message.guild.id].pause();
           sendembed(
             {
@@ -293,8 +310,8 @@ module.exports = {
       return;
     } //End of pause
     if (args[0] == "resume" || args[0] == "r") {
-      if (message.member.voiceChannel) {
-        if (message.member.voiceChannel.members.has(client.user.id)) {
+      if (message.member.voice.channel) {
+        if (message.member.voice.channel.members.has(client.user.id)) {
           if (dispatchers[message.guild.id]) {
             dispatchers[message.guild.id].resume();
             sendembed(
@@ -341,7 +358,7 @@ module.exports = {
             {
               name: "Base command:",
               value:
-                "/yta or /y can be used interchangeably, this also works with /y p (play), /y s (skip), ect.."
+                "/yta or /y can be used interchangeably, this also works with /p (play), /s (skip), ect.."
             },
             {
               name: "Play:",
@@ -391,7 +408,8 @@ async function play(
   displayColor,
   queues,
   dispatchers,
-  video
+  video,
+  client
 ) {
   if (queues[message.guild.id]) {
     queues[message.guild.id] = queues[message.guild.id].concat(link);
@@ -418,7 +436,8 @@ async function play(
           link,
           displayColor,
           queues,
-          dispatchers
+          dispatchers,
+          client
         );
       })
       .catch(err => {
@@ -437,7 +456,8 @@ async function stream(
   link,
   displayColor,
   queues,
-  dispatchers
+  dispatchers,
+  client
 ) {
   const ytdl = require("ytdl-core");
   const stream = ytdl(queues[message.guild.id][0], { filter: "audioonly" });
@@ -454,7 +474,16 @@ async function stream(
     dispatcher.setVolumeLogarithmic(queues[message.guild.id + "_v"]);
   }
   dispatcher.on("finish", () => {
-    next(message, connection, vc, link, displayColor, queues, dispatchers);
+    next(
+      message,
+      connection,
+      vc,
+      link,
+      displayColor,
+      queues,
+      dispatchers,
+      client
+    );
   });
 }
 
@@ -465,7 +494,8 @@ async function next(
   link,
   displayColor,
   queues,
-  dispatchers
+  dispatchers,
+  client
 ) {
   queues[message.guild.id].shift();
   queues[message.guild.id + "_names"].shift();
@@ -474,11 +504,21 @@ async function next(
     connection[message.guild.id] = null;
     message.channel.send("Queue is now empty");
   } else {
-    stream(message, connection, vc, link, displayColor, queues, dispatchers);
+    sendqueue(message, queues, displayColor, client, true);
+    stream(
+      message,
+      connection,
+      vc,
+      link,
+      displayColor,
+      queues,
+      dispatchers,
+      client
+    );
   }
 }
 
-async function sendqueue(message, queues, displayColor, client) {
+async function sendqueue(message, queues, displayColor, client, noUser) {
   var meta = titleformat(queues, message);
   var list;
   var playing = meta[0];
@@ -494,33 +534,59 @@ async function sendqueue(message, queues, displayColor, client) {
   } else {
     list = "*None*";
   }
-  sendembed(
-    {
-      embed: {
-        color: displayColor,
-        title: `Queue for ${message.guild.name}`,
-        url: queues[message.guild.id][0],
-        //sets the time of the request being made
-        timestamp: new Date(),
-        footer: {
-          text: `Requested by ${message.author.username}`,
-          icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-        },
-        fields: [
-          {
-            name: "Now Playing:",
-            value: playing
+  if (noUser) {
+    sendembed(
+      {
+        embed: {
+          color: displayColor,
+          title: `Queue for ${message.guild.name}`,
+          url: queues[message.guild.id][0],
+          //sets the time of the request being made
+          timestamp: new Date(),
+          fields: [
+            {
+              name: "Now Playing:",
+              value: playing
+            },
+            {
+              name: "Up comming:",
+              value: list
+            }
+          ]
+        }
+      },
+      client,
+      message
+    );
+  } else {
+    sendembed(
+      {
+        embed: {
+          color: displayColor,
+          title: `Queue for ${message.guild.name}`,
+          url: queues[message.guild.id][0],
+          //sets the time of the request being made
+          timestamp: new Date(),
+          footer: {
+            text: `Requested by ${message.author.username}`,
+            icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
-          {
-            name: "Up comming:",
-            value: list
-          }
-        ]
-      }
-    },
-    client,
-    message
-  );
+          fields: [
+            {
+              name: "Now Playing:",
+              value: playing
+            },
+            {
+              name: "Up comming:",
+              value: list
+            }
+          ]
+        }
+      },
+      client,
+      message
+    );
+  }
 }
 
 function titleformat(queues, message) {
