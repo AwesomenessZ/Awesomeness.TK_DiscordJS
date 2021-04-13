@@ -45,10 +45,6 @@ async function status(guild, message) {
           color: message.guild.me.displayColor,
           timestamp: new Date(),
           title: `${jsn.name}'s status:`,
-          footer: {
-            text: `Requested by ${message.author.username}`,
-            icon_url: message.member.avatarURL
-          },
           image: {
             url: `https://minecraftpocket-servers.com/server/${jsn.id}/banner-${jsn.id}.gif`
           },

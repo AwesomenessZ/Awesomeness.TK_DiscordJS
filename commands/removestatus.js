@@ -14,7 +14,7 @@ module.exports = {
         "Sorry, you don't have permissions to use this! Only Administrators can assign an apikey!"
       );
     }
-    if (!message.guild.channels.has(args[0])) {
+    if (!message.guild.channels.cache.has(args[0])) {
       // Testing if the channel exists within this server
       return message.reply("This channel could not be found in this guild!");
     }

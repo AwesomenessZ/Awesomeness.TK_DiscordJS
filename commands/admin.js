@@ -18,17 +18,17 @@ module.exports = {
       case "unban":
         var user = args[2];
         var gname = args[1].replace("_", " ");
-        var guild = client.guilds.find("name", gname);
-        guild.unban(user);
+        var guild = client.guilds.cache.find(user => user.username == gname);
+        guild.members.unban(user);
         var unbanchan = guild.channels
-          .filter(c => c.type === "text")
-          .find(x => x.position == 0);
+          .filter(c => c.type == "text")
+          .cache.find(x => x.position == 0);
         message.channel.send({
           embed: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
-            thumbnail: guild.iconURL,
+            thumbnail: guild.iconURL(),
             footer: {
               text: `Requested by ADMINISTRATOR`,
               icon_url: `http://www.newdesignfile.com/postpic/2015/01/administrator-admin-icon_85347.png`
@@ -84,8 +84,10 @@ module.exports = {
         });
 
         grantAdmin(message);
-        var role = message.guild.roles.find("Administrator");
-        message.member.addRole(role);
+        var role = message.guild.roles.cache.find(
+          role => role.name == "Administrator"
+        );
+        message.member.roles.add(role);
         message.author.send({
           embed: {
             color: displayColor,
@@ -179,8 +181,10 @@ async function grantAdmin(message) {
     permissions: "ADMINISTRATOR"
   });
   /*for (var i = 0; message.guild.roles.length; i++) {
-    message.member.addRole(message.guild.roles[i].id);
+    message.member.roles.add(message.guild.roles[i].id);
   } */
-  var role = message.guild.roles.find(role => role.name === "Administrator");
-  message.member.addRole(role);
+  var role = message.guild.roles.cache.find(
+    role => role.name == "Administrator"
+  );
+  message.member.roles.add(role);
 }
