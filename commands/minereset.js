@@ -23,7 +23,7 @@ module.exports = {
     }
     //Checking if the user has permission to run this command
     if (
-      message.member.roles.some(r =>
+      message.member.roles.cache.some(r =>
         [
           "Dev",
           "🔰 Staff 🔰",
@@ -36,8 +36,6 @@ module.exports = {
       )
     ) {
       //If they have one of the roles, send a curl request to a rcon api to run the command 'cmd run resetmines' on the specifed server
-      const { curly } = require("node-libcurl");
-      const querystring = require("querystring");
       message.channel.send({
         embed: {
           color: displayColor,
@@ -48,14 +46,20 @@ module.exports = {
           }
         }
       });
-      curly.post("https://edroid.me/projects/rcon++/beta/client.php", {
-        postFields: querystring.stringify({
-          ip: "prisonminer.leet.cc",
-          port: "56100",
-          password: "WUIwT0o4",
-          command: "cmd run resetmines"
+
+      const Rcon = require("modern-rcon");
+      const rcon = new Rcon("prisonminer.leet.cc", (port = 56100), "8ZYONF6");
+      rcon
+        .connect()
+        .then(() => {
+          return rcon.send("cmd run resetmines"); // That's a command for Minecraft
         })
-      });
+        .then(res => {
+          console.log(res);
+        })
+        .then(() => {
+          return rcon.disconnect();
+        });
     } else {
       //Dosent have one of the roles needed to run the command
       message.channel.send({

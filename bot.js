@@ -337,27 +337,19 @@ async function sendwebhook(username, avatar, msg) {
 
 //Sending to New Server
 async function sendtoservers(command) {
-  const { curly } = require("node-libcurl");
-  const querystring = require("querystring");
-  await curly.post("https://edroid.me/projects/rcon++/beta/client.php", {
-    //Curl post content to send
-    postFields: querystring.stringify({
-      ip: "direct.awesomeness.tk",
-      port: "19132",
-      password: "OFpZT05GNg==",
-      command: `${command}`
+  const Rcon = require("modern-rcon");
+  const rcon = new Rcon("prisonminer.leet.cc", (port = 56100), "8ZYONF6");
+  rcon
+    .connect()
+    .then(() => {
+      return rcon.send(command); // That's a command for Minecraft
     })
-  });
-  //Sending to OLD PM
-  await curly.post("https://edroid.me/projects/rcon++/beta/client.php", {
-    //Curl post content to send
-    postFields: querystring.stringify({
-      ip: "prisonminer.leet.cc",
-      port: "56100",
-      password: "OFpZT05GNg==",
-      command: `${command}`
+    .then(res => {
+      console.log(res);
     })
-  });
+    .then(() => {
+      return rcon.disconnect();
+    });
 }
 
 async function newlog(message) {
