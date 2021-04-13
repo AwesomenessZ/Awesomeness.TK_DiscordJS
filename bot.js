@@ -312,7 +312,7 @@ client.on("message", message => {
     return;
   }
   if (
-    !message.member.roles.some(r =>
+    !message.member.roles.cache.some(r =>
       ["Dev", "🔰 Staff 🔰", "verified"].includes(r.name)
     )
   ) {
