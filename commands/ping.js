@@ -2,6 +2,7 @@ module.exports = {
   //Defines properties
   name: "ping",
   description: "Ping!",
+  cooldown: 5,
   //code to be executed
   execute(message, args, displayColor) {
     //Send a rich chat message
