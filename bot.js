@@ -311,7 +311,7 @@ client.on("message", message => {
   }
 
   //If sending to server
-  if (message.channel.id != 674748183074832405) return; //If the message is not intended for the bot we stop processing it
+  if (message.channel.id != 834501929530818560) return; //If the message is not intended for the bot we stop processing it
   if (message.member == null) return; //If they arent a member of the guilde (Ex: Webhook)
   if (message.attachments.size > 0) {
     sendattachment(message);
@@ -328,7 +328,7 @@ client.on("message", message => {
 });
 
 async function sendwebhook(username, avatar, msg) {
-  const channel = client.channels.cache.get("674748183074832405");
+  const channel = client.channels.cache.get("834501929530818560");
   try {
     const webhooks = await channel.fetchWebhooks();
     const webhook = webhooks.first();
