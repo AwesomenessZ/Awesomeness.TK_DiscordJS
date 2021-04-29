@@ -319,7 +319,7 @@ client.on("message", message => {
   }
   if (
     !message.member.roles.cache.some(r =>
-      ["Dev", "🔰 Staff 🔰", "verified"].includes(r.name)
+      ["Dev", "Staff", "verified"].includes(r.name)
     )
   ) {
     return;

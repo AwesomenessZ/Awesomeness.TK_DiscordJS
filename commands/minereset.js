@@ -26,12 +26,12 @@ module.exports = {
       message.member.roles.cache.some(r =>
         [
           "Dev",
-          "🔰 Staff 🔰",
-          "🛠️ Builder 🛠️",
+          "Staff",
+          "Builder",
           "Head Of Staff",
           "Owner",
           "MVP",
-          "🛡️Staff in Training 🛡️"
+          "Staff in Training️"
         ].includes(r.name)
       )
     ) {
