@@ -23,7 +23,10 @@ module.exports = {
               timestamp: new Date(),
               title: `New Server Requesting weather: ${message.guild.name}, ${args[1]}`,
               footer: {
-                text: `Requested by ${message.author.username}`,
+                text:
+                  `Requested by ${message.author.username} • ` +
+                  (new Date().getTime() - message.createdTimestamp) +
+                  " ms",
                 icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
               },
               image: { url: message.guild.iconURL() }
@@ -39,7 +42,10 @@ module.exports = {
               timestamp: new Date(),
               title: `New Server weatherset for ${message.guild.name}, ${args[1]}`,
               footer: {
-                text: `Requested by ${message.author.username}`,
+                text:
+                  `Requested by ${message.author.username} • ` +
+                  (new Date().getTime() - message.createdTimestamp) +
+                  " ms",
                 icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
               },
               thumbnail: { url: message.guild.iconURL() },
@@ -63,7 +69,10 @@ module.exports = {
               timestamp: new Date(),
               title: `Radar For ${region}:`,
               footer: {
-                text: `Requested by ${message.author.username}`,
+                text:
+                  `Requested by ${message.author.username} • ` +
+                  (new Date().getTime() - message.createdTimestamp) +
+                  " ms",
                 icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
               },
               image: {

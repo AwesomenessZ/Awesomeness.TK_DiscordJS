@@ -50,7 +50,10 @@ module.exports = {
                     //sets the time of the request being made
                     timestamp: new Date(),
                     footer: {
-                      text: `Requested by ${message.author.username}`,
+                      text:
+                        `Requested by ${message.author.username} • ` +
+                        (new Date().getTime() - message.createdTimestamp) +
+                        " ms",
                       icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
                     }
                   }
@@ -99,7 +102,10 @@ module.exports = {
                     timestamp: new Date(),
                     title: `Added to Queue in ${vc.name}:`,
                     footer: {
-                      text: `Requested by ${message.author.username}`,
+                      text:
+                        `Requested by ${message.author.username} • ` +
+                        (new Date().getTime() - message.createdTimestamp) +
+                        " ms",
                       icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
                     },
                     fields: [
@@ -132,7 +138,10 @@ module.exports = {
                     timestamp: new Date(),
                     title: `Added to Queue in ${vc.name}:`,
                     footer: {
-                      text: `Requested by ${message.author.username}`,
+                      text:
+                        `Requested by ${message.author.username} • ` +
+                        (new Date().getTime() - message.createdTimestamp) +
+                        " ms",
                       icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
                     },
                     fields: [
@@ -190,7 +199,10 @@ module.exports = {
                 //sets the time of the request being made
                 timestamp: new Date(),
                 footer: {
-                  text: `Requested by ${message.author.username}`,
+                  text:
+                    `Requested by ${message.author.username} • ` +
+                    (new Date().getTime() - message.createdTimestamp) +
+                    " ms",
                   icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
                 }
               }
@@ -224,7 +236,10 @@ module.exports = {
                 //sets the time of the request being made
                 timestamp: new Date(),
                 footer: {
-                  text: `Requested by ${message.author.username}`,
+                  text:
+                    `Requested by ${message.author.username} • ` +
+                    (new Date().getTime() - message.createdTimestamp) +
+                    " ms",
                   icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
                 }
               }
@@ -293,7 +308,10 @@ module.exports = {
                 //sets the time of the request being made
                 timestamp: new Date(),
                 footer: {
-                  text: `Requested by ${message.author.username}`,
+                  text:
+                    `Requested by ${message.author.username} • ` +
+                    (new Date().getTime() - message.createdTimestamp) +
+                    " ms",
                   icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
                 }
               }
@@ -322,7 +340,10 @@ module.exports = {
                   //sets the time of the request being made
                   timestamp: new Date(),
                   footer: {
-                    text: `Requested by ${message.author.username}`,
+                    text:
+                      `Requested by ${message.author.username} • ` +
+                      (new Date().getTime() - message.createdTimestamp) +
+                      " ms",
                     icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
                   }
                 }
@@ -351,7 +372,10 @@ module.exports = {
           title: `YouTube Audio Help`,
           thumbnail: "",
           footer: {
-            text: `Requested by ${message.author.username}`,
+            text:
+              `Requested by ${message.author.username} • ` +
+              (new Date().getTime() - message.createdTimestamp) +
+              " ms",
             icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
           fields: [
@@ -568,7 +592,10 @@ async function sendqueue(message, queues, displayColor, client, noUser) {
           //sets the time of the request being made
           timestamp: new Date(),
           footer: {
-            text: `Requested by ${message.author.username}`,
+            text:
+              `Requested by ${message.author.username} • ` +
+              (new Date().getTime() - message.createdTimestamp) +
+              " ms",
             icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
           fields: [
@@ -605,7 +632,10 @@ function sendvolume(volume, message, displayColor, client) {
         //sets the time of the request being made
         timestamp: new Date(),
         footer: {
-          text: `Requested by ${message.author.username}`,
+          text:
+            `Requested by ${message.author.username} • ` +
+            (new Date().getTime() - message.createdTimestamp) +
+            " ms",
           icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
         },
         fields: [
