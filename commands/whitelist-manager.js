@@ -71,7 +71,10 @@ module.exports = {
             color: displayColor,
             timestamp: new Date(),
             footer: {
-              text: `Requested by ${message.author.username}`,
+              text:
+                `Requested by ${message.author.username} • ` +
+                (new Date().getTime() - message.createdTimestamp) +
+                " ms",
               icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
             },
             fields: [
@@ -104,13 +107,13 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
   if (user) {
     olduser = user;
     await rconcommand("whitelist remove " + olduser, guildrcon, message);
-    rcondb.delete(olduser + "-discordid");
+    rcondb.delete(olduser.toLowerCase() + "-discordid");
   }
   user = args[1];
   await rconcommand("whitelist add " + args[1], guildrcon, message);
   //Save whitelist
   rcondb.set(message.author.id + "-mcname", user);
-  rcondb.set(user + "-discordid", message.author.id);
+  rcondb.set(user.toLowerCase() + "-discordid", message.author.id);
   //Send confirm
   if (olduser) {
     message.channel.send({
@@ -119,15 +122,18 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
         //sets the time of the request being made
         timestamp: new Date(),
         footer: {
-          text: `Requested by ${message.author.username}`,
+          text:
+            `Requested by ${message.author.username} • ` +
+            (new Date().getTime() - message.createdTimestamp) +
+            " ms",
           icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
         },
         fields: [
           {
-            name: `Added ${args[1]} to the minecraft server whitelist and removed ${olduser}`,
+            name: `Added!`,
             //Takes the current time subtracted by the time the users message was sent
             //Giving us the ping!
-            value: new Date().getTime() - message.createdTimestamp + " ms"
+            value: `Added ${args[1]} to the minecraft server whitelist and removed ${olduser}`
           }
         ]
       }
@@ -139,15 +145,18 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
         //sets the time of the request being made
         timestamp: new Date(),
         footer: {
-          text: `Requested by ${message.author.username}`,
+          text:
+            `Requested by ${message.author.username} • ` +
+            (new Date().getTime() - message.createdTimestamp) +
+            " ms",
           icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
         },
         fields: [
           {
-            name: `Added ${args[1]} to the minecraft server whitelist`,
+            name: `Added!`,
             //Takes the current time subtracted by the time the users message was sent
             //Giving us the ping!
-            value: new Date().getTime() - message.createdTimestamp + " ms"
+            value: `Added ${args[1]} to the minecraft server whitelist!`
           }
         ]
       }
@@ -166,7 +175,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
     if (mcname) {
       var olduser = mcname;
       await rconcommand("whitelist remove " + olduser, guildrcon, message);
-      rcondb.delete(olduser + "-discordid");
+      rcondb.delete(olduser.toLowerCase() + "-discordid");
       rcondb.delete(message.author.id + "-mcname");
       return message.channel.send({
         embed: {
@@ -174,15 +183,18 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
           //sets the time of the request being made
           timestamp: new Date(),
           footer: {
-            text: `Requested by ${message.author.username}`,
+            text:
+              `Requested by ${message.author.username} • ` +
+              (new Date().getTime() - message.createdTimestamp) +
+              " ms",
             icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
           fields: [
             {
-              name: `Removed ${olduser} from the minecraft server whitelist`,
+              name: `Removed!`,
               //Takes the current time subtracted by the time the users message was sent
               //Giving us the ping!
-              value: new Date().getTime() - message.createdTimestamp + " ms"
+              value: `Removed ${olduser} from the minecraft server whitelist`
             }
           ]
         }
@@ -199,8 +211,121 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         "You do not have permission to run this command"
       );
     }
-    // TODO: Allow mods to remove other users
-    message.channel.send("Not released yet");
+    var user;
+    if (message.mentions.members.first()) {
+      var discordid = message.mentions.members.first().id;
+      user = await rcondb.get(discordid + "-mcname");
+      if (user) {
+        //user exists
+        await rconcommand("whitelist remove " + user, guildrcon, message);
+        rcondb.delete(user.toLowerCase() + "-discordid");
+        rcondb.delete(discordid + "-mcname");
+        return message.channel.send({
+          embed: {
+            color: displayColor,
+            //sets the time of the request being made
+            timestamp: new Date(),
+            footer: {
+              text:
+                `Requested by ${message.author.username} • ` +
+                (new Date().getTime() - message.createdTimestamp) +
+                " ms",
+              icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+            },
+            fields: [
+              {
+                name: `Removed!`,
+                //Takes the current time subtracted by the time the users message was sent
+                //Giving us the ping!
+                value: `Removed ${user} from the minecraft server whitelist (${message.mentions.members.first()})`
+              }
+            ]
+          }
+        });
+      } else {
+        //user dosent have a whitelist set
+        return message.channel.send({
+          embed: {
+            color: displayColor,
+            //sets the time of the request being made
+            timestamp: new Date(),
+            footer: {
+              text:
+                `Requested by ${message.author.username} • ` +
+                (new Date().getTime() - message.createdTimestamp) +
+                " ms",
+              icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+            },
+            fields: [
+              {
+                name: `Error`,
+                //Takes the current time subtracted by the time the users message was sent
+                //Giving us the ping!
+                value: `Could not find ${message.mentions.members.first()} on the minecraft server whitelist!`
+              }
+            ]
+          }
+        });
+      }
+    } else {
+      //minecraft username specified
+      user = args[1];
+      discordid = await rcondb.get(user.toLowerCase() + "-discordid");
+      if (discordid) {
+        //found minecraft user
+        await rconcommand("whitelist remove " + user, guildrcon, message);
+        rcondb.delete(user.toLowerCase() + "-discordid");
+        rcondb.delete(discordid + "-mcname");
+        return message.channel.send({
+          embed: {
+            color: displayColor,
+            //sets the time of the request being made
+            timestamp: new Date(),
+            footer: {
+              text:
+                `Requested by ${message.author.username} • ` +
+                (new Date().getTime() - message.createdTimestamp) +
+                " ms",
+              icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+            },
+            fields: [
+              {
+                name: `Removed!`,
+                //Takes the current time subtracted by the time the users message was sent
+                //Giving us the ping!
+                value: `Removed ${user} from the minecraft server whitelist (${message.mentions.members.first()})`
+              }
+            ]
+          }
+        });
+      }
+      {
+        //could not find minecraft username
+        await rconcommand("whitelist remove " + user, guildrcon, message);
+        return message.channel.send({
+          embed: {
+            color: displayColor,
+            //sets the time of the request being made
+            timestamp: new Date(),
+            footer: {
+              text:
+                `Requested by ${message.author.username} • ` +
+                (new Date().getTime() - message.createdTimestamp) +
+                " ms",
+              icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
+            },
+            fields: [
+              {
+                name: `Removed!`,
+                //Takes the current time subtracted by the time the users message was sent
+                //Giving us the ping!
+                value: `Removed ${user} from the minecraft server whitelist.\n Note: User was not found in the whitelist database. It is possible they were not whitelisted at all.`
+              }
+            ]
+          }
+        });
+      }
+    }
   }
 }
 
@@ -251,15 +376,18 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
         //sets the time of the request being made
         timestamp: new Date(),
         footer: {
-          text: `Requested by ${message.author.username}`,
+          text:
+            `Requested by ${message.author.username} • ` +
+            (new Date().getTime() - message.createdTimestamp) +
+            " ms",
           icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
         },
         fields: [
           {
-            name: `Added ${message.mentions.roles.first().name} to mods`,
+            name: `Role Assigned!`,
             //Takes the current time subtracted by the time the users message was sent
             //Giving us the ping!
-            value: new Date().getTime() - message.createdTimestamp + " ms"
+            value: `Added ${message.mentions.roles.first()} to mods`
           }
         ]
       }
@@ -295,15 +423,18 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
           //sets the time of the request being made
           timestamp: new Date(),
           footer: {
-            text: `Requested by ${message.author.username}`,
+            text:
+              `Requested by ${message.author.username} • ` +
+              (new Date().getTime() - message.createdTimestamp) +
+              " ms",
             icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
           fields: [
             {
-              name: `Added ${role.name} to mods`,
+              name: `Role Assigned`,
               //Takes the current time subtracted by the time the users message was sent
               //Giving us the ping!
-              value: new Date().getTime() - message.createdTimestamp + " ms"
+              value: `Added ${role} to mods`
             }
           ]
         }
@@ -315,7 +446,6 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
 }
 
 async function removegroup(message, args, guildrcon, rcondb, displayColor) {
-  console.log(!(await checkismod(message, guildrcon)));
   if (!(await checkismod(message, guildrcon))) {
     return message.channel.send(
       "You do not have permission to run this command!"
@@ -336,15 +466,18 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
           //sets the time of the request being made
           timestamp: new Date(),
           footer: {
-            text: `Requested by ${message.author.username}`,
+            text:
+              `Requested by ${message.author.username} • ` +
+              (new Date().getTime() - message.createdTimestamp) +
+              " ms",
             icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
           fields: [
             {
-              name: `Removed ${message.mentions.roles.first().name} from users`,
+              name: `Removed Role Assignment!`,
               //Takes the current time subtracted by the time the users message was sent
               //Giving us the ping!
-              value: new Date().getTime() - message.createdTimestamp + " ms"
+              value: `Removed ${message.mentions.roles.first()} from users`
             }
           ]
         }
@@ -362,17 +495,18 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
             //sets the time of the request being made
             timestamp: new Date(),
             footer: {
-              text: `Requested by ${message.author.username}`,
+              text:
+                `Requested by ${message.author.username} • ` +
+                (new Date().getTime() - message.createdTimestamp) +
+                " ms",
               icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
             },
             fields: [
               {
-                name: `Removed ${
-                  message.mentions.roles.first().name
-                } from mods`,
+                name: `Removed Assigned Role!`,
                 //Takes the current time subtracted by the time the users message was sent
                 //Giving us the ping!
-                value: new Date().getTime() - message.createdTimestamp + " ms"
+                value: `Removed ${message.mentions.roles.first()} from mods`
               }
             ]
           }
@@ -415,15 +549,18 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
             //sets the time of the request being made
             timestamp: new Date(),
             footer: {
-              text: `Requested by ${message.author.username}`,
+              text:
+                `Requested by ${message.author.username} • ` +
+                (new Date().getTime() - message.createdTimestamp) +
+                " ms",
               icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
             },
             fields: [
               {
-                name: `Removed ${role.name} from users`,
+                name: `Removed Assigned Role!`,
                 //Takes the current time subtracted by the time the users message was sent
                 //Giving us the ping!
-                value: new Date().getTime() - message.createdTimestamp + " ms"
+                value: `Removed ${role} from users`
               }
             ]
           }
@@ -444,15 +581,18 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
               //sets the time of the request being made
               timestamp: new Date(),
               footer: {
-                text: `Requested by ${message.author.username}`,
+                text:
+                  `Requested by ${message.author.username} • ` +
+                  (new Date().getTime() - message.createdTimestamp) +
+                  " ms",
                 icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
               },
               fields: [
                 {
-                  name: `Removed ${role.name} from mods`,
+                  name: `Removed Assigned Role!`,
                   //Takes the current time subtracted by the time the users message was sent
                   //Giving us the ping!
-                  value: new Date().getTime() - message.createdTimestamp + " ms"
+                  value: `Removed ${role} from mods`
                 }
               ]
             }
@@ -490,15 +630,18 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
         //sets the time of the request being made
         timestamp: new Date(),
         footer: {
-          text: `Requested by ${message.author.username}`,
+          text:
+            `Requested by ${message.author.username} • ` +
+            (new Date().getTime() - message.createdTimestamp) +
+            " ms",
           icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
         },
         fields: [
           {
-            name: `Added ${message.mentions.roles.first().name} to users`,
+            name: `Assigned Role!`,
             //Takes the current time subtracted by the time the users message was sent
             //Giving us the ping!
-            value: new Date().getTime() - message.createdTimestamp + " ms"
+            value: `Added ${message.mentions.roles.first()} to users`
           }
         ]
       }
@@ -534,15 +677,18 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
           //sets the time of the request being made
           timestamp: new Date(),
           footer: {
-            text: `Requested by ${message.author.username}`,
+            text:
+              `Requested by ${message.author.username} • ` +
+              (new Date().getTime() - message.createdTimestamp) +
+              " ms",
             icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           },
           fields: [
             {
-              name: `Added ${role.name} to users`,
+              name: `Role Assigned!`,
               //Takes the current time subtracted by the time the users message was sent
               //Giving us the ping!
-              value: new Date().getTime() - message.createdTimestamp + " ms"
+              value: `Added ${role} to users`
             }
           ]
         }
@@ -552,27 +698,19 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
 }
 
 async function checkismod(message, guildrcon) {
-  // TODO: fully check groups
   const modroles = guildrcon["whitelist-mod-roles"];
   if (message.member.hasPermission("ADMINISTRATOR")) {
-    console.log("is admin");
     return true;
   } else {
     if (modroles) {
       var ismod = false;
-      console.log("1");
-      console.log(modroles, modroles.length);
       for (var i = 0; i < modroles.length; i++) {
-        console.log("2");
-        console.log("i is: " + i);
         if (message.member.roles.cache.has(modroles[i])) {
-          console.log("4");
           ismod = true;
           return true;
         }
       }
       if (!ismod) {
-        console.log("3");
         return false;
       }
     } else return false;
@@ -580,7 +718,6 @@ async function checkismod(message, guildrcon) {
 }
 
 async function checkisuser(message, guildrcon) {
-  // TODO: fully check groups
   const userroles = guildrcon["whitelist-user-roles"];
   if (await checkismod(message, guildrcon)) {
     return true;
