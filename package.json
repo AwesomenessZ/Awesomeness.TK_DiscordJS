@@ -1,5 +1,5 @@
 {
-  "name": "Awesomeness.TK_DiscordJS",
+  "name": "awesomenesstk-discordjs",
   "version": "1.0.0",
   "description": "A bot for Awesomeness.TK!",
   "main": "bot.js",
@@ -20,13 +20,13 @@
     "querystring": "^0.2.1",
     "simple-youtube-api": "^5.2.1",
     "sodium": "^3.0.2",
-    "ytdl-core": "^4.5.0"
+    "ytdl-core": "^4.8.0"
   },
   "devDependencies": {
     "eslint": "^7.23.0"
   },
   "scripts": {
-    "compress": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bot.js"
   },
   "author": "AwesomenessZ",
   "license": "ISC"
