@@ -33,6 +33,7 @@ module.exports = {
   ) {
     sliced = message.content.split(" ");
     var sliced = sliced[0].slice(1);
+    var vc
     if (sliced != "youtube" && sliced != "yta" && sliced != "y") {
       args.unshift(sliced);
     }
@@ -75,7 +76,7 @@ module.exports = {
       var search = args;
       if (message.member.voice.channel) {
         var link = args[1];
-        var vc = message.member.voice.channel;
+        vc = message.member.voice.channel;
         const YouTube = require("simple-youtube-api");
         const youtube = new YouTube("AIzaSyAWRX5cdyVUJUfeAeDPhYbM8sUPbLR7EVA");
         if (validateYouTubeUrl(args)) {
@@ -178,7 +179,7 @@ module.exports = {
     } //End of play
     if (args[0] == "stop" || args[0] == "leave") {
       if (message.member.voice.channel) {
-        var vc = message.member.voice.channel;
+        vc = message.member.voice.channel;
         vc.leave();
         queues[message.guild.id] = [];
         connection[message.guild.id] = null;

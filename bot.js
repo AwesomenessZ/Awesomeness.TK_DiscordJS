@@ -80,6 +80,7 @@ client.on("ready", message => {
     //This is done so we can do it async without messing with timers
     runstatus();
   }, 180000); // 180000 = 180 seconds = 3 minutes
+  console.log(message)
 });
 //executed when the bot has joined a new discord server
 client.on("guildCreate", function(guild) {
@@ -194,17 +195,9 @@ async function grabstatus(i, index) {
   var guildSCH = await statusCH.get(index[i]);
   var guildSID = await statusID.get(index[i]);
   //Telling Discord.js what channel and message we want to be currently working with
-  var channel = await client.channels.cache.get(guildSCH).catch(error => {
-    message.channel.send("Could not find channel " + i);
-    console.log(error);
-    return;
-  });
+  var channel = await client.channels.cache.get(guildSCH)
   //Removes from index if no longer exists
-  var message = await channel.messages.fetch(guildSID).catch(error => {
-    console.log("Could not find Status Message " + i);
-    console.log(error);
-    return;
-  });
+  var message = await channel.messages.fetch(guildSID)
   var guild = message.guild.id;
   var guildapi = await apikey.get(guild);
   //Start typing so that users know the message is being worked on
@@ -262,37 +255,6 @@ async function grabstatus(i, index) {
       message.channel.stopTyping(true);
     }
   }
-}
-
-async function removeStatus(identifier) {
-  return;
-  //To be fixed after v12 upgrade
-  const Keyv = require("keyv");
-  const id = new Keyv("sqlite://commands/db/discordbot_Identifers.db");
-  var index = await id.get("index");
-  if (!index) {
-    index = [];
-  }
-  var guildSCH;
-  if (!identifier) {
-    var loadchannel = client.channels.cache.get("627880075140005908");
-    loadchannel.send(
-      "Could not delete status message in a channel that no longer exists"
-    );
-    return;
-  }
-
-  const valueToRemove = index[identifier];
-  const filteredItems = index.filter(item => item !== valueToRemove);
-  await id.set("index", filteredItems);
-  var loadchannel = client.channels.cache.get("627880075140005908");
-  loadchannel.send(
-    `Deleted ${valueToRemove} (id: ${identifier}) as the channel no longer exists!`
-  );
-}
-
-async function checkreminders() {
-  const remindersdb = new Keyv("sqlite://commands/db/reminders.db");
 }
 
 //Master Miner chat

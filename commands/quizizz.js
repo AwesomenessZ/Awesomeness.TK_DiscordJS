@@ -7,10 +7,11 @@ module.exports = {
   usage: '<URL containing "quizid"> or help',
   //code to be executed
   execute(message, args, displayColor) {
+    var temp
     if (
       args[0].startsWith("https://quizizz.com/api/main/gameSummaryRec?quizId=")
     ) {
-      var temp = args[0];
+      temp = args[0];
       temp = temp.replace(
         "https://quizizz.com/api/main/gameSummaryRec?quizId=",
         ""
@@ -23,7 +24,7 @@ module.exports = {
         "https://quizizz.com/api/sumstars/gameSummaryRec?quizId="
       )
     ) {
-      var temp = args[0];
+      temp = args[0];
       temp = temp.replace(
         "https://quizizz.com/api/sumstars/gameSummaryRec?quizId=",
         ""
@@ -139,10 +140,11 @@ async function quiz(message, temp, displayColor) {
   //Convert the result to somthing more useable
   const json = data;
   const jsn = JSON.parse(json);
+  var image
   if (jsn.data.quiz.info.image) {
-    var image = jsn.data.quiz.info.image;
+    image = jsn.data.quiz.info.image;
   } else
-    var image =
+    image =
       "https://cdn-images-1.medium.com/max/1200/1*4RLJWQJKZ4UwrYafUW7PRw.png";
   var avg = Math.round(
     (jsn.data.quiz.stats.totalCorrect / jsn.data.quiz.stats.totalQuestions) *

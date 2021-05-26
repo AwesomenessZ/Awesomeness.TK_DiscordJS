@@ -48,7 +48,6 @@ async function setrcon(message, args) {
     namespace: message.guild.id
   });
   //Start typing so that the user knows the bot is working
-  var guild = message.guild.id;
   var guildrconcreds = await rcondb.get("creds");
   if (!guildrconcreds) {
     guildrconcreds = [];
