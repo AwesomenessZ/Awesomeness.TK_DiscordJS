@@ -203,20 +203,19 @@ async function grabstatus(i, index) {
   var guild = message.guild.id;
   var guildapi = await apikey.get(guild);
   //Start typing so that users know the message is being worked on
-  message.channel.startTyping();
+  message.channel.sendTyping();
   //If we dont know what server we should be checking the status of we send an error
   if (!guildapi) {
     message.reply(
       `An api key hasn't been provided for this discord server! (${message.guild.name})\nAdd it with /apikey <key>`
     );
-    message.channel.stopTyping(true);
   }
   //If for some reason we have the chanel id but not the message id we tell the users
   if (!guildSID) {
     channel.send(
       `Cannot find the message ${guildSID}! Please remove the status message and recreate it!`
     );
-    channel.stopTyping(true);
+    message.channel.sendTyping();
   }
   if (guildapi) {
     if (guildSID) {
@@ -254,7 +253,7 @@ async function grabstatus(i, index) {
       message.edit(updated);
       //Stopping the bot from displaying as typing so that users can see
       //any potential changes have been made
-      message.channel.stopTyping(true);
+      message.channel.sendTyping();
     }
   }
 }

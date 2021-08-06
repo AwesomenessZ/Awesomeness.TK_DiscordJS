@@ -24,13 +24,12 @@ module.exports = {
 async function status(guild, message) {
   const Keyv = require("keyv");
   const apikey = new Keyv("sqlite://commands/db/apikeys.db");
-  message.channel.startTyping();
+  message.channel.sendTyping();
   var guildapi = await apikey.get(guild);
   if (!guildapi) {
     message.channel.send(
       `An api key hasn't been provided for this discord server! (${message.guild.name})\nAdd it with /apikey <key>`
     );
-    message.channel.stopTyping(true);
   }
   if (guildapi) {
     const { curly } = require("node-libcurl");
@@ -90,6 +89,5 @@ async function status(guild, message) {
           );
         })();
       });
-    message.channel.stopTyping(true);
   }
 }

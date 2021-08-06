@@ -8,7 +8,6 @@ module.exports = {
     message.reply(
       "Thank you for saving power! Feel good about yourself! :smile:"
     );
-    //Actually stops the bot from typing if gliched out
-    message.channel.stopTyping(true);
+    //Actually stops the bot from typing if gliched out (Discord now does this automatically after 10 seconds, or when a message is sent)
   }
 };

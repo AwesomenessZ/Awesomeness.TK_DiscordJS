@@ -17,7 +17,7 @@ module.exports = {
     //Start typing so that the user knows the bot is working
     //Find what server we are in so that we can load the correct config
     if (args[1] != "help") {
-      message.channel.startTyping();
+      message.channel.sendTyping();
       try {
         var guildrcon = [];
         var guildrconcreds = await rcondb.get("creds");
@@ -31,38 +31,31 @@ module.exports = {
         message.reply(
           "Rcon has not yet been setup in this server! Please set it up in a private channel (Error 1)"
         );
-        message.channel.stopTyping(true);
         return;
       }
       if (!guildrcon["creds"]) {
         message.reply(
           "Rcon has not yet been setup in this server! Please set it up in a private channel (Error 2)"
         );
-        message.channel.stopTyping(true);
         return;
       }
     }
     switch (args[0]) {
       case "set":
         await whitelistset(message, args, guildrcon, rcondb, displayColor);
-        message.channel.stopTyping(true);
         break;
       case "remove":
         await whitelistremove(message, args, guildrcon, rcondb, displayColor);
-        message.channel.stopTyping(true);
         break;
       case "mod-group":
         // code block
         await addmodgroup(message, args, guildrcon, rcondb, displayColor);
-        message.channel.stopTyping(true);
         break;
       case "remove-group":
         await removegroup(message, args, guildrcon, rcondb, displayColor);
-        message.channel.stopTyping(true);
         break;
       case "user-group":
         await addusergroup(message, args, guildrcon, rcondb, displayColor);
-        message.channel.stopTyping(true);
         break;
 
       default:
@@ -86,7 +79,6 @@ module.exports = {
             ]
           }
         });
-        message.channel.stopTyping(true);
         break;
     }
   }
@@ -200,7 +192,6 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         }
       });
     } else {
-      message.channel.stopTyping(true);
       return message.reply(
         "You do not have a whitelisted user associated with your discord account!"
       );

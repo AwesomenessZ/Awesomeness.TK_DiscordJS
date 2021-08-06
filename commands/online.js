@@ -11,7 +11,7 @@ module.exports = {
     //Loads the needed database
     const apikey = new Keyv("sqlite://commands/db/apikeys.db");
     //Start typing so that the user knows the bot is working
-    message.channel.startTyping();
+    message.channel.sendTyping();
     //Find what server we are in so that we can load the correct config
     var guild = message.guild.id;
     var guildapi = await apikey.get(guild);
@@ -20,8 +20,6 @@ module.exports = {
       message.reply(
         `An api key hasn't been provided for this discord server! (${message.guild.name})\nAdd it with /apikey <key>`
       );
-      //Stop typing so that we dont have an infnitly typing bot
-      message.channel.stopTyping(true);
     }
     //If their is a server config set
     if (guildapi) {
@@ -67,8 +65,6 @@ module.exports = {
           ]
         }
       });
-      //Stops typing so that the bot indicates that it is done executing
-      message.channel.stopTyping(true);
     }
   }
 };
