@@ -7,7 +7,7 @@ module.exports = {
   execute(message, args, displayColor) {
     //Send a rich chat message
     message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         //sets the time of the request being made
         timestamp: new Date(),

@@ -9,7 +9,7 @@ module.exports = {
   execute(message, args, displayColor) {
     //sends a gif withen an embeded (Rich text) message
     message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         timestamp: new Date(),
         footer: {

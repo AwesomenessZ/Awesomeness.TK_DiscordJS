@@ -45,7 +45,7 @@ module.exports = {
               dispatchers[message.guild.id].resume();
               sendembed(
                 {
-                  embed: {
+                  embeds: {
                     color: displayColor,
                     title: `${message.guild.name}'s Music has been resumed!'`,
                     //sets the time of the request being made
@@ -96,7 +96,7 @@ module.exports = {
               );
               sendembed(
                 {
-                  embed: {
+                  embeds: {
                     color: displayColor,
                     url: `https://youtube.com/watch?v=${video.id}`,
                     //sets the time of the request being made
@@ -132,7 +132,7 @@ module.exports = {
             .then(results => {
               sendembed(
                 {
-                  embed: {
+                  embeds: {
                     color: displayColor,
                     url: `https://youtube.com/watch?v=${results[0].id}`,
                     //sets the time of the request being made
@@ -194,7 +194,7 @@ module.exports = {
           dispatchers[message.guild.id].end();
           sendembed(
             {
-              embed: {
+              embeds: {
                 color: displayColor,
                 title: `Skipped`,
                 //sets the time of the request being made
@@ -229,7 +229,7 @@ module.exports = {
         if (queues[message.guild.id][args[2]]) {
           sendembed(
             {
-              embed: {
+              embeds: {
                 color: displayColor,
                 title: `Removed #${args[2]}, ${
                   queues[message.guild.id + "_names"][args[2]]
@@ -303,7 +303,7 @@ module.exports = {
           dispatchers[message.guild.id].pause();
           sendembed(
             {
-              embed: {
+              embeds: {
                 color: displayColor,
                 title: `${message.guild.name}'s Music has been paused!'`,
                 //sets the time of the request being made
@@ -335,7 +335,7 @@ module.exports = {
             dispatchers[message.guild.id].resume();
             sendembed(
               {
-                embed: {
+                embeds: {
                   color: displayColor,
                   title: `${message.guild.name}'s Music has been resumed!'`,
                   //sets the time of the request being made
@@ -365,7 +365,7 @@ module.exports = {
     } //End of resume
     if (args[0] == "help" || args[0] == "h") {
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           url: `https://discord.gg/Tn48N9A`,
           //sets the time of the request being made
@@ -562,7 +562,7 @@ async function sendqueue(message, queues, displayColor, client, noUser) {
   if (noUser) {
     sendembed(
       {
-        embed: {
+        embeds: {
           color: displayColor,
           title: `Queue for ${message.guild.name}`,
           url: queues[message.guild.id][0],
@@ -586,7 +586,7 @@ async function sendqueue(message, queues, displayColor, client, noUser) {
   } else {
     sendembed(
       {
-        embed: {
+        embeds: {
           color: displayColor,
           title: `Queue for ${message.guild.name}`,
           url: queues[message.guild.id][0],
@@ -628,7 +628,7 @@ function titleformat(queues, message) {
 function sendvolume(volume, message, displayColor, client) {
   sendembed(
     {
-      embed: {
+      embeds: {
         color: displayColor,
         //sets the time of the request being made
         timestamp: new Date(),
@@ -655,9 +655,9 @@ function sendvolume(volume, message, displayColor, client) {
 }
 
 function sendembed(embed, client, message) {
-  message.channel.send(embed);
+  message.channel.send({embeds: embed});
   var loadchannel = client.channels.cache.get("761256808102756402");
-  loadchannel.send(embed);
+  loadchannel.send({embeds: embed});
 }
 
 function validateYouTubeUrl(args) {

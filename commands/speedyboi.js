@@ -9,7 +9,7 @@ module.exports = {
   execute(message, args, displayColor) {
     //sends a gif inside an embed
     message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         timestamp: new Date(),
         footer: {

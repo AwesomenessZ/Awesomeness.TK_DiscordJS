@@ -24,7 +24,7 @@ module.exports = {
           .filter(c => c.type == "text")
           .cache.find(x => x.position == 0);
         message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -64,7 +64,7 @@ module.exports = {
         break;
       case "grant":
         message.author.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -89,7 +89,7 @@ module.exports = {
         );
         message.member.roles.add(role);
         message.author.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -108,7 +108,7 @@ module.exports = {
           }
         });
         message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -129,7 +129,7 @@ module.exports = {
         break;
       default:
         message.author.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -153,7 +153,7 @@ module.exports = {
 
 function sendvolume(volume, message, displayColor) {
   message.channel.send({
-    embed: {
+    embeds: {
       color: displayColor,
       //sets the time of the request being made
       timestamp: new Date(),

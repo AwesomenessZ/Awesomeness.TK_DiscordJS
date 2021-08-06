@@ -29,7 +29,7 @@ module.exports = {
         message.channel.send(`\`\`\`${data}\`\`\``);
         //Report who requested the message and at one time in that same channel
         message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             timestamp: new Date(),
             footer: {

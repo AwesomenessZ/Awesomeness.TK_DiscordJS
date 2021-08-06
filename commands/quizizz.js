@@ -34,7 +34,7 @@ module.exports = {
     }
     if (args[0] == "help") {
       message.channel.send({
-        embed: {
+        embeds: {
           title: "Quizizz Command Help",
           color: displayColor,
           fields: [
@@ -46,7 +46,7 @@ module.exports = {
         }
       });
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           image: {
             url: "https://i.imgur.com/QFfYeA9.png"
@@ -60,7 +60,7 @@ module.exports = {
         }
       });
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           image: {
             url: "https://i.imgur.com/l8cEO4G.png"
@@ -74,7 +74,7 @@ module.exports = {
         }
       });
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           timestamp: new Date(),
           image: {
@@ -98,7 +98,7 @@ module.exports = {
       return;
     } //End of help
     message.channel.send({
-      embed: {
+      embeds: {
         title: "Quizizz Command functionality",
         color: displayColor,
         timestamp: new Date(),
@@ -152,7 +152,7 @@ async function quiz(message, temp, displayColor) {
   );
 
   message.channel.send({
-    embed: {
+    embeds: {
       title: "Click for the Quizizz Answer key!",
       url: `https://quizizz.com/admin/quiz/${temp}`,
       color: displayColor,

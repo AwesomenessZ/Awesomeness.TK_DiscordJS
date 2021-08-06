@@ -365,7 +365,7 @@ async function newlog(message) {
     msg = msg.replace("@everyone", "{PING}");
     var notice = client.channels.cache.get("478288700833398790");
     notice.send({
-      embed: {
+      embeds: {
         color: message.guild.me.displayColor,
         timestamp: new Date(),
         title: `WARNING:`,
@@ -503,7 +503,7 @@ function success(mcname, discord_user) {
   loadchannel.messages.fetch({ limit: 1 }).then(messages => {
     let message = messages.first();
     loadchannel.send({
-      embed: {
+      embeds: {
         color: message.guild.me.displayColor,
         timestamp: new Date(),
         title: `Pairing Success!`,
@@ -531,7 +531,7 @@ function failure(mcname, discordname) {
   loadchannel.messages.fetch({ limit: 1 }).then(messages => {
     let message = messages.first();
     loadchannel.send({
-      embed: {
+      embeds: {
         color: message.guild.me.displayColor,
         timestamp: new Date(),
         title: `Pairing Failed!`,

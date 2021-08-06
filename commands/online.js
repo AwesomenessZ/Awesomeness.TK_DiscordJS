@@ -37,7 +37,7 @@ module.exports = {
       const jsn = JSON.parse(json);
       //send a Rich chat message based on the received infromation
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           timestamp: new Date(),
           title: `${jsn.name}'s status:`,

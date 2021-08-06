@@ -18,7 +18,7 @@ module.exports = {
           temp = temp.toUpperCase();
           var loadchannel = client.channels.cache.get("627880075140005908");
           loadchannel.send({
-            embed: {
+            embeds: {
               color: displayColor,
               timestamp: new Date(),
               title: `New Server Requesting weather: ${message.guild.name}, ${args[1]}`,
@@ -37,7 +37,7 @@ module.exports = {
           await db.set(guild, temp);
 
           message.channel.send({
-            embed: {
+            embeds: {
               color: displayColor,
               timestamp: new Date(),
               title: `New Server weatherset for ${message.guild.name}, ${args[1]}`,
@@ -64,7 +64,7 @@ module.exports = {
         var region = await db.get(message.guild.id);
         if (region) {
           message.channel.send({
-            embed: {
+            embeds: {
               color: displayColor,
               timestamp: new Date(),
               title: `Radar For ${region}:`,

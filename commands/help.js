@@ -18,7 +18,7 @@ module.exports = {
     if (!args.length) {
       //Sends an embeded message
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           timestamp: new Date(),
           title: `Awesomeness.TK Help`,

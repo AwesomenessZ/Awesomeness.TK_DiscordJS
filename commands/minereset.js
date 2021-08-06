@@ -11,7 +11,7 @@ module.exports = {
     if (message.guild.id !== "445449992795062273") {
       //Stops the rest of the code from running and tells the user that this can only be run in specific guilds
       return message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           timestamp: new Date(),
           title: `This command can only be run in Specific Guilds ATM! Sorry for the inconvenience!`,
@@ -37,7 +37,7 @@ module.exports = {
     ) {
       //If they have one of the roles, send a curl request to a rcon api to run the command 'cmd run resetmines' on the specifed server
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           timestamp: new Date(),
           title: `Mines will now be reset`,
@@ -66,7 +66,7 @@ module.exports = {
     } else {
       //Dosent have one of the roles needed to run the command
       message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           timestamp: new Date(),
           title: `This command can only be run by staff! Please ask a staff member to reset the mines!`,

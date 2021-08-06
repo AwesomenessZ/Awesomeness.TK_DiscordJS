@@ -67,7 +67,7 @@ module.exports = {
 
       default:
         message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             timestamp: new Date(),
             footer: {
@@ -117,7 +117,7 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
   //Send confirm
   if (olduser) {
     message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         //sets the time of the request being made
         timestamp: new Date(),
@@ -140,7 +140,7 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
     });
   } else {
     message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         //sets the time of the request being made
         timestamp: new Date(),
@@ -178,7 +178,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
       rcondb.delete(olduser.toLowerCase() + "-discordid");
       rcondb.delete(message.author.id + "-mcname");
       return message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           //sets the time of the request being made
           timestamp: new Date(),
@@ -221,7 +221,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         rcondb.delete(user.toLowerCase() + "-discordid");
         rcondb.delete(discordid + "-mcname");
         return message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -245,7 +245,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
       } else {
         //user dosent have a whitelist set
         return message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -277,7 +277,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         rcondb.delete(user.toLowerCase() + "-discordid");
         rcondb.delete(discordid + "-mcname");
         return message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -303,7 +303,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         //could not find minecraft username
         await rconcommand("whitelist remove " + user, guildrcon, message);
         return message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -371,7 +371,7 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
     guildrcon["whitelist-mod-roles"] = modroles;
     updatedb(guildrcon, rcondb);
     return message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         //sets the time of the request being made
         timestamp: new Date(),
@@ -418,7 +418,7 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
       guildrcon["whitelist-mod-roles"] = modroles;
       updatedb(guildrcon, rcondb);
       return message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           //sets the time of the request being made
           timestamp: new Date(),
@@ -461,7 +461,7 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
       );
       updatedb(guildrcon, rcondb);
       return message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           //sets the time of the request being made
           timestamp: new Date(),
@@ -490,7 +490,7 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
         );
         updatedb(guildrcon, rcondb);
         return message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -544,7 +544,7 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
         );
         updatedb(guildrcon, rcondb);
         return message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             //sets the time of the request being made
             timestamp: new Date(),
@@ -576,7 +576,7 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
           );
           updatedb(guildrcon, rcondb);
           return message.channel.send({
-            embed: {
+            embeds: {
               color: displayColor,
               //sets the time of the request being made
               timestamp: new Date(),
@@ -625,7 +625,7 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
     guildrcon["whitelist-user-roles"] = userroles;
     updatedb(guildrcon, rcondb);
     return message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         //sets the time of the request being made
         timestamp: new Date(),
@@ -672,7 +672,7 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
       guildrcon["whitelist-user-roles"] = userroles;
       updatedb(guildrcon, rcondb);
       return message.channel.send({
-        embed: {
+        embeds: {
           color: displayColor,
           //sets the time of the request being made
           timestamp: new Date(),

@@ -12,7 +12,7 @@ module.exports = {
         break;
       default:
         message.channel.send({
-          embed: {
+          embeds: {
             color: displayColor,
             timestamp: new Date(),
             footer: {

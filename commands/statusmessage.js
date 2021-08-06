@@ -41,7 +41,7 @@ async function status(guild, message) {
     const jsn = JSON.parse(json);
     message.channel
       .send({
-        embed: {
+        embeds: {
           color: message.guild.me.displayColor,
           timestamp: new Date(),
           title: `${jsn.name}'s status:`,

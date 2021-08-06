@@ -17,9 +17,9 @@ module.exports = {
       }
     }
     msg = msg.join("");
-    message.channel.send(msg);
     message.channel.send({
-      embed: {
+      content: msg,
+      embeds: {
         color: displayColor,
         timestamp: new Date(),
         footer: {

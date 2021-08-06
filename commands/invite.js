@@ -9,7 +9,7 @@ module.exports = {
   execute(message, args, displayColor) {
     //sends the users the invite url for the bot, so that it may be added to their own servers
     message.channel.send({
-      embed: {
+      embeds: {
         color: displayColor,
         timestamp: new Date(),
         title: `To invite me to your discord server click here!`,
