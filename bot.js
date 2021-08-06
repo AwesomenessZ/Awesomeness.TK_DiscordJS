@@ -67,11 +67,13 @@ client.on("ready", message => {
     "at 9001% volume",
     "with your mom",
     "with Dad Bot"
-  ]; // TODO Add support for diffrent status types.
+  ];
+  const statusType = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETING"]
   //To be run every 30 seconds
   setInterval(() => {
     const i = Math.floor(Math.random() * (status.length - 1) + 1); //Picks a random number within the range of the array
-    client.user.setActivity(status[i]); //Picks a status from the activities_list array
+    const q = Math.floor(Math.random() * (statusType.length - 1) + 1); //Picks a random number within the range of the array
+    client.user.setActivity(status[i], { type: statusType[q] }); //Picks a status from the activities_list array
     //checkreminders()
   }, 30000); //30000 = 30 seconds
   //To be run every 3 minutes (180 seconds)
@@ -128,7 +130,7 @@ client.on("messageCreate", message => {
     displayColor = message.guild.me.displayColor;
   } else displayColor = "636363";
   //Check if command is Guild-Only and if the user is messaging from a guild (won't work in dms)
-  if (command.guildOnly && message.channel.type !== "text") {
+  if (command.guildOnly && message.channel.type !== "GUILD_TEXT") {
     return message.reply("That command is not avilable outside of guilds!");
   }
   //If the command requires arguments to run and isnt given them
