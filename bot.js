@@ -3,7 +3,7 @@ const { prefix, token } = require("./config.json");
 const Discord = require("discord.js");
 const Keyv = require("keyv");
 // create a new Discord client
-const client = new Discord.Client({ disableMentions: "everyone" });
+const client = new Discord.Client({ allowedMentions: { parse: ['users'], repliedUser: true } });
 client.commands = new Discord.Collection();
 var queues = {};
 var connection = {};
@@ -109,7 +109,7 @@ client.on("guildDelete", function(guild) {
   );
 });
 //Event handling for every message sent that the bot can read
-client.on("message", message => {
+client.on("messageCreate", message => {
   //If the message is not intended for the bot we stop processing it
   if (!message.content.startsWith(prefix)) return;
   //Setup args variable to contain everything but the prefix
@@ -259,7 +259,7 @@ async function grabstatus(i, index) {
 
 //Master Miner chat
 //Master Miner Chat
-client.on("message", message => {
+client.on("messageCreate", message => {
   //If receving from server
   if (message.channel.id == 477855444447264780) {
     newlog(message);
