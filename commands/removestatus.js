@@ -41,7 +41,7 @@ async function remove(message, guild, args) {
     }
   }
   if (!identifier) {
-    return message.channel.send(
+    return message.reply(
       "Could not find a status message for that channel!"
     );
   }
@@ -50,7 +50,7 @@ async function remove(message, guild, args) {
   const filteredItems = index.filter(item => item !== valueToRemove);
   await id.set("index", filteredItems);
   message.channel
-    .send("Removed! You can now delete the previous message if you want!")
+    .reply("Removed! You can now delete the previous message if you want!")
     .catch(e => {
       //Log any errors that accors to console
       console.log(e);

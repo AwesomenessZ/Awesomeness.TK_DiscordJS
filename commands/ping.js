@@ -6,7 +6,7 @@ module.exports = {
   //code to be executed
   execute(message, args, displayColor) {
     //Send a rich chat message
-    message.channel.send({
+    message.reply({
       embeds: {
         color: displayColor,
         //sets the time of the request being made

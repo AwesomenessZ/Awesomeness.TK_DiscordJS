@@ -26,21 +26,18 @@ module.exports = {
           return;
         }
         //send the converted message back to the channel it came from
-        message.channel.send(`\`\`\`${data}\`\`\``);
-        //Report who requested the message and at one time in that same channel
-        message.channel.send({
-          embeds: {
-            color: displayColor,
-            timestamp: new Date(),
-            footer: {
-              text:
-                `Requested by ${message.author.username} • ` +
-                (new Date().getTime() - message.createdTimestamp) +
-                " ms",
-              icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
-            }
+        message.reply({ content: `\`\`\`${data}\`\`\``, 
+        embeds: {
+          color: displayColor,
+          timestamp: new Date(),
+          footer: {
+            text:
+              `Requested by ${message.author.username} • ` +
+              (new Date().getTime() - message.createdTimestamp) +
+              " ms",
+            icon_url: `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.png`
           }
-        }),
+        } });
           console.log(); //Exists because code is expected to be here, dosent actually do anything
       }
     );

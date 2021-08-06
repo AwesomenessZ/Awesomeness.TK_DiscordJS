@@ -10,7 +10,7 @@ module.exports = {
     //Has to be in Prison Miner Server for command to run. (Not currently modular)
     if (message.guild.id !== "445449992795062273") {
       //Stops the rest of the code from running and tells the user that this can only be run in specific guilds
-      return message.channel.send({
+      return message.reply({
         embeds: {
           color: displayColor,
           timestamp: new Date(),
@@ -36,7 +36,7 @@ module.exports = {
       )
     ) {
       //If they have one of the roles, send a curl request to a rcon api to run the command 'cmd run resetmines' on the specifed server
-      message.channel.send({
+      message.reply({
         embeds: {
           color: displayColor,
           timestamp: new Date(),
@@ -65,7 +65,7 @@ module.exports = {
         });
     } else {
       //Dosent have one of the roles needed to run the command
-      message.channel.send({
+      message.reply({
         embeds: {
           color: displayColor,
           timestamp: new Date(),

@@ -11,7 +11,7 @@ module.exports = {
         setrcon(message, args);
         break;
       default:
-        message.channel.send({
+        message.reply({
           embeds: {
             color: displayColor,
             timestamp: new Date(),
@@ -38,8 +38,8 @@ module.exports = {
 
 async function setrcon(message, args) {
   if (!message.member.hasPermission("MANAGE_GUILD")) {
-    return message.channel.send(
-      'Only users with the permission"Manage Server" are allowed to run this command!'
+    return message.reply(
+      'Only users with the permission "Manage Server" are allowed to run this command!'
     );
   }
   const Keyv = require("keyv");
@@ -72,13 +72,13 @@ async function setrcon(message, args) {
     .catch(e => {
       console.log(e);
       failed = true;
-      return message.channel.send("Failed to connect to server!");
+      return message.reply("Failed to connect to server!");
     })
     .then(() => {
       rcon.disconnect();
     });
   if (failed == false) {
-    message.channel.send("Connected successfully!");
+    message.reply("Connected successfully! Don't forget to delete your password from chat!");
     rcondb.set("creds", guildrconcreds);
   }
 }

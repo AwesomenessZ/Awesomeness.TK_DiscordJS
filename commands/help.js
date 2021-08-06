@@ -17,7 +17,7 @@ module.exports = {
     //Lists the commands that are avalible
     if (!args.length) {
       //Sends an embeded message
-      message.channel.send({
+      message.reply({
         embeds: {
           color: displayColor,
           timestamp: new Date(),
@@ -68,6 +68,6 @@ module.exports = {
     if (command.usage)
       data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`).split;
     //sending the gathered infromation to the user
-    message.channel.send(data);
+    message.reply(data);
   }
 };

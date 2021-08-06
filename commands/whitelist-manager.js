@@ -28,14 +28,14 @@ module.exports = {
         guildrcon["whitelist-user-roles"] = guildrconwhitelistusers;
       } catch (e) {
         console.log(e);
-        message.channel.send(
+        message.reply(
           "Rcon has not yet been setup in this server! Please set it up in a private channel (Error 1)"
         );
         message.channel.stopTyping(true);
         return;
       }
       if (!guildrcon["creds"]) {
-        message.channel.send(
+        message.reply(
           "Rcon has not yet been setup in this server! Please set it up in a private channel (Error 2)"
         );
         message.channel.stopTyping(true);
@@ -94,7 +94,7 @@ module.exports = {
 
 async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
   if (!(await checkisuser(message, guildrcon))) {
-    return message.channel.send(
+    return message.reply(
       "You do not have permission to add yourself to the server whitelist!"
     );
   }
@@ -116,7 +116,7 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
   rcondb.set(user.toLowerCase() + "-discordid", message.author.id);
   //Send confirm
   if (olduser) {
-    message.channel.send({
+    message.reply({
       embeds: {
         color: displayColor,
         //sets the time of the request being made
@@ -139,7 +139,7 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
       }
     });
   } else {
-    message.channel.send({
+    message.reply({
       embeds: {
         color: displayColor,
         //sets the time of the request being made
@@ -166,7 +166,7 @@ async function whitelistset(message, args, guildrcon, rcondb, displayColor) {
 
 async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
   if (!(await checkisuser(message, guildrcon))) {
-    return message.channel.send(
+    return message.reply(
       "You do not have permission to remove yourself to the server whitelist!"
     );
   }
@@ -177,7 +177,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
       await rconcommand("whitelist remove " + olduser, guildrcon, message);
       rcondb.delete(olduser.toLowerCase() + "-discordid");
       rcondb.delete(message.author.id + "-mcname");
-      return message.channel.send({
+      return message.reply({
         embeds: {
           color: displayColor,
           //sets the time of the request being made
@@ -201,13 +201,13 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
       });
     } else {
       message.channel.stopTyping(true);
-      return message.channel.send(
+      return message.reply(
         "You do not have a whitelisted user associated with your discord account!"
       );
     }
   } else {
     if (!(await checkismod(message, guildrcon))) {
-      return message.channel.send(
+      return message.reply(
         "You do not have permission to run this command"
       );
     }
@@ -220,7 +220,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         await rconcommand("whitelist remove " + user, guildrcon, message);
         rcondb.delete(user.toLowerCase() + "-discordid");
         rcondb.delete(discordid + "-mcname");
-        return message.channel.send({
+        return message.reply({
           embeds: {
             color: displayColor,
             //sets the time of the request being made
@@ -244,7 +244,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         });
       } else {
         //user dosent have a whitelist set
-        return message.channel.send({
+        return message.reply({
           embeds: {
             color: displayColor,
             //sets the time of the request being made
@@ -276,7 +276,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
         await rconcommand("whitelist remove " + user, guildrcon, message);
         rcondb.delete(user.toLowerCase() + "-discordid");
         rcondb.delete(discordid + "-mcname");
-        return message.channel.send({
+        return message.reply({
           embeds: {
             color: displayColor,
             //sets the time of the request being made
@@ -302,7 +302,7 @@ async function whitelistremove(message, args, guildrcon, rcondb, displayColor) {
       {
         //could not find minecraft username
         await rconcommand("whitelist remove " + user, guildrcon, message);
-        return message.channel.send({
+        return message.reply({
           embeds: {
             color: displayColor,
             //sets the time of the request being made
@@ -343,7 +343,7 @@ async function rconcommand(cmd, guildrcon, message) {
     })
     .catch(e => {
       console.log(e);
-      message.channel.send(
+      message.reply(
         "Failed to connect to server, please try again later or update the rcon config!"
       );
     })
@@ -354,7 +354,7 @@ async function rconcommand(cmd, guildrcon, message) {
 
 async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
   if (!message.member.hasPermission("MANAGE_GUILD")) {
-    return message.channel.send(
+    return message.reply(
       'Only users with the permission"Manage Server" are allowed to run this command!'
     );
   }
@@ -364,13 +364,13 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
       modroles = [];
     } else {
       if (modroles.includes(message.mentions.roles.first().id)) {
-        return message.channel.send("That role is already in the mod list!");
+        return message.reply("That role is already in the mod list!");
       }
     }
     modroles.push(message.mentions.roles.first().id);
     guildrcon["whitelist-mod-roles"] = modroles;
     updatedb(guildrcon, rcondb);
-    return message.channel.send({
+    return message.reply({
       embeds: {
         color: displayColor,
         //sets the time of the request being made
@@ -398,12 +398,12 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
         var role = message.guild.roles.cache.find(r => r.name == args[1]);
       } catch (e) {
         console.log(e);
-        return message.channel.send(
+        return message.reply(
           `Could not find a role with the name of ${args[1]}`
         );
       }
       if (!role) {
-        return message.channel.send(
+        return message.reply(
           `Could not find a role with the name of ${args[1]}`
         );
       }
@@ -411,7 +411,7 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
         modroles = [];
       } else {
         if (modroles.includes(role.id)) {
-          return message.channel.send("That role is already in the mod list!");
+          return message.reply("That role is already in the mod list!");
         }
       }
       modroles.push(role.id);
@@ -440,14 +440,14 @@ async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
         }
       });
     } else {
-      return message.channel.send("You have not specified a role!");
+      return message.reply("You have not specified a role!");
     }
   }
 }
 
 async function removegroup(message, args, guildrcon, rcondb, displayColor) {
   if (!(await checkismod(message, guildrcon))) {
-    return message.channel.send(
+    return message.reply(
       "You do not have permission to run this command!"
     );
   }
@@ -512,7 +512,7 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
           }
         });
       } else
-        return message.channel.send(
+        return message.reply(
           `${
             message.mentions.roles.first().name
           } was not found to be specified as a user/mod role!`
@@ -524,12 +524,12 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
         var role = message.guild.roles.cache.find(r => r.name == args[1]);
       } catch (e) {
         console.log(e);
-        return message.channel.send(
+        return message.reply(
           `Could not find a role with the name of ${args[1]}`
         );
       }
       if (!role) {
-        return message.channel.send(
+        return message.reply(
           `Could not find a role with the name of ${args[1]}`
         );
       }
@@ -598,18 +598,18 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
             }
           });
         } else
-          return message.channel.send(
+          return message.reply(
             `${args[1]} was not found to be specified as a user/mod role!`
           );
       }
-    } else return message.channel.send("You need to specify a role!");
+    } else return message.reply("You need to specify a role!");
   }
 }
 
 async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
   if (!message.member.hasPermission("MANAGE_GUILD")) {
-    return message.channel.send(
-      'Only users with the permission"Manage Server" are allowed to run this command!'
+    return message.reply(
+      'Only users with the permission "Manage Server" are allowed to run this command!'
     );
   }
   var userroles = guildrcon["whitelist-user-roles"];
@@ -618,7 +618,7 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
       userroles = [];
     } else {
       if (userroles.includes(message.mentions.roles.first().id)) {
-        return message.channel.send("That role is already in the user list!");
+        return message.reply("That role is already in the user list!");
       }
     }
     userroles.push(message.mentions.roles.first().id);
@@ -652,12 +652,12 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
         var role = message.guild.roles.cache.find(r => r.name == args[1]);
       } catch (e) {
         console.log(e);
-        return message.channel.send(
+        return message.reply(
           `Could not find a role with the name of ${args[1]}`
         );
       }
       if (!role) {
-        return message.channel.send(
+        return message.reply(
           `Could not find a role with the name of ${args[1]}`
         );
       }
@@ -665,7 +665,7 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
         userroles = [];
       } else {
         if (userroles.includes(role.id)) {
-          return message.channel.send("That role is already in the user list!");
+          return message.reply("That role is already in the user list!");
         }
       }
       userroles.push(role.id);

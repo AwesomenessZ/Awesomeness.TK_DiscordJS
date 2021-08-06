@@ -139,7 +139,7 @@ client.on("messageCreate", message => {
       reply = `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
     }
     //Actually sending the message(s)
-    return message.channel.send(reply);
+    return message.reply(reply);
   }
   try {
     //We execute the code for the specified command
@@ -204,7 +204,7 @@ async function grabstatus(i, index) {
   message.channel.startTyping();
   //If we dont know what server we should be checking the status of we send an error
   if (!guildapi) {
-    message.channel.send(
+    message.reply(
       `An api key hasn't been provided for this discord server! (${message.guild.name})\nAdd it with /apikey <key>`
     );
     message.channel.stopTyping(true);

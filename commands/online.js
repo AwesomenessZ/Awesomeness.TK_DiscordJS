@@ -17,7 +17,7 @@ module.exports = {
     var guildapi = await apikey.get(guild);
     //If the guild config hasnt been set up yet, tell them how to do so
     if (!guildapi) {
-      message.channel.send(
+      message.reply(
         `An api key hasn't been provided for this discord server! (${message.guild.name})\nAdd it with /apikey <key>`
       );
       //Stop typing so that we dont have an infnitly typing bot
@@ -36,7 +36,7 @@ module.exports = {
       const json = data;
       const jsn = JSON.parse(json);
       //send a Rich chat message based on the received infromation
-      message.channel.send({
+      message.reply({
         embeds: {
           color: displayColor,
           timestamp: new Date(),

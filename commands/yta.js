@@ -212,10 +212,10 @@ module.exports = {
             message
           );
         } else {
-          message.channel.send("I'm not in a voice channel with you!");
+          message.reply("I'm not in a voice channel with you!");
         }
       } else {
-        message.channel.send("Your not in a voice channel!");
+        message.reply("Your not in a voice channel!");
       }
       return;
     } //End of skip
@@ -251,7 +251,7 @@ module.exports = {
           queues[message.guild.id].splice(args[2], 1);
           queues[message.guild.id + "_names"].splice(args[2], 1);
           return;
-        } else return message.channel.send("There is nothing there!");
+        } else return message.reply("There is nothing there!");
       }
       if (queues[message.guild.id]) {
         if (queues[message.guild.id][0]) {
@@ -419,7 +419,7 @@ module.exports = {
       });
       return;
     }
-    message.channel.send(
+    message.reply(
       `*${args[0]}* is an unknown sub-command! Please do /yta help`
     );
   }
@@ -466,7 +466,7 @@ async function play(
         );
       })
       .catch(err => {
-        message.channel.send(`I was unable to join <#${message.channel.id}>!`);
+        message.reply(`I was unable to join #${message.channel.name}!`);
         vc.leave();
         connection[message.guild.id] = null;
         console.log(err);

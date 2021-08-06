@@ -17,7 +17,7 @@ module.exports = {
       }
     }
     msg = msg.join("");
-    message.channel.send({
+    message.reply({
       content: msg,
       embeds: {
         color: displayColor,

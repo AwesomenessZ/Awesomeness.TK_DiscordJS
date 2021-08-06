@@ -151,7 +151,7 @@ async function quiz(message, temp, displayColor) {
       100
   );
 
-  message.channel.send({
+  message.reply({
     embeds: {
       title: "Click for the Quizizz Answer key!",
       url: `https://quizizz.com/admin/quiz/${temp}`,

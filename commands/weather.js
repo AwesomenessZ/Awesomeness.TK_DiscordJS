@@ -55,7 +55,7 @@ module.exports = {
             }
           });
         } else {
-          message.channel.send(
+          message.reply(
             "Invalid region code! Must be 3 letter code from https://www.weather.gov/ !"
           );
         }
@@ -63,7 +63,7 @@ module.exports = {
       default:
         var region = await db.get(message.guild.id);
         if (region) {
-          message.channel.send({
+          message.reply({
             embeds: {
               color: displayColor,
               timestamp: new Date(),
@@ -81,7 +81,7 @@ module.exports = {
             }
           });
         } else {
-          message.channel.send(
+          message.reply(
             "No Region has been set for this server! To set a region do /weather set (region code) . Region codes can be found here: https://www.weather.gov/"
           );
         }

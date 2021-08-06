@@ -6,7 +6,7 @@ module.exports = {
   //Code to be executed
   execute(message, args, displayColor) {
     //sends the users the invite url for the bot, so that it may be added to their own servers
-    message.channel.send({
+    message.reply({
       embeds: {
         color: displayColor,
         timestamp: new Date(),

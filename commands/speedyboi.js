@@ -8,7 +8,7 @@ module.exports = {
   //code to execute
   execute(message, args, displayColor) {
     //sends a gif inside an embed
-    message.channel.send({
+    message.reply({
       embeds: {
         color: displayColor,
         timestamp: new Date(),

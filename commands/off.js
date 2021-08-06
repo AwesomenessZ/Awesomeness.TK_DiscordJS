@@ -5,7 +5,7 @@ module.exports = {
   //code to run
   execute(message) {
     //Thanks the executer for saving power
-    message.channel.send(
+    message.reply(
       "Thank you for saving power! Feel good about yourself! :smile:"
     );
     //Actually stops the bot from typing if gliched out

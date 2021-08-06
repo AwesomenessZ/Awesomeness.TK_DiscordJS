@@ -8,7 +8,7 @@ module.exports = {
   //executing the commands code
   execute(message, args, displayColor) {
     //sends a gif withen an embeded (Rich text) message
-    message.channel.send({
+    message.reply({
       embeds: {
         color: displayColor,
         timestamp: new Date(),
