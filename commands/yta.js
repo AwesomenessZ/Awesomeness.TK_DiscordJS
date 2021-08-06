@@ -265,7 +265,7 @@ module.exports = {
         if (message.member.voice.channel.members.has(client.user.id)) {
           var temp = args[1] / 100;
           if (temp >= 0) {
-            if (message.member.hasPermission("ADMINISTRATOR")) {
+            if (message.member.permission.has("ADMINISTRATOR")) {
               dispatchers[message.guild.id].setVolumeLogarithmic(args[1] / 100);
               sendvolume(args[1] / 100, message, displayColor, client);
               queues[message.guild.id + "_v"] = args[1] / 100;

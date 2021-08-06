@@ -7,7 +7,7 @@ module.exports = {
   args: false,
   usage: "",
   async execute(message) {
-    if (!message.member.hasPermission("ADMINISTRATOR"))
+    if (!message.member.permission.has("ADMINISTRATOR"))
       return message.reply(
         "Sorry, you don't have permissions to use this! Only Administrators can assign an apikey!"
       );

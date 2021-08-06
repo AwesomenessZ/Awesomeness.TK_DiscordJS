@@ -353,7 +353,7 @@ async function rconcommand(cmd, guildrcon, message) {
 }
 
 async function addmodgroup(message, args, guildrcon, rcondb, displayColor) {
-  if (!message.member.hasPermission("MANAGE_GUILD")) {
+  if (!message.member.permission.has("MANAGE_GUILD")) {
     return message.reply(
       'Only users with the permission"Manage Server" are allowed to run this command!'
     );
@@ -607,7 +607,7 @@ async function removegroup(message, args, guildrcon, rcondb, displayColor) {
 }
 
 async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
-  if (!message.member.hasPermission("MANAGE_GUILD")) {
+  if (!message.member.permission.has("MANAGE_GUILD")) {
     return message.reply(
       'Only users with the permission "Manage Server" are allowed to run this command!'
     );
@@ -699,7 +699,7 @@ async function addusergroup(message, args, guildrcon, rcondb, displayColor) {
 
 async function checkismod(message, guildrcon) {
   const modroles = guildrcon["whitelist-mod-roles"];
-  if (message.member.hasPermission("ADMINISTRATOR")) {
+  if (message.member.permission.has("ADMINISTRATOR")) {
     return true;
   } else {
     if (modroles) {

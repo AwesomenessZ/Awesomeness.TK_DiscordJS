@@ -10,7 +10,7 @@ module.exports = {
   //executing the commands code
   execute(message, args) {
     //Checks if the user has permission to set a server wide setting
-    if (!message.member.hasPermission("ADMINISTRATOR"))
+    if (!message.member.permission.has("ADMINISTRATOR"))
       //If they dont tell them
       return message.reply(
         "Sorry, you don't have permissions to use this! Only Administrators can assign an apikey!"

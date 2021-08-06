@@ -37,7 +37,7 @@ module.exports = {
 };
 
 async function setrcon(message, args) {
-  if (!message.member.hasPermission("MANAGE_GUILD")) {
+  if (!message.member.permission.has("MANAGE_GUILD")) {
     return message.reply(
       'Only users with the permission "Manage Server" are allowed to run this command!'
     );

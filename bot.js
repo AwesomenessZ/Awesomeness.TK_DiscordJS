@@ -490,8 +490,8 @@ async function findavatar(message, username) {
 }
 
 async function sendattachment(message) {
-  var attached = message.attachments.array();
-  const msgto = message.content + " " + attached[0].filename;
+  var attached = message.attachments.first();
+  const msgto = message.content + " " + attached.filename;
   var userto = message.member.displayName;
   var mcuser = await minecraftfind(message.member.id);
   if (mcuser != false) {
