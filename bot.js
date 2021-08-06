@@ -3,7 +3,7 @@ const { prefix, token } = require("./config.json");
 const Discord = require("discord.js");
 const Keyv = require("keyv");
 // create a new Discord client
-const client = new Discord.Client({ allowedMentions: { parse: ['users'], repliedUser: true } });
+const client = new Discord.Client({ allowedMentions: { parse: ['users'], repliedUser: true }, failIfNotExists: false });
 client.commands = new Discord.Collection();
 var queues = {};
 var connection = {};
