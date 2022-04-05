@@ -66,7 +66,11 @@ client.on("ready", message => {
     "/yta",
     "at 9001% volume",
     "with your mom",
-    "with Dad Bot"
+    "with Dad Bot",
+    "with Your Feelings",
+    "with your dad",
+    "with Noha",
+    "with Eboys (AKA Gawaxine.exe)",
   ]; // TODO Add support for diffrent status types.
   //To be run every 30 seconds
   setInterval(() => {
