@@ -4,7 +4,7 @@
   "description": "A bot for Awesomeness.TK!",
   "main": "bot.js",
   "dependencies": {
-    "@discordjs/opus": "^0.5.0",
+    "@discordjs/opus": "^0.8.0",
     "@keyv/sqlite": "^2.0.2",
     "bufferutil": "^4.0.3",
     "curl": "^0.1.4",
